@@ -1,0 +1,26 @@
+.layout_modificar_c{
+    border-radius: 20px;
+    background-color: #A35494;
+    border: #E8ABCE solid 1px ;
+    padding-top: 2vh;
+    margin-top: 10vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+.header_modificar_c{
+    color: white;
+    align-items: center;
+    text-align: center;
+  }
+
+
+.main_modificar_c {
+    flex-grow: 1;
+    padding-bottom: 3.5vh;
+    max-height: 70vh;
+    overflow-y: scroll;
+    max-width: 100%;
+    scrollbar-width: none;
+    padding: 2vh;
+  }

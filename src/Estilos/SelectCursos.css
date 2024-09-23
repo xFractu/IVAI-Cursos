@@ -1,0 +1,41 @@
+.layout_Select{
+    border-radius: 20px;
+    background-color: #A35494;
+    border: #E8ABCE solid 1px ;
+    padding-top: 2vh;
+}
+
+.header_Select{
+    color: white;
+
+    padding-left: 5vh;
+  }
+  .footer_Select {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding-top: 2vh;
+    padding-right: 5vh;
+    height: 100%;
+
+  }
+  
+  .main_Select {
+    flex-grow: 1;
+    padding-bottom: 3.5vh;
+    max-height: 60vh;
+    overflow-y: scroll;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  
+  .footer_Select {
+    margin-top: 5vh;
+  }
+
+  .boton_Modificar{
+    background-color:#E7B756 ;
+    color: white;
+  }
