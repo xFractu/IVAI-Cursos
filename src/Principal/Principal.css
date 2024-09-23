@@ -82,7 +82,7 @@ body {
 .InfoCursos {
     margin: auto;
     max-height: 100vh;
-    overflow-y: hidden;
+    overflow-y: scroll;
     max-width: 70%;
 }
 
@@ -99,7 +99,7 @@ body {
   }
   
   .InfoCursos::-webkit-scrollbar-thumb {
-    background-color: #BABABA;
+    background-color: #E7B756;
     border-radius: 10px;
     border: 2px solid transparent;
     transition: background-color 0.3s ease;
