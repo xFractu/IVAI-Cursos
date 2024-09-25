@@ -8,6 +8,25 @@ import { Label } from '@mui/icons-material';
 
 function PopupCrearCurso({ onClose }) {
 
+    const [DataCurso, setDataCurso] = useState({
+        NombreCurso: '',
+        Fecha: '',
+        Hora: '',
+        Imparte: '',
+        Cupo: '',
+        EstatusCupo: '',
+        EstatusCurso: '',
+        Observaciones: '',
+        Lugar: '',
+        CorreoSeguimiento: '',
+        Programa: '',
+        Archivo: '',
+        Tipo: '',
+        Curso: '',
+        ValorCurricular: '',
+        FechaLetra: ''
+    })
+
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const handleOpenConfirmation = () => {
         setIsPopupOpen(true)
