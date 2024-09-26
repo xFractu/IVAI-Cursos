@@ -1,53 +1,54 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconButton, Grid, TextField, Select, MenuItem, ToggleButton, ToggleButtonGroup, Switch, Stack, Grid2 } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Switch, Stack } from '@mui/material';
 import { useState } from 'react';
-import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
-import Arrow from '../assets/arrow.svg'
-import '../Principal/Principal.css'
+import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx';
+import Arrow from '../assets/arrow.svg';
+import '../Principal/Principal.css';
 
-function PopupRegistro( {onClose} ) {
-
+function PopupRegistro({ onClose }) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     const handleOpenConfirmation = () => {
-        setIsPopupOpen(true)
+        setIsPopupOpen(true);
     };
+
     const handleCloseConfirmation = () => {
-        setIsPopupOpen(false)
+        const popup = document.querySelector('.popup-confirmation');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpen(false);
+            }, 300); 
+        }
     };
 
     return (
         <>
             <Card variant="elevation" sx={{ maxWidth: '100%', maxHeight: '100vh', backgroundColor: '#A35494', margin: 2, justifyContent: 'center', borderRadius: 5, padding: 3 }}>
                 <CardHeader
-                    sx={{ color: '#FFFFFF', width:'100%', marginLeft: -5 }}
+                    sx={{ color: '#FFFFFF', width: '100%', marginLeft: -5 }}
                     title={
                         <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item>
-                <Grid container alignItems="center">
-                    <img 
-                        src={Arrow} 
-                        alt="Web" 
-                        className='IconoSalir' 
-                        onClick={onClose} 
-                    />
-                    <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold'}}>
-                        Salir
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Grid item>
-                <Typography variant="body2" sx={{ maxWidth: 'auto', maxHeight: 'auto', color: '#FFFFFF', fontSize: '50%' }}>
-                    Los campos marcados con <br />
-                    asterisco (*) son obligatorios
-                </Typography>
-            </Grid>
-        </Grid>
+                            <Grid item>
+                                <Grid container alignItems="center">
+                                    <img src={Arrow} alt="Web" className='IconoSalir' onClick={onClose} />
+                                    <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold' }}>
+                                        Salir
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid item>
+                                <Typography variant="body2" sx={{ maxWidth: 'auto', maxHeight: 'auto', color: '#FFFFFF', fontSize: '50%' }}>
+                                    Los campos marcados con <br />
+                                    asterisco (*) son obligatorios
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     }
                 />
-
-                <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold', marginBottom: 0, textAlign:'center',  maxWidth: 'auto', maxHeight: 'auto', marginBottom: 2}}>
+                <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold', marginBottom: 2, textAlign: 'center' }}>
                     Datos Personales
                 </Typography>
-
                 <div className='ScrollRegistro'>
 
                     <CardContent sx={{ color: '#FFFFFF' }}>
@@ -285,18 +286,20 @@ function PopupRegistro( {onClose} ) {
                     </CardContent>
 
                 </div>
-
                 <CardActions sx={{ justifyContent: 'center' }}>
                     <Button onClick={handleOpenConfirmation} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
                 </CardActions>
             </Card>
 
             {isPopupOpen && (
-                <div className="popup-confirmation">
-                    <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+                <div className="popup-overlay-confirmation">
+                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+                    </div>
                 </div>
             )}
         </>
     )
 }
+
 export default PopupRegistro;

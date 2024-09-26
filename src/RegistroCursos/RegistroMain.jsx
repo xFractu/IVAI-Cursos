@@ -10,14 +10,6 @@ import CrearCurso from '../Componentes/PopupCrearCurso.jsx';
 function RegistroMain() {
     const [isPopupUpdateOpen, setIsPopupUpdateOpen] = useState(false);
     const [isPopupAddOpen, setIsPopupAddOpen] = useState(false);
-  
-    const handleOpenUpdatePopup = () => {
-      setIsPopupUpdateOpen(true);
-    };
-  
-    const handleCloseUpdatePopup = () => {
-      setIsPopupUpdateOpen(false);
-    };
 
     const handleOpenAddPopup = () => {
       setIsPopupAddOpen(true);
@@ -26,6 +18,31 @@ function RegistroMain() {
     const handleCloseAddPopup = () => {
       setIsPopupAddOpen(false);
     };
+
+
+    const handleOpenUpdatePopup = () => {
+      setIsPopupUpdateOpen(true);
+      document.body.style.overflow = "hidden";
+      setScrollEnabled(false);
+  };
+
+  const handleCloseUpdatePopup = () => {
+      const popup = document.querySelector('.popup-content');
+      if (popup) {
+          popup.classList.remove('popup-show');
+          popup.classList.add('popup-hide');
+          setTimeout(() => {
+            setIsPopupUpdateOpen(false);
+              document.body.style.overflow = "auto";
+              setScrollEnabled(true);
+          }, 300); // Duración de la animación de salida
+      }
+  };
+
+
+
+
+
   
     return (
       <>
@@ -52,13 +69,15 @@ function RegistroMain() {
           </div>
         )}
 
-        {isPopupUpdateOpen && (
-          <div className="popup-overlay">
-            <div className="popup-content">
-              <SelectCurso onClose={handleCloseUpdatePopup} /> 
-            </div>
-          </div>
-        )}
+            {isPopupUpdateOpen && (
+                <div className="popup-overlay" >
+                     <div className={`popup-content ${isPopupUpdateOpen ? 'popup-show' : 'popup-hide'}`}>
+                     <SelectCurso onClose={handleCloseUpdatePopup} /> 
+                    </div>
+                </div>
+            )}
+
+
       </>
     );
   }

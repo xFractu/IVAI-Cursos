@@ -4,26 +4,27 @@ import PopupRegistro from '../Componentes/PopupRegistro'
 
 function CardInfo(Props) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isAnimating, setIsAnimating] = useState(false);
     const [scrollEnabled, setScrollEnabled] = useState(true);
 
     const handleOpenPopup = () => {
-      setIsPopupOpen(true);
-      document.body.style.overflow = "hidden";
-      setScrollEnabled(false);
-      setTimeout(() => {
-        setIsAnimating(true); 
-      }, 0);
+        setIsPopupOpen(true);
+        document.body.style.overflow = "hidden";
+        setScrollEnabled(false);
     };
 
     const handleClosePopup = () => {
-      setIsAnimating(false); 
-      document.body.style.overflow = "auto";
-    setScrollEnabled(true);
-      setTimeout(() => {
-        setIsPopupOpen(false);
-      }, 300); 
+        const popup = document.querySelector('.popup-content-compo-1');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpen(false);
+                document.body.style.overflow = "auto";
+                setScrollEnabled(true);
+            }, 300); // Duración de la animación de salida
+        }
     };
+
     return (
         <>
             <Card variant="elevation" sx={{ maxWidth: '90%', maxHeight: '60%', backgroundColor: '#A35494', margin: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
@@ -42,14 +43,18 @@ function CardInfo(Props) {
             </Card>
 
             {isPopupOpen && (
-              <div className="popup-overlay">
-                <div className={`popup-content ${isAnimating ? 'open' : 'close'}`}>
-                    <PopupRegistro onClose={handleClosePopup} />
+                <div className="popup-overlay">
+                    <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupRegistro onClose={handleClosePopup} />
+                    </div>
                 </div>
-              </div>
             )}
-
         </>
     )
 }
+
 export default CardInfo;
+
+
+
+
