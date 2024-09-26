@@ -1,61 +1,107 @@
+/* Animación para abrir el popup (de opacidad 0 a 1) */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animación para cerrar el popup (de opacidad 1 a 0) */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* Aplicar la animación de apertura */
+.popup-show {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Aplicar la animación de cierre */
+.popup-hide {
+  animation: fadeOut 0.3s ease-in forwards;
+}
+
 .darken-background {
-    filter: brightness(0.5); 
-    transition: filter 0.3s ease;
-  }
-  
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left:0;
-    width: 100vw;
-    height: 100vh;
-    padding-bottom: 5vh;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; 
-  }
-  
-  .popup-content {
-    border-radius: 10px;
-    width: 60%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
-  }
+  filter: brightness(0.5);
+  transition: filter 0.3s ease;
+}
 
-  .popup-overlay-inicio {
-    position: fixed;
-    top: 0;
-    left:0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; 
-  }
-  
-  .popup-content-inicio {
-    border-radius: 10px;
-    width: 50%;
-    margin: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 10vh;
-  }
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-  .popup-confirmation {
-    position: fixed;
-    top: 0;
-    left:0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2; 
-  }
+.popup-content {
+  border-radius: 10px;
+  width: 60%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+}
 
 
-  
+.popup-overlay-compo-1 {
+  position: fixed;
+  top: -40vh;
+  left: -20vw;
+  width: 100vw;
+  height: 160vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content-compo-1 {
+  border-radius: 10px;
+  width: 45%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+}
+
+.popup-overlay-confirmation {
+  position: fixed;
+  top: -40vh;
+  left: -20vw;
+  width: 100vw;
+  height: 200vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.popup-confirmation {
+  position: fixed;
+  top: 0;
+  left: -20vw;
+  width: 100vw;
+  height: 110vh;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}

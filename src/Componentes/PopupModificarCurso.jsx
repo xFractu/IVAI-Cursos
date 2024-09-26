@@ -9,11 +9,20 @@ import { Label } from '@mui/icons-material';
 function PopupModificarCurso({ onClose }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
     const handleOpenConfirmation = () => {
-        setIsPopupOpen(true)
+        setIsPopupOpen(true);
     };
+
     const handleCloseConfirmation = () => {
-        setIsPopupOpen(false)
+        const popup = document.querySelector('.popup-confirmation');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpen(false);
+            }, 300); 
+        }
     };
 
     return (
@@ -24,12 +33,13 @@ function PopupModificarCurso({ onClose }) {
                     title={
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Grid item>
-                                <Grid container alignItems="center">
+                                <Grid container alignItems="center" >
                                     <img
                                         src={Arrow}
                                         alt="Web"
                                         className='IconoSalir'
                                         onClick={onClose}
+                                        
                                     />
                                     <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold' }}>
                                         Salir
@@ -140,7 +150,7 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Correo de Seguimiento:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" placeholder='cursos.ivai@gmail.com' size="small" sx={{
+                                <TextField fullWidth variant="outlined" placeholder='cursos.ivai@gmail.com' disabled='true' size="small" sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -257,8 +267,10 @@ function PopupModificarCurso({ onClose }) {
             </Card>
 
             {isPopupOpen && (
-                <div className="popup-confirmation">
-                    <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+                <div className="popup-overlay-confirmation">
+                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+                    </div>
                 </div>
             )}
 

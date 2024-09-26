@@ -12,8 +12,15 @@ function CardModificar(Props) {
     };
 
     const handleClosePopup = () => {
-        setIsPopupOpen(false);
-    }
+        const popup = document.querySelector('.popup-content-compo-1');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpen(false);
+            }, 300); 
+        }
+    };
 
     return (
         <>
@@ -35,8 +42,8 @@ function CardModificar(Props) {
             </Card>
 
             {isPopupOpen && (
-                <div className="popup-overlay-inicio" >
-                    <div className="popup">
+                <div className="popup-overlay-compo-1">
+                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <PopupModificarCurso onClose={handleClosePopup}/>
                     </div>
                 </div>
