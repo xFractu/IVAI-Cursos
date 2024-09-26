@@ -29,7 +29,7 @@ function CardModificar(Props) {
                 
 
                 <CardActions>
-                    <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3 }}>{Props.TextoBoton}</Button>
+                    <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3 }}>Modificar</Button>
                 </CardActions>
 
             </Card>
