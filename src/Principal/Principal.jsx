@@ -9,12 +9,25 @@ import MailIcon from '../assets/email.svg';
 import WebIcon from '../assets/web.svg';
 import CardInfo from '../Componentes/CardInfo';
 import Ubi from '../assets/ubi.svg'
-import PopupMSJConfirmacion from '../Componentes/PopupMSJConfirmacion'
-import RegistroMain from '../RegistroCursos/RegistroMain';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 function Principal() {
+
+    const [dataCursos, setDataCurso] = useState([]);
+
+    useEffect(() => {
+        const getCursos = async () => {
+            try {
+                const response = await fetch('http://localhost:4567/obtenerCursos');
+                const data = await response.json();
+                setDataCurso(data);
+            } catch (error) {
+                console.error('Error al obtener los registros de curso:', error);
+            }
+        };
+        getCursos();
+    }, []);
 
     return (
         <>
@@ -28,12 +41,15 @@ function Principal() {
                 </div>
                 <div className='Main'>
                     <div className='InfoCursos'>
-                        <CardInfo NombreCurso="Capacitación: “Archivos: Datos personales y Acceso a la informacion: un vínculo normativo” ---> 24/09/2024" FechaCurso="19/09/2024" LugarCurso="Virtual" ExpositorCurso="Dirección de Archivos" HoraCurso="11:00" TextoBoton="Ver Disponibilidad" />
-                        <CardInfo NombreCurso="Capacitación: “Archivos: Datos personales y Acceso a la informacion: un vínculo normativo” ---> 24/09/2024" FechaCurso="19/09/2024" LugarCurso="Virtual" ExpositorCurso="Dirección de Archivos" HoraCurso="11:00" TextoBoton="Ver Disponibilidad" />
-                        <CardInfo NombreCurso="Capacitación: “Archivos: Datos personales y Acceso a la informacion: un vínculo normativo” ---> 24/09/2024" FechaCurso="19/09/2024" LugarCurso="Virtual" ExpositorCurso="Dirección de Archivos" HoraCurso="11:00" TextoBoton="Ver Disponibilidad" />
-                        <CardInfo NombreCurso="Capacitación: “Archivos: Datos personales y Acceso a la informacion: un vínculo normativo” ---> 24/09/2024" FechaCurso="19/09/2024" LugarCurso="Virtual" ExpositorCurso="Dirección de Archivos" HoraCurso="11:00" TextoBoton="Ver Disponibilidad" />
-                        <CardInfo NombreCurso="Capacitación: “Archivos: Datos personales y Acceso a la informacion: un vínculo normativo” ---> 24/09/2024" FechaCurso="19/09/2024" LugarCurso="Virtual" ExpositorCurso="Dirección de Archivos" HoraCurso="11:00" TextoBoton="Ver Disponibilidad" />
-                        <CardInfo NombreCurso="Capacitación: “Archivos: Datos personales y Acceso a la informacion: un vínculo normativo” ---> 24/09/2024" FechaCurso="19/09/2024" LugarCurso="Virtual" ExpositorCurso="Dirección de Archivos" HoraCurso="11:00" TextoBoton="Ver Disponibilidad" />
+                        {dataCursos != null ? (  // Verifica que haya datos antes de mapear
+                            dataCursos.map((curso) => (
+                                <div key={curso.idCurso}>
+                                    <CardInfo NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora}></CardInfo>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Cargando cursos...</p>
+                        )}
                     </div>
 
 

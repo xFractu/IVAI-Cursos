@@ -43,7 +43,6 @@ function Login() {
             console.log("Respuesta de LOGIN: ", respuesta.data);
             if (respuesta.data.mensaje === 'Usuario correcto') {
                 navigate('/RegistroCurso');
-                window.localStorage.setItem('Usuario', datosFormulario.correo);
             } else {
                 alert("Usuario o contraseña incorrecto");
             }

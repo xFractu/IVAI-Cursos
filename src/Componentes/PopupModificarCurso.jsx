@@ -150,7 +150,7 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Correo de Seguimiento:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" placeholder='cursos.ivai@gmail.com' disabled='true' size="small" sx={{
+                                <TextField fullWidth variant="outlined" placeholder='cursos.ivai@gmail.com' disabled={true} size="small" sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
