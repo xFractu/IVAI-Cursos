@@ -11,13 +11,27 @@ function RegistroMain() {
     const [isPopupUpdateOpen, setIsPopupUpdateOpen] = useState(false);
     const [isPopupAddOpen, setIsPopupAddOpen] = useState(false);
 
+
     const handleOpenAddPopup = () => {
       setIsPopupAddOpen(true);
-    };
-  
-    const handleCloseAddPopup = () => {
-      setIsPopupAddOpen(false);
-    };
+      document.body.style.overflow = "hidden";
+      setScrollEnabled(false);
+  };
+
+  const handleCloseAddPopup = () => {
+      const popup = document.querySelector('.popup-content');
+      if (popup) {
+          popup.classList.remove('popup-show');
+          popup.classList.add('popup-hide');
+          setTimeout(() => {
+            setIsPopupAddOpen(false);
+              document.body.style.overflow = "auto";
+              setScrollEnabled(true);
+          }, 300); // Duración de la animación de salida
+      }
+  };
+
+
 
 
     const handleOpenUpdatePopup = () => {
@@ -62,8 +76,8 @@ function RegistroMain() {
             </Card>
 
         {isPopupAddOpen && (
-          <div className="popup-overlay">
-            <div className="popup-content">
+          <div className="popup-overlay" >
+              <div className={`popup-content ${isPopupAddOpen ? 'popup-show' : 'popup-hide'}`}>
               <CrearCurso onClose={handleCloseAddPopup} /> 
             </div>
           </div>
