@@ -132,7 +132,6 @@ function PopupModificarCurso({ onClose, nombreCurso }) {
                                     size="small"
                                     name="nombreCurso"
                                     value={formData.nombreCurso}
-                                    disabled={true}
                                     onChange={handleChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF',
