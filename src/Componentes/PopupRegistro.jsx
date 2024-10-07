@@ -9,6 +9,7 @@ function PopupRegistro({ onClose }) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const handleOpenConfirmation = () => {
+        console.log(dataRegistro)
         setIsPopupOpen(true);
     };
 
@@ -19,12 +20,53 @@ function PopupRegistro({ onClose }) {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
-            }, 300); 
+            }, 300);
         }
     };
 
+    const [dataRegistro, setDataRegistro] = useState({
+        nombre: '',
+        apellidos: '',
+        gradoDeEstudios: '',
+        lugarDeProcedencia: '',
+        orden: '',
+        genero: '',
+        estado: '',
+        so: '',
+        areaAdquisicion: '',
+        cargoPublico: '',
+        recibirInformacion: false,
+        correo: '',
+        telefono: '',
+        interprete: false,
+        idCurso: window.localStorage.getItem('id')
+    })
+
+    const handleRegistration = async () => {
+        try {
+            const response = await axios.post('http://localhost:4567/registrarse', dataRegistro)
+            console.log(dataRegistro);
+            return response;
+        } catch (error) {
+            console.error('Error al registrarse', error);
+        }
+    }
+
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setDataRegistro({ ...dataRegistro, [name]: value });
+    };
+
+    const handleSwitchChange = (e) => {
+        const { name, type, value, checked } = e.target;
+        setDataRegistro({
+            ...dataRegistro,
+            [name]: type === 'checkbox' ? checked : value 
+        });
+    };
+
     const [estados, setEstados] = useState([]);
-    const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
 
     useEffect(() => {
 
@@ -80,7 +122,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Nombre(s)*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size="small" sx={{
+                                <TextField required name='nombre' fullWidth variant='outlined' size="small" onChange={handleInputChange} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -94,7 +136,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Apellidos*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
+                                <TextField fullWidth name='apellidos' variant="outlined" size="small" onChange={handleInputChange} sx={{
                                     backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -110,9 +152,11 @@ function PopupRegistro({ onClose }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
+                                    name='gradoDeEstudios'
                                     fullWidth
                                     variant="outlined"
                                     size="small"
+                                    onChange={handleInputChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
@@ -121,9 +165,14 @@ function PopupRegistro({ onClose }) {
                                     }}
                                     defaultValue=""
                                 >
-                                    <MenuItem value="Aula 1">Aula 1</MenuItem>
-                                    <MenuItem value="Aula 2">Aula 2</MenuItem>
-                                    <MenuItem value="Sala de conferencias">Sala de conferencias</MenuItem>
+                                    <MenuItem value="Doctorado">Doctorado</MenuItem>
+                                    <MenuItem value="Maestría">Maestría</MenuItem>
+                                    <MenuItem value="Licenciatura">Licenciatura</MenuItem>
+                                    <MenuItem value="Técnico Superior Universitario">Técnico Superior Universitario</MenuItem>
+                                    <MenuItem value="Preparatoria">Preparatoria</MenuItem>
+                                    <MenuItem value="Secundaria">Secundaria</MenuItem>
+                                    <MenuItem value="Primaria">Primaria</MenuItem>
+                                    <MenuItem value="Ninguno">Ninguno</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
@@ -133,7 +182,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Lugar de procedencia:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
+                                <TextField name='lugarDeProcedencia' fullWidth variant="outlined" size="small" onChange={handleInputChange}  sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -144,13 +193,15 @@ function PopupRegistro({ onClose }) {
 
                         <Grid container item xs={12} alignItems="center" spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">Orden de gobierno:</Typography>
+                                <Typography variant="body2">orden de gobierno:</Typography>
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
+                                    name='orden'
                                     fullWidth
                                     variant="outlined"
                                     size="small"
+                                    onChange={handleInputChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
@@ -159,25 +210,24 @@ function PopupRegistro({ onClose }) {
                                     }}
                                     defaultValue=""
                                 >
-                                    <MenuItem value="">
-                                        <em>Seleccionar lugar</em>
-                                    </MenuItem>
-                                    <MenuItem value="Aula 1">Aula 1</MenuItem>
-                                    <MenuItem value="Aula 2">Aula 2</MenuItem>
-                                    <MenuItem value="Sala de conferencias">Sala de conferencias</MenuItem>
+                                    <MenuItem value="Federal">Federal</MenuItem>
+                                    <MenuItem value="Estatal">Estatal</MenuItem>
+                                    <MenuItem value="Municipal">Municipal</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
 
                         <Grid container item xs={12} alignItems="center" spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">Sexo:</Typography>
+                                <Typography variant="body2">Género:</Typography>
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
+                                    name='genero'
                                     fullWidth
                                     variant="outlined"
                                     size="small"
+                                    onChange={handleInputChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
@@ -186,9 +236,9 @@ function PopupRegistro({ onClose }) {
                                     }}
                                     defaultValue=""
                                 >
-                                    <MenuItem value="Aula 1">Aula 1</MenuItem>
-                                    <MenuItem value="Aula 2">Aula 2</MenuItem>
-                                    <MenuItem value="Sala de conferencias">Sala de conferencias</MenuItem>
+                                    <MenuItem value="Masculino">Masculino</MenuItem>
+                                    <MenuItem value="Femenino">Femenino</MenuItem>
+                                    <MenuItem value="Prefiero no decirlo">Prefiero No Decirlo</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
@@ -199,11 +249,11 @@ function PopupRegistro({ onClose }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
+                                    name='estado'
                                     fullWidth
                                     variant="outlined"
                                     size="small"
-                                    value={estadoSeleccionado}
-                                    onChange={(e) => setEstadoSeleccionado(e.target.value)}
+                                    onChange={handleInputChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
@@ -211,119 +261,117 @@ function PopupRegistro({ onClose }) {
                                         }
                                     }}
                                 >
-                                    {estados.map((estado, index) => (
-                                        <MenuItem key={index} value={estado}>
-                                            {estado}
-                                        </MenuItem>
+                                    {estados.map((estado) => (
+                                            <MenuItem value={estado}>{estado}</MenuItem>
                                     ))}
                                 </Select>
                             </Grid>
-                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">Nombre de la entidad o dependencia:</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField fullWidth variant="outlined" size="small" sx={{
-                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '15px',
-                                        }
-                                    }} />
-                                </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">nombre de la entidad o dependencia:</Typography>
                             </Grid>
+                            <Grid item xs={6}>
+                                <TextField name='so' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '15px',
+                                    }
+                                }} />
+                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">Área de adquisición:</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField fullWidth variant="outlined" size="small" sx={{
-                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '15px',
-                                        }
-                                    }} />
-                                </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">Área de adquisición:</Typography>
                             </Grid>
+                            <Grid item xs={6}>
+                                <TextField name='areaAdquisicion' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '15px',
+                                    }
+                                }} />
+                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">Cargo público que desempeña:</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField fullWidth variant="outlined" size="small" sx={{
-                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '15px',
-                                        }
-                                    }} />
-                                </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">Cargo público que desempeña:</Typography>
                             </Grid>
+                            <Grid item xs={6}>
+                                <TextField name='cargoPublico' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '15px',
+                                    }
+                                }} />
+                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">¿Desea recibir información de nuestros eventos?</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Grid item>
-                                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                                            <Typography>No</Typography>
-                                            <Switch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
-                                            <Typography>Sí</Typography>
-                                        </Stack>
-                                    </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">¿Desea recibir información de nuestros eventos?</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Grid item>
+                                    <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                                        <Typography>No</Typography>
+                                        <Switch defaultChecked={false} name='recibirInformacion' onChange={handleSwitchChange} inputProps={{ 'aria-label': 'ant design' }} />
+                                        <Typography>Sí</Typography>
+                                    </Stack>
                                 </Grid>
                             </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">Correo electrónico institucional*:</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField fullWidth variant="outlined" size="small" sx={{
-                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '15px',
-                                        }
-                                    }} />
-                                </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">Correo electrónico institucional*:</Typography>
                             </Grid>
+                            <Grid item xs={6}>
+                                <TextField name='correo' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '15px',
+                                    }
+                                }} />
+                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">Telefono institucional*:</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <TextField fullWidth variant="outlined" size="small" sx={{
-                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '15px',
-                                        }
-                                    }} />
-                                </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">Telefono institucional*:</Typography>
                             </Grid>
+                            <Grid item xs={6}>
+                                <TextField name='telefono' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '15px',
+                                    }
+                                }} />
+                            </Grid>
+                        </Grid>
 
-                            <Grid container item xs={12} alignItems="center" spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography variant="body2">¿Requiere un intérprete de lenguaje de señas mexicanas?</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Grid item>
-                                        <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                                            <Typography>No</Typography>
-                                            <Switch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
-                                            <Typography>Sí</Typography>
-                                        </Stack>
-                                    </Grid>
+                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                            <Grid item xs={6}>
+                                <Typography variant="body2">¿Requiere un intérprete de lenguaje de señas mexicanas?</Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Grid item>
+                                    <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                                        <Typography>No</Typography>
+                                        <Switch defaultChecked={false} name='interprete' onChange={handleSwitchChange} inputProps={{ 'aria-label': 'ant design' }} />
+                                        <Typography>Sí</Typography>
+                                    </Stack>
                                 </Grid>
                             </Grid>
+                        </Grid>
                     </CardContent>
 
                 </div>
                 <CardActions sx={{ justifyContent: 'center' }}>
-                    <Button onClick={handleOpenConfirmation} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
+                    <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
                 </CardActions>
             </Card>
 

@@ -41,7 +41,7 @@ function PopupModificarCurso({ onClose, nombreCurso }) {
         fecha: '',
         hora: '',
         imparte: '',
-        estatusCupo: '',
+        estatusCupo: 0,
         estatusCurso: '',
         lugar: '',
         correoSeguimiento: 'cursos.ivai@gmail.com',
