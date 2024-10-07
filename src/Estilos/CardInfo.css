@@ -1,0 +1,28 @@
+@media (max-width: 991px) {
+
+    .Card-Contenedor{
+        max-width: 100%;
+        margin-right: 4vw;
+    }
+
+    .Card-Titulo{
+        padding-top: 4vw;
+        font-size: 2vw;
+    }
+
+    .Card-text{
+        font-size: 2vw;
+    }
+
+    .Card-Btn{
+        font-size: 1.5vw;
+    }
+    
+}
+
+
+
+
+
+
+

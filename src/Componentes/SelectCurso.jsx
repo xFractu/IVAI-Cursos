@@ -46,7 +46,7 @@ function SelectCurso({ onClose }) {
                 </main>
 
                 <footer className="footer_Select">
-                    <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3 }} onClick={onClose}>Cancelar</Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3, fontSize:'2vh'}} onClick={onClose}>Cancelar</Button>
                 </footer>
 
             </div>

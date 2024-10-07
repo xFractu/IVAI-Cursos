@@ -1,6 +1,8 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
 import { useState } from "react";
 import PopupRegistro from '../Componentes/PopupRegistro'
+import '../Estilos/CardInfo.css';
+
 
 function CardInfo(Props) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -27,16 +29,16 @@ function CardInfo(Props) {
 
     return (
         <>
-            <Card variant="elevation" sx={{ maxWidth: '90%', maxHeight: '60%', backgroundColor: '#A35494', margin: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
-                <CardHeader sx={{ color: '#FFFFFF', marginLeft: 2 }} title={Props.NombreCurso} />
-                <CardContent sx={{ color: '#FFFFFF', marginLeft: 2, marginTop: -3 }}>
-                    <Typography variant="body2">Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
-                    <Typography variant="body2">Lugar: {Props.LugarCurso}</Typography>
-                    <Typography variant="body2">Fecha: {Props.FechaCurso}</Typography>
-                    <Typography variant="body2">Hora: {Props.HoraCurso}</Typography>
+            <Card className ='Card-Contenedor' variant="elevation" sx={{ maxWidth: '90%', maxHeight: '60%', backgroundColor: '#A35494', marginLeft: '2vw',marginBottom: '2vw', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                <CardContent className ='Card-Contenido' sx={{ color: '#FFFFFF', marginLeft: 1, marginTop: -2 }}>
+                <Typography className ='Card-Titulo' variant="body2" sx ={{ fontSize:'1.5vw', fontWeight:'bold', paddingTop:'2vw', paddingBottom:'1vw'}}>{Props.NombreCurso}</Typography>
+                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
+                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Lugar: {Props.LugarCurso}</Typography>
+                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Fecha: {Props.FechaCurso}</Typography>
+                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw', fontStyle:''}}>Hora: {Props.HoraCurso}</Typography>
                 </CardContent>
                 <CardActions>
-                    <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3 }}>
+                    <Button className ='Boton-Card' onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 2, marginBottom: 1.5, fontSize:'.8vw' }}>
                         Ver Disponibilidad
                     </Button>
                 </CardActions>

@@ -60,7 +60,7 @@
 
 .popup-overlay-compo-1 {
   position: fixed;
-  top: -53vh;
+  top: -50vh;
   left: -20vw;
   width: 100vw;
   height: 160vh;
@@ -80,7 +80,7 @@
 
 .popup-overlay-confirmation {
   position: fixed;
-  top: -40vh;
+  top: -60vh;
   left: -50vw;
   width: 200vw;
   height: 200vh;
@@ -95,7 +95,7 @@
 
 .popup-confirmation {
   position: fixed;
-  top: -2vh;
+  top: 8vh;
   left: -27vw;
   width: 100vw;
   height: 110vh;

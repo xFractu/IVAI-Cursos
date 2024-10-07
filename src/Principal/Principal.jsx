@@ -38,7 +38,6 @@ function Principal() {
         <>
             <section class="layout">
                 <div class="header">
-                    <img src={rlceImage} alt="" className="header-img-right" />
                     <h1 className="header-title">
                         Cursos disponibles
                     </h1>
