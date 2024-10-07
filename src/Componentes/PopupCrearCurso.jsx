@@ -31,7 +31,7 @@ function PopupCrearCurso({ onClose }) {
 
     const [DataCurso, setDataCurso] = useState({
         NombreCurso: '',
-        Fecha: '',
+        fecha: '',
         Hora: '',
         Imparte: '',    
         Cupo: 0,
@@ -129,7 +129,7 @@ function PopupCrearCurso({ onClose }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='fecha'
-                                    value={DataCurso.fecha}
+                                value={DataCurso.fecha}
                                     onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                         '& .MuiOutlinedInput-root': {

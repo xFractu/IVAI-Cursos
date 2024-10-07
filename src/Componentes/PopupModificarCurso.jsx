@@ -1,17 +1,77 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
 import { Label } from '@mui/icons-material';
+import Axios from 'axios';
 
-function PopupModificarCurso({ onClose }) {
+function PopupModificarCurso({ onClose, nombreCurso }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    const [dataTiposCurso, setDataTiposCurso] = useState([])
+
+    const getTiposCurso = async () => {
+        try {
+            const response = await fetch('http://localhost:4567/tipos');
+            const data = await response.json();
+            setDataTiposCurso(data);
+        } catch (error) {
+            console.error('Error al obtener los tipos de curso:', error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchTiposCurso = async () => {
+            const tipos = await getTiposCurso();
+            setItems(tipos);
+        };
+
+        fetchTiposCurso();
+    }, []);
+
     const handleOpenConfirmation = () => {
         setIsPopupOpen(true);
+    };
+
+    const [formData, setFormData] = useState({
+        nombreCurso: nombreCurso,
+        fecha: '',
+        hora: '',
+        imparte: '',
+        estatusCupo: '',
+        estatusCurso: '',
+        lugar: '',
+        correoSeguimiento: 'cursos.ivai@gmail.com',
+        tipo: '',
+        curso: '',
+        valorCurricular: '',
+        idCurso:window.localStorage.getItem('id')
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = async () => {
+        try {
+            console.log("Datos a enviar:", formData); 
+            const response = await Axios.put('http://localhost:4567/actualizar', formData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            console.log(response.data);
+            handleOpenConfirmation();
+        } catch (error) {
+            console.error("Error al actualizar el curso", error);
+        }
     };
 
     const handleCloseConfirmation = () => {
@@ -21,7 +81,7 @@ function PopupModificarCurso({ onClose }) {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
-            }, 300); 
+            }, 300);
         }
     };
 
@@ -39,7 +99,7 @@ function PopupModificarCurso({ onClose }) {
                                         alt="Web"
                                         className='IconoSalir'
                                         onClick={onClose}
-                                        
+
                                     />
                                     <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold' }}>
                                         Salir
@@ -66,12 +126,21 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Nombre del Curso:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px',
-                                    '& .MuiOutlinedInput-root': {
+                                <TextField
+                                    fullWidth
+                                    variant='outlined'
+                                    size="small"
+                                    name="nombreCurso"
+                                    value={formData.nombreCurso}
+                                    onChange={handleChange}
+                                    sx={{
+                                        backgroundColor: '#FFFFFF',
                                         borderRadius: '15px',
-                                    }
-                                }} />
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }}
+                                />
                             </Grid>
                         </Grid>
 
@@ -80,12 +149,15 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Fecha:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
-                                    backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" size="small"
+                                    name="fecha"
+                                    value={formData.fecha}
+                                    onChange={handleChange} sx={{
+                                        backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
 
@@ -94,12 +166,16 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Hora:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" size="small"
+                                    name="hora"
+                                    value={formData.hora}
+                                    onChange={handleChange}
+                                    sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
 
@@ -108,12 +184,14 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Lugar:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" size="small" name="lugar"
+                                    value={formData.lugar}
+                                    onChange={handleChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
 
@@ -122,12 +200,14 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Persona que Imparte el Curso:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" size="small" name="imparte"
+                                    value={formData.imparte}
+                                    onChange={handleChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
 
@@ -136,12 +216,15 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Lugares Disponibles:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" size="small"
+                                    name="estatusCupo"
+                                    value={formData.estatusCupo}
+                                    onChange={handleChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
 
@@ -150,97 +233,115 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Correo de Seguimiento:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" placeholder='cursos.ivai@gmail.com' disabled={true} size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" placeholder='cursos.ivai@gmail.com' disabled={true} size="small"
+                                    name="correoSeguimiento"
+                                    value={formData.correoSeguimiento}
+                                    onChange={handleChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
 
-                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                        <Grid container item xs={12} alignItems='center' spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">Estatus Curso:</Typography>
+                                <Typography variant='body2'>Estatus Curso:</Typography>
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
                                     fullWidth
-                                    variant="outlined"
-                                    size="small"
+                                    variant='outlined'
+                                    size='small'
+                                    name="estatusCurso"
+                                    value={formData.estatusCurso}
+                                    onChange={handleChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
                                         }
                                     }}
-                                    defaultValue=""
+                                    defaultValue=''
                                 >
-                                    <MenuItem value="Aula 1">Aula 1</MenuItem>
-                                    <MenuItem value="Aula 2">Aula 2</MenuItem>
-                                    <MenuItem value="Sala de conferencias">Sala de conferencias</MenuItem>
+                                    <MenuItem value='Activo'>Activo</MenuItem>
+                                    <MenuItem value='Finalizado'>Finalizado</MenuItem>
+                                    <MenuItem value='Cancelado'>Cancelado</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
 
-                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                        <Grid container item xs={12} alignItems='center' spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">Tipo Curso:</Typography>
+                                <Typography variant='body2'>Tipo Curso:</Typography>
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
                                     fullWidth
-                                    variant="outlined"
-                                    size="small"
+                                    variant='outlined'
+                                    size='small'
+                                    name='tipo'
+                                    value={formData.tipo}
+                                    onChange={handleChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
                                         }
                                     }}
-                                    defaultValue=""
+                                    defaultValue=''
                                 >
-                                    <MenuItem value="Aula 1">Aula 1</MenuItem>
-                                    <MenuItem value="Aula 2">Aula 2</MenuItem>
-                                    <MenuItem value="Sala de conferencias">Sala de conferencias</MenuItem>
+                                    <MenuItem value='Conferencia'>Conferencia</MenuItem>
+                                    <MenuItem value='Cursos'>Curso</MenuItem>
+                                    <MenuItem value='Foro'>Foro</MenuItem>
+                                    <MenuItem value='Jornada'>Jornada</MenuItem>
+                                    <MenuItem value='Taller'>Taller</MenuItem>
+                                    <MenuItem value='Segundo Trimestre 2017'>Segundo Trimestre 2017</MenuItem>
+                                    <MenuItem value='Otro'>Otro</MenuItem>
                                 </Select>
                             </Grid>
                         </Grid>
 
-                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                        <Grid container item xs={12} alignItems='center' spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2">Curso:</Typography>
+                                <Typography variant='body2'>Curso:</Typography>
                             </Grid>
                             <Grid item xs={6}>
                                 <Select
                                     fullWidth
-                                    variant="outlined"
-                                    size="small"
+                                    variant='outlined'
+                                    size='small'
+                                    name='curso'
+                                    value={formData.curso}
+                                    onChange={handleChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
                                         }
                                     }}
-                                    defaultValue=""
+                                    defaultValue=''
                                 >
-                                    <MenuItem value="Aula 1">Aula 1</MenuItem>
-                                    <MenuItem value="Aula 2">Aula 2</MenuItem>
-                                    <MenuItem value="Sala de conferencias">Sala de conferencias</MenuItem>
+                                    {dataTiposCurso.map((item) => (
+                                        <MenuItem value={item}>{item}</MenuItem>
+                                    ))}
                                 </Select>
                             </Grid>
                         </Grid>
+
                         <Grid container item xs={12} alignItems="center" spacing={2}>
                             <Grid item xs={6}>
                                 <Typography variant="body2">Liga Teams:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
-                                    backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '15px',
-                                    }
-                                }} />
+                                <TextField fullWidth variant="outlined" size="small" value={formData.ligaTeams}
+                                    onChange={handleChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                             </Grid>
                         </Grid>
                         <Grid container item xs={12} alignItems="center" spacing={2}>
@@ -248,7 +349,10 @@ function PopupModificarCurso({ onClose }) {
                                 <Typography variant="body2">Valor Curricular en Horas:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" sx={{
+                                <TextField fullWidth variant="outlined" size="small"
+                                name="valorCurricular" 
+                                value={formData.valorCurricular} 
+                                onChange={handleChange} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -262,7 +366,7 @@ function PopupModificarCurso({ onClose }) {
                 </div>
 
                 <CardActions sx={{ justifyContent: 'center' }}>
-                    <Button onClick={handleOpenConfirmation} variant="contained" sx={{ width: '10vw' ,backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Guardar</Button>
+                    <Button onClick={handleSubmit} variant="contained" sx={{ width: '10vw', backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Guardar</Button>
                 </CardActions>
             </Card>
 

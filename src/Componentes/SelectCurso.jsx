@@ -19,6 +19,10 @@ function SelectCurso({ onClose }) {
         getCursos();
     }, []);
 
+    const obtenerId = (idCurso) => {
+        window.localStorage.setItem('id', idCurso)
+    }
+
     return (
         <>
 
@@ -29,9 +33,10 @@ function SelectCurso({ onClose }) {
                 </header>
 
                 <main className="main_Select">
-                    {dataCursos != null ? (  // Verifica que haya datos antes de mapear
+                    {dataCursos != null ? (  
                         dataCursos.map((curso) => (
-                            <div key={curso.idCurso}>
+                            <div key={curso.idCurso} onClick={()=>obtenerId(curso.idCurso)}>
+
                                 <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora}></CardModificar>
                             </div>
                         ))
