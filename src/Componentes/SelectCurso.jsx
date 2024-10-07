@@ -37,7 +37,7 @@ function SelectCurso({ onClose }) {
                         dataCursos.map((curso) => (
                             <div key={curso.idCurso} onClick={()=>obtenerId(curso.idCurso)}>
 
-                                <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora}></CardModificar>
+                                <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora} EstatusCupo={curso.estatusCupo} EstatusCurso={curso.estatusCurso} TipoCurso={curso.tipo} Curso={curso.curso} ValorCurricular={curso.valorCurricular}></CardModificar>
                             </div>
                         ))
                     ) : (

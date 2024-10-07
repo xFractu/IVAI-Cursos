@@ -42,7 +42,16 @@ function CardModificar(Props) {
                      <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <PopupModificarCurso 
                             onClose={handleClosePopup}
-                            nombreCurso={Props.NombreCurso} 
+                            nombreCurso={Props.NombreCurso}
+                            fecha={Props.FechaCurso} 
+                            hora={Props.HoraCurso}
+                            lugar={Props.LugarCurso}
+                            imparte={Props.ExpositorCurso}
+                            estatusCupo={Props.EstatusCupo}
+                            estatusCurso={Props.EstatusCurso}
+                            tipoCurso={Props.TipoCurso}
+                            curso={Props.Curso}
+                            valorCurricular={Props.ValorCurricular}
                         />
                     </div>
                 </div>

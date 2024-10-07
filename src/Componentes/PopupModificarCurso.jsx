@@ -7,7 +7,7 @@ import '../Principal/Principal.css'
 import { Label } from '@mui/icons-material';
 import Axios from 'axios';
 
-function PopupModificarCurso({ onClose, nombreCurso }) {
+function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular}) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -38,16 +38,16 @@ function PopupModificarCurso({ onClose, nombreCurso }) {
 
     const [formData, setFormData] = useState({
         nombreCurso: nombreCurso,
-        fecha: '',
-        hora: '',
-        imparte: '',
-        estatusCupo: 0,
-        estatusCurso: '',
-        lugar: '',
+        fecha: fecha,
+        hora: hora,
+        imparte: imparte,
+        estatusCupo: estatusCupo,
+        estatusCurso: estatusCurso,
+        lugar: lugar,
         correoSeguimiento: 'cursos.ivai@gmail.com',
-        tipo: '',
-        curso: '',
-        valorCurricular: '',
+        tipo: tipoCurso,
+        curso: curso,
+        valorCurricular: valorCurricular,
         idCurso:window.localStorage.getItem('id')
     });
 
@@ -263,7 +263,7 @@ function PopupModificarCurso({ onClose, nombreCurso }) {
                                             borderRadius: '15px',
                                         }
                                     }}
-                                    defaultValue=''
+                                    defaultValue='estatusCurso'
                                 >
                                     <MenuItem value='Activo'>Activo</MenuItem>
                                     <MenuItem value='Finalizado'>Finalizado</MenuItem>
@@ -290,7 +290,7 @@ function PopupModificarCurso({ onClose, nombreCurso }) {
                                             borderRadius: '15px',
                                         }
                                     }}
-                                    defaultValue=''
+                                    defaultValue='tipoCurso'
                                 >
                                     <MenuItem value='Conferencia'>Conferencia</MenuItem>
                                     <MenuItem value='Cursos'>Curso</MenuItem>
@@ -321,7 +321,7 @@ function PopupModificarCurso({ onClose, nombreCurso }) {
                                             borderRadius: '15px',
                                         }
                                     }}
-                                    defaultValue=''
+                                    defaultValue='curso'
                                 >
                                     {dataTiposCurso.map((item) => (
                                         <MenuItem value={item}>{item}</MenuItem>

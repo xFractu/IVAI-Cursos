@@ -25,7 +25,6 @@ body {
 }
 
 .layout {
-    display: flex;
     flex-direction: column;
     min-height: 100vh;
     flex: 1;
@@ -76,16 +75,6 @@ body {
     grid-row: 2;
     background: linear-gradient(#A35494, #ffffff 20%);
     justify-content: center;
-}
-
-.NoCursos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    min-height: 30vh;
-    max-width: 70%;
-    text-align: center;
 }
 
 .InfoCursos {
