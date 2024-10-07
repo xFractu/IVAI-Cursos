@@ -67,8 +67,12 @@ function PopupCrearCurso({ onClose }) {
 
     const handleSubmit = async () => {
         try {
+
             const respuesta = await axios.post("http://localhost:4567/registroCurso", DataCurso);
             console.log("Respuesta de peticion: " + respuesta);
+
+            
+
             return respuesta;
         } catch (error) {
             throw error;

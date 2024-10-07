@@ -25,18 +25,19 @@ function CardModificar(Props) {
     return (
         <>
             <Card variant="elevation" sx={{ maxWidth:'90%', maxHeight: '60%', backgroundColor: '#FFFFF', margin:5, alignItems:'center',justifyContent:'center', borderRadius:5 }}>
-                <CardHeader sx={{ color: '#A35494', marginLeft:2 }} title={Props.NombreCurso} />
-                <CardContent sx={{ color: '#A35494', marginLeft: 2, marginTop:-3}}>
-                    <Typography variant="body2">Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
-                    <Typography variant="body2">Lugar: {Props.LugarCurso}</Typography>
-                    <Typography variant="body2">Fecha: {Props.FechaCurso}</Typography>
-                    <Typography variant="body2">Hora: {Props.HoraCurso}</Typography>
+
+                <CardHeader sx={{ color: '#A35494', marginLeft: 2 }} title={Props.NombreCurso} titleTypographyProps={{ fontSize:'3.5vh', fontStyle:'Bold'}}/>
+                <CardContent sx={{ color: '#A35494', marginLeft: 2, marginTop: -3 }}>
+                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
+                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Lugar: {Props.LugarCurso}</Typography>
+                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Fecha: {Props.FechaCurso}</Typography>
+                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Hora: {Props.HoraCurso}</Typography>
                 </CardContent>
 
                 
 
                 <CardActions>
-                    <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3 }}>Modificar</Button>
+                    <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3, fontSize:'2vh'  }}>Modificar</Button>
                 </CardActions>
 
             </Card>
