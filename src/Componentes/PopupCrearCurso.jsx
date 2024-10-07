@@ -31,21 +31,18 @@ function PopupCrearCurso({ onClose }) {
 
     const [DataCurso, setDataCurso] = useState({
         NombreCurso: '',
-        Fecha: '',
+        fecha: '',
         Hora: '',
-        Imparte: '',
+        Imparte: '',    
         Cupo: 0,
-        EstatusCupo: '',
+        EstatusCupo: 0,
         EstatusCurso: '',
-        Observaciones: '',
         Lugar: '',
         CorreoSeguimiento: 'cursos.ivai@gmail.com',
-        Programa: '',
-        Archivo: '',
         Tipo: '',
         Curso: '',
-        ValorCurricular: '',
-        FechaLetra: ''
+        LigaTeams: '',
+        ValorCurricular: ''
     })
 
 
@@ -59,11 +56,11 @@ function PopupCrearCurso({ onClose }) {
     const handleCloseConfirmation = () => {
         setIsPopupOpen(false);
     };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setDataCurso({ ...DataCurso, [name]: value });
-    };
+    
+        const handleInputChange = (e) => {
+            const { name, value } = e.target;
+            setDataCurso({ ...DataCurso, [name]: value });
+        };
 
     const handleSubmit = async () => {
         try {
@@ -78,18 +75,6 @@ function PopupCrearCurso({ onClose }) {
             throw error;
         }
     }
-
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
 
     return (
         <>
@@ -148,7 +133,7 @@ function PopupCrearCurso({ onClose }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='fecha'
-                                    value={DataCurso.fecha}
+                                value={DataCurso.fecha}
                                     onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                         '& .MuiOutlinedInput-root': {
@@ -212,7 +197,6 @@ function PopupCrearCurso({ onClose }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='estatusCupo'
-                                    value={DataCurso.estatusCupo}
                                     onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
@@ -263,31 +247,6 @@ function PopupCrearCurso({ onClose }) {
                                     <MenuItem value='Finalizado'>Finalizado</MenuItem>
                                     <MenuItem value='Cancelado'>Cancelado</MenuItem>
                                 </Select>
-                            </Grid>
-                        </Grid>
-
-                        <Grid container item xs={12} alignItems='center' spacing={2}>
-                            <Grid item xs={6}>
-                                <Typography variant='body2'>Anexar Programa</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <Button
-                                    style={{ backgroundColor: '#FFFFFF', color: '#1E1E1E', width: '15vw', marginTop: '1vh', borderRadius: '15px' }}
-                                    component='label'
-                                    name='programa'
-                                    value={DataCurso.programa}
-                                    onChange={handleInputChange}
-                                    role={undefined}
-                                    variant='contained'
-                                    tabIndex={-1}
-                                    startIcon={<CloudUploadIcon />}>
-                                    Seleccionar Archivo
-                                    <VisuallyHiddenInput
-                                        type='file'
-                                        onChange={(event) => console.log(event.target.files)}
-                                        multiple
-                                    />
-                                </Button>
                             </Grid>
                         </Grid>
 
@@ -353,7 +312,9 @@ function PopupCrearCurso({ onClose }) {
                                 <Typography variant='body2'>Liga Teams:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size='small' sx={{
+                                <TextField fullWidth variant='outlined' size='small' name='ligaTeams' 
+                                onChange={handleInputChange}
+                                sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',

@@ -4,9 +4,8 @@ import PopupModificarCurso from "../Componentes/PopupModificarCurso.jsx";
 
 
 function CardModificar(Props) {
-
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    
+
     const handleOpenPopup = () => {
         setIsPopupOpen(true);
     };
@@ -34,22 +33,21 @@ function CardModificar(Props) {
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Hora: {Props.HoraCurso}</Typography>
                 </CardContent>
 
-                
-
                 <CardActions>
                     <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3, fontSize:'2vh'  }}>Modificar</Button>
                 </CardActions>
-
             </Card>
 
             {isPopupOpen && (
                 <div className="popup-overlay-compo-1">
                      <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupModificarCurso onClose={handleClosePopup}/>
+                        <PopupModificarCurso 
+                            onClose={handleClosePopup}
+                            nombreCurso={Props.NombreCurso} 
+                        />
                     </div>
                 </div>
             )}
-
         </>
     )
 }

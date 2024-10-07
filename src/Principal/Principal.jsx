@@ -10,6 +10,7 @@ import WebIcon from '../assets/web.svg';
 import CardInfo from '../Componentes/CardInfo';
 import Ubi from '../assets/ubi.svg'
 import { useState, useEffect } from 'react';
+import zIndex from '@mui/material/styles/zIndex';
 
 
 function Principal() {
@@ -29,6 +30,10 @@ function Principal() {
         getCursos();
     }, []);
 
+    const handleLocal = (idCurso) => {
+        window.localStorage.setItem('id', idCurso);
+    }
+
     return (
         <>
             <section class="layout">
@@ -40,14 +45,22 @@ function Principal() {
                 </div>
                 <div className='Main'>
                     <div className='InfoCursos'>
-                        {dataCursos != null ? (  // Verifica que haya datos antes de mapear
+                        {dataCursos.length > 0 ? (
                             dataCursos.map((curso) => (
-                                <div key={curso.idCurso}>
-                                    <CardInfo NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora}></CardInfo>
+                                <div key={curso.idCurso} onClick={() => handleLocal(curso.idCurso)}>
+                                    <CardInfo
+                                        NombreCurso={curso.nombreCurso}
+                                        FechaCurso={curso.fecha}
+                                        LugarCurso={curso.lugar}
+                                        ExpositorCurso={curso.imparte}
+                                        HoraCurso={curso.hora}
+                                    />
                                 </div>
                             ))
                         ) : (
-                            <p>Cargando cursos...</p>
+                            <div className='NoCursos'>
+                                <p>No hay cursos registrados</p>
+                            </div>
                         )}
                     </div>
 
