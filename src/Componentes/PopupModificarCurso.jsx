@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState, useEffect } from 'react';
-import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
+import PopupMSJEditar from './PopupMSJEditar.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
 import { Label } from '@mui/icons-material';
@@ -389,7 +389,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+                        <PopupMSJEditar onClose={handleCloseConfirmation} />
                     </div>
                 </div>
             )}
