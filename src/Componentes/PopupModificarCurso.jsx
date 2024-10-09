@@ -1,11 +1,11 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState, useEffect } from 'react';
-import PopupMSJEditar from './PopupMSJEditar.jsx'
+import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
-import { Label } from '@mui/icons-material';
 import Axios from 'axios';
+import ConfirmIcon from '../assets/check.svg';
 
 function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular}) {
 
@@ -68,7 +68,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
                 }
             });
             console.log(response.data);
-            handleOpenConfirmation();
+            setIsPopupOpen(true);
         } catch (error) {
             console.error("Error al actualizar el curso", error);
         }
@@ -81,8 +81,14 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
+                onClose();
             }, 300);
         }
+    };
+
+    const handleClose = () => {
+        setIsPopupOpen(false);  
+        onClose();
     };
 
     return (
@@ -377,8 +383,6 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
 
                 <footer className="footer_Modificar_Curso">
                     
-                
-
                 <CardActions sx={{ justifyContent: 'center' }}>
                     <Button onClick={handleSubmit} variant="contained" sx={{ width: '10vw', backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Guardar</Button>
                 </CardActions>
@@ -389,7 +393,13 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJEditar onClose={handleCloseConfirmation} />
+                    <PopupMSJBien
+                        icon={ConfirmIcon} 
+                        title="Modificación exitosa"
+                        message="¡El curso ha sido modificado exitosamente!"
+                        buttonText="Cerrar"
+                        onClose={handleClose}
+                    />
                     </div>
                 </div>
             )}
