@@ -11,6 +11,10 @@ import rlceImage from '../Imagenes/rlce.webp';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import PopupMSJBien from "../Componentes/PopupMSJBien.jsx";
+import checkIcon from '../assets/check.svg';
+import errorIcon from '../assets/react.svg';
+
 
 function Login() {
     const navigate = useNavigate();
@@ -21,10 +25,34 @@ function Login() {
         password: ''
     })
 
-    //?SE LIMPIA EL ALMACENAMIENTO LOCAL DEL NAVEGADOR QUE ALOJA EL USUARIO DE LA SESION
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const [popupConfig, setPopupConfig] = useState({
+        icon: checkIcon,
+        title: "¡Bienvenido!",
+        message: "Al dar clic en el botón de aceptar será redirigido a la siguiente pantalla.",
+        buttonText: "Aceptar",
+        onAction: () => navigate('/RegistroCurso')
+    });
+
+    const handleOpenPopup = (config) => {
+        setPopupConfig(config);  
+        setIsPopupOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        const popup = document.querySelector('.popup-overlay-confirmation');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpen(false);
+            }, 300);
+        }
+    };
+
     window.localStorage.clear();
 
-    //!METODO DE PETICIÓN PARA VERIFICAR REGISTRO DE USUARIO (LOGIN)
     const peticionLogin = async () => {
         try {
             const respuesta = await axios.post("http://localhost:4567/validacion", datosFormulario);
@@ -42,9 +70,21 @@ function Login() {
             const respuesta = await peticionLogin();
             console.log("Respuesta de LOGIN: ", respuesta.data);
             if (respuesta.data.mensaje === 'Usuario correcto') {
-                navigate('/RegistroCurso');
+                handleOpenPopup({
+                    icon: checkIcon,
+                    title: "¡Bienvenido!",
+                    message: "Al dar clic en el botón de aceptar será redirigido a la siguiente pantalla.",
+                    buttonText: "Aceptar",
+                    onAction: () => navigate('/RegistroCurso') 
+                });
             } else {
-                alert("Usuario o contraseña incorrecto");
+                handleOpenPopup({
+                    icon: errorIcon,  
+                    title: "¡Credenciales incorectas!",
+                    message: "Las credenciales ingresadas no son válidas. Inténtalo de nuevo.",
+                    buttonText: "Reintentar",
+                    onAction: handleClosePopup 
+                });
             }
         } catch (error) {
             console.error("Error en el login: ", error);
@@ -53,7 +93,6 @@ function Login() {
         }
     }
 
-    //!METODO PARA DETECTAR LOS CAMBIOS EN EL FORMULARIO
     const cambiosFormulario = (evento) => {
         const { name, value } = evento.target;
         setDatosFormulario({
@@ -122,7 +161,6 @@ function Login() {
                     <p>contacto@verivai.org.mx</p>
                 </div>
 
-
                 <div className="social-group_l">
                     <a href="https://ivai.org.mx" target="_blank" rel="noopener noreferrer">
                         <img src={WebIcon} alt="Web" />
@@ -133,9 +171,21 @@ function Login() {
 
         </section>
 
+        {isPopupOpen && (
+                    <div className="popup-overlay-confirmation">
+                        <div className={`popup-content-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                            <PopupMSJBien
+                                icon={popupConfig.icon}
+                                title={popupConfig.title}
+                                message={popupConfig.message}
+                                buttonText={popupConfig.buttonText}
+                                onClose={handleClosePopup}
+                                onAction={popupConfig.onAction}
+                            />
+                        </div>
+                    </div>
+                )}
     </>);
-
-
 }
 
 export default Login;
