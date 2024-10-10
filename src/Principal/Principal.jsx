@@ -51,7 +51,7 @@ function Principal() {
                                     <CardInfo
                                         NombreCurso={curso.nombreCurso}
                                         FechaCurso={curso.fecha}
-                                        LugarCurso={curso.lugar}
+                                        ModalidadCurso={curso.modalidad}
                                         ExpositorCurso={curso.imparte}
                                         HoraCurso={curso.hora}
                                     />

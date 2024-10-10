@@ -33,7 +33,7 @@ function CardInfo(Props) {
                 <CardContent className ='Card-Contenido' sx={{ color: '#FFFFFF', marginLeft: 1, marginTop: -2 }}>
                 <Typography className ='Card-Titulo' variant="body2" sx ={{ fontSize:'1.5vw', fontWeight:'bold', paddingTop:'2vw', paddingBottom:'1vw'}}>{Props.NombreCurso}</Typography>
                     <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
-                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Lugar: {Props.LugarCurso}</Typography>
+                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Modalidad: {Props.ModalidadCurso}</Typography>
                     <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Fecha: {Props.FechaCurso}</Typography>
                     <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw', fontStyle:''}}>Hora: {Props.HoraCurso}</Typography>
                 </CardContent>
