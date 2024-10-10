@@ -7,7 +7,7 @@ import '../Principal/Principal.css'
 import Axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
-function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular}) {
+function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular}) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -43,7 +43,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
         imparte: imparte,
         estatusCupo: estatusCupo,
         estatusCurso: estatusCurso,
-        lugar: lugar,
+        modalidad: modalidad,
+        direccion: direccion,
         correoSeguimiento: 'cursos.ivai@gmail.com',
         tipo: tipoCurso,
         curso: curso,
@@ -93,8 +94,6 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
 
     return (
         <>
-
-
             <div className='layout_Modificar_Curso'>
 
                 <header className="header_Modificar_Curso">
@@ -194,21 +193,48 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, lugar, imparte
                             </Grid>
                         </Grid>
 
-                        <Grid container item xs={12} alignItems="center" spacing={2}>
+                        <Grid container item xs={12} alignItems='center' spacing={2}>
                             <Grid item xs={6}>
-                                <Typography variant="body2" sx={{ color: '#FFFFFF', fontSize: '100%',fontSize:'2vh', fontWeight: 'bold' }}>Lugar:</Typography>
+                                <Typography variant='body2'>Modalidad:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant="outlined" size="small" name="lugar"
-                                    value={formData.lugar}
+                                <Select
+                                    fullWidth
+                                    variant='outlined'
+                                    size='small'
+                                    name='modalidad'
+                                    value={formData.modalidad}
+                                    onChange={handleChange}
+                                    sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }}
+                                    defaultValue='modalidad'
+                                >
+                                    <MenuItem value='Presencial'>Presencial</MenuItem>
+                                    <MenuItem value='Virtual'>Virtual</MenuItem>
+                                </Select>
+                            </Grid>
+                        </Grid>
+
+                        {formData.modalidad === 'Presencial' && (
+                            <Grid container item xs={12} alignItems="center" spacing={2}>
+                                <Grid item xs={6}>
+                                    <Typography variant="body2">Dirección:</Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                <TextField fullWidth variant='outlined' size='small' value={formData.direccion} name='direccion'
                                     onChange={handleChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
                                         }
                                     }} />
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        )}
 
                         <Grid container item xs={12} alignItems="center" spacing={2}>
                             <Grid item xs={6}>

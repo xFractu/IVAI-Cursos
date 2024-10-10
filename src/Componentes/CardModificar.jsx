@@ -28,7 +28,7 @@ function CardModificar(Props) {
                 <CardHeader sx={{ color: '#A35494', marginLeft: 2 }} title={Props.NombreCurso} titleTypographyProps={{ fontSize:'3.5vh', fontStyle:'Bold'}}/>
                 <CardContent sx={{ color: '#A35494', marginLeft: 2, marginTop: -3 }}>
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
-                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Lugar: {Props.LugarCurso}</Typography>
+                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Modalidad: {Props.ModalidadCurso}</Typography>
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Fecha: {Props.FechaCurso}</Typography>
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Hora: {Props.HoraCurso}</Typography>
                 </CardContent>
@@ -46,7 +46,8 @@ function CardModificar(Props) {
                             nombreCurso={Props.NombreCurso}
                             fecha={Props.FechaCurso} 
                             hora={Props.HoraCurso}
-                            lugar={Props.LugarCurso}
+                            modalidad={Props.ModalidadCurso}
+                            direccion={Props.DireccionCurso}
                             imparte={Props.ExpositorCurso}
                             estatusCupo={Props.EstatusCupo}
                             estatusCurso={Props.EstatusCurso}
