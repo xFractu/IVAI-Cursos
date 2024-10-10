@@ -62,29 +62,7 @@ function PopupCrearCurso({ onClose }) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setDataCurso({ ...DataCurso, [name]: value });
-        // validarCampoModalidad();
     };
-
-    //     const campoDireccion = <Grid container item xs={12} alignItems='center' spacing={2}>
-    //     <Grid item xs={6}>
-    //         <Typography variant='body2'>Persona que Imparte el Curso:</Typography>
-    //     </Grid>
-    //     <Grid item xs={6}>
-    //         <TextField fullWidth variant='outlined' size='small' name='imparte'
-    //             value={DataCurso.imparte}
-    //             onChange={handleInputChange} sx={{
-    //                 backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-    //                 '& .MuiOutlinedInput-root': {
-    //                     borderRadius: '15px',
-    //                 }
-    //             }} />
-    //     </Grid>
-    // </Grid>
-
-    //     const validarCampoModalidad = () => {
-    //         const componente = ReactDOM.createPortal(document.getElementById('componenteModalidad')); 
-    //         DataCurso.modalidad == 'Presencial' ? componente.children(campoDireccion) : null
-    //     }
 
     const handleSubmit = async () => {
         try {
@@ -212,6 +190,23 @@ function PopupCrearCurso({ onClose }) {
                                 </Grid>
                                 <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='direccion'
+                                    onChange={handleInputChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
+                                </Grid>
+                            </Grid>
+                        )}
+
+                        {DataCurso.modalidad === 'Virtual' && (
+                            <Grid container item xs={12} alignItems="center" spacing={2}>
+                                <Grid item xs={6}>
+                                    <Typography variant="body2">Liga Teams:</Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                <TextField fullWidth variant='outlined' size='small' name='ligaTeams'
                                     onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
@@ -354,21 +349,7 @@ function PopupCrearCurso({ onClose }) {
                                 </Select>
                             </Grid>
                         </Grid>
-                        <Grid container item xs={12} alignItems='center' spacing={2}>
-                            <Grid item xs={6}>
-                                <Typography variant='body2'>Liga Teams:</Typography>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size='small' name='ligaTeams'
-                                    onChange={handleInputChange}
-                                    sx={{
-                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '15px',
-                                        }
-                                    }} />
-                            </Grid>
-                        </Grid>
+                        
                         <Grid container item xs={12} alignItems='center' spacing={2}>
                             <Grid item xs={6}>
                                 <Typography variant='body2'>Valor Curricular en Horas:</Typography>
