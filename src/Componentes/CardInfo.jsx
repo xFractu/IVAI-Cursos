@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography } from "
 import { useState } from "react";
 import PopupRegistro from '../Componentes/PopupRegistro'
 import '../Estilos/CardInfo.css';
+import check from '../Imagenes/cursos.png';
 
 
 function CardInfo(Props) {
@@ -29,21 +30,32 @@ function CardInfo(Props) {
 
     return (
         <>
-            <Card className ='Card-Contenedor' variant="elevation" sx={{ maxWidth: '90%', maxHeight: '60%', backgroundColor: '#A35494', marginLeft: '2vw',marginBottom: '2vw', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
-                <CardContent className ='Card-Contenido' sx={{ color: '#FFFFFF', marginLeft: 1, marginTop: -2 }}>
-                <Typography className ='Card-Titulo' variant="body2" sx ={{ fontSize:'1.5vw', fontWeight:'bold', paddingTop:'2vw', paddingBottom:'1vw'}}>{Props.NombreCurso}</Typography>
-                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
-                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Lugar: {Props.LugarCurso}</Typography>
-                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw'}}>Fecha: {Props.FechaCurso}</Typography>
-                    <Typography className ='Card-text' variant="body2" sx ={{ fontSize:'1vw', fontStyle:''}}>Hora: {Props.HoraCurso}</Typography>
-                </CardContent>
-                <CardActions>
-                    <Button className ='Boton-Card' onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 2, marginBottom: 1.5, fontSize:'.8vw' }}>
+            <div className="Card-Info-Cursos"> 
+            <Card className ='Card-Contenedor' variant="elevation" sx={{ maxWidth: '100%', maxHeight: '60%', backgroundColor: '#A35494',paddingLeft: '0vw',marginBottom: '2vw', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                <CardContent className ='Card-Contenido' sx={{ color: '#FFFFFF', marginLeft: 1, marginTop: 1 }}>
+                <div className="Card-Container">
+                <div className="Card-Content">
+                    <label className="Card-Titulo">{Props.NombreCurso}</label><br/>
+                    <div className="Info-Card">
+                        <label className="Card-text" variant="body2">Persona que imparte el curso: {Props.ExpositorCurso}</label>
+                        <label className="Card-text" variant="body2">Lugar: {Props.LugarCurso}</label>
+                        <label className="Card-text" variant="body2">Fecha: {Props.FechaCurso}</label>
+                        <label className="Card-text" variant="body2">Hora: {Props.HoraCurso}</label>
+                    </div>
+                    <CardActions className="Card-Actions">
+                    <button className ='Boton-Card' onClick={handleOpenPopup} variant="contained">
                         Ver Disponibilidad
-                    </Button>
+                    </button>
                 </CardActions>
+                    
+                </div>
+                
+                
+            </div>
+                </CardContent>
+                
             </Card>
-
+            </div>
             {isPopupOpen && (
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
