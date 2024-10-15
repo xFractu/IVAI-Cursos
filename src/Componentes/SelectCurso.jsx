@@ -13,17 +13,17 @@ function SelectCurso({ onClose }) {
                 const data = await response.json();
                 setDataCurso(data);
             } catch (error) {
-                console.error('Error al obtener los registros de curso:', error);
+                console.error('Error al obtener los registros de curso: ', error);
             }
         };
         getCursos();
     }, []);
 
     const obtenerId = (idCurso) => {
-        window.localStorage.setItem('id', idCurso)
+        window.localStorage.setItem('idCurso', idCurso)
     }
 
-    return (
+    return ( 
         <>
 
             <div className='layout_Select'>
@@ -37,7 +37,7 @@ function SelectCurso({ onClose }) {
                         dataCursos.map((curso) => (
                             <div key={curso.idCurso} onClick={()=>obtenerId(curso.idCurso)}>
 
-                                <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora} EstatusCupo={curso.estatusCupo} EstatusCurso={curso.estatusCurso} TipoCurso={curso.tipo} Curso={curso.curso} ValorCurricular={curso.valorCurricular}></CardModificar>
+                                <CardModificar IdCurso={curso.idCurso} NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} LugarCurso={curso.lugar} ExpositorCurso={curso.imparte} HoraCurso={curso.hora} EstatusCupo={curso.estatusCupo} EstatusCurso={curso.estatusCurso} TipoCurso={curso.tipo} Curso={curso.curso} ValorCurricular={curso.valorCurricular}></CardModificar>
                             </div>
                         ))
                     ) : (
