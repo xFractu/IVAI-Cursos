@@ -6,17 +6,18 @@ function SelectCurso({ onClose }) {
 
     const [dataCursos, setDataCurso] = useState([]);
 
+     const reloadCursos = async () => {
+        try {
+            const response = await fetch('http://localhost:4567/obtenerCursos');
+            const data = await response.json();
+            setDataCurso(data);
+        } catch (error) {
+            console.error('Error al obtener los registros de curso:', error);
+        }
+    };
+
     useEffect(() => {
-        const getCursos = async () => {
-            try {
-                const response = await fetch('http://localhost:4567/obtenerCursos');
-                const data = await response.json();
-                setDataCurso(data);
-            } catch (error) {
-                console.error('Error al obtener los registros de curso:', error);
-            }
-        };
-        getCursos();
+        reloadCursos(); 
     }, []);
 
     const obtenerId = (idCurso) => {
@@ -37,7 +38,7 @@ function SelectCurso({ onClose }) {
                         dataCursos.map((curso) => (
                             <div key={curso.idCurso} onClick={()=>obtenerId(curso.idCurso)}>
 
-                                <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} ModalidadCurso={curso.modalidad} DireccionCurso={curso.direccion} ExpositorCurso={curso.imparte} HoraCurso={curso.hora} EstatusCupo={curso.estatusCupo} EstatusCurso={curso.estatusCurso} TipoCurso={curso.tipo} Curso={curso.curso} ValorCurricular={curso.valorCurricular} LigaTeams={curso.ligaTeams}></CardModificar>
+                                <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} ModalidadCurso={curso.modalidad} DireccionCurso={curso.direccion} ExpositorCurso={curso.imparte} HoraCurso={curso.hora} EstatusCupo={curso.estatusCupo} EstatusCurso={curso.estatusCurso} TipoCurso={curso.tipo} Curso={curso.curso} ValorCurricular={curso.valorCurricular} LigaTeams={curso.ligaTeams} reloadCursos={reloadCursos}></CardModificar>
                             </div>
                         ))
                     ) : (

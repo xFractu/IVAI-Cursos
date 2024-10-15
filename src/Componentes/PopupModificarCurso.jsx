@@ -6,7 +6,7 @@ import '../Principal/Principal.css'
 import Axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
-function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams }) {
+function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams, reloadCursos }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -94,6 +94,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
     const handleClose = () => {
         setIsPopupOpen(false);
+        reloadCursos();
         onClose();
     };
 
@@ -433,6 +434,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                             message="¡El curso ha sido modificado exitosamente!"
                             buttonText="Cerrar"
                             onClose={handleClose}
+                            reloadCursos={reloadCursos} 
                         />
                     </div>
                 </div>

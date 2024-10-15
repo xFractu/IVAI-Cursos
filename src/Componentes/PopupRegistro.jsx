@@ -1,28 +1,14 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconButton, Grid, TextField, Select, MenuItem, ToggleButton, ToggleButtonGroup, Switch, Stack, Grid2 } from '@mui/material';
 import { useState, useEffect } from 'react';
-import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
+import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
 import axios from 'axios';
+import ConfirmIcon from '../assets/check.svg';
 
 function PopupRegistro({ onClose }) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    const handleOpenConfirmation = () => {
-        console.log(dataRegistro)
-        setIsPopupOpen(true);
-    };
-
-    const handleCloseConfirmation = () => {
-        const popup = document.querySelector('.popup-confirmation');
-        if (popup) {
-            popup.classList.remove('popup-show');
-            popup.classList.add('popup-hide');
-            setTimeout(() => {
-                setIsPopupOpen(false);
-            }, 300);
-        }
-    };
 
     const [dataRegistro, setDataRegistro] = useState({
         nombre: '',
@@ -46,12 +32,12 @@ function PopupRegistro({ onClose }) {
         try {
             const response = await axios.post('http://localhost:4567/registrarse', dataRegistro)
             console.log(dataRegistro);
+            setIsPopupOpen(true);
             return response;
         } catch (error) {
             console.error('Error al registrarse', error);
         }
     }
-
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -81,6 +67,11 @@ function PopupRegistro({ onClose }) {
 
         obtenerEstados();
     }, []);
+
+    const handleClose = () => {
+        setIsPopupOpen(false);
+        onClose();
+    };
 
     return (
         <>
@@ -375,13 +366,29 @@ function PopupRegistro({ onClose }) {
                 </CardActions>
             </Card>
 
-            {isPopupOpen && (
+            {isPopupOpen && <PopupMSJBien onClose={handleClose} />}
+
+
+            {/* { {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+
+                    {isPopupOpen && <PopupMSJBien onClose={handleClose} />}
+
+                        
+                        
+                        <PopupMSJBien
+                            icon={ConfirmIcon}
+                            title="Registro Exitoso"
+                            message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
+                            buttonText="Aceptar"
+                            onClose={handleClose}
+                        />
+
+
                     </div>
                 </div>
-            )}
+            )} } */}
         </>
     )
 }

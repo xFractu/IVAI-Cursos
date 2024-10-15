@@ -5,11 +5,16 @@ import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
 import axios from 'axios';
+import PopupMSJBien from './PopupMSJBien.jsx'
+import ConfirmIcon from '../assets/check.svg';
 import { DocumentScannerTwoTone } from '@mui/icons-material';
 
 function PopupCrearCurso({ onClose }) {
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
+
+    
+
 
     const getTiposCurso = async () => {
         try {
@@ -51,14 +56,6 @@ function PopupCrearCurso({ onClose }) {
     const [isLoading, setLoading] = useState(false);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    const handleOpenConfirmation = () => {
-        setIsPopupOpen(true);
-    };
-
-    const handleCloseConfirmation = () => {
-        setIsPopupOpen(false);
-    };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setDataCurso({ ...DataCurso, [name]: value });
@@ -69,11 +66,17 @@ function PopupCrearCurso({ onClose }) {
 
             const respuesta = await axios.post("http://localhost:4567/registroCurso", DataCurso);
             console.log("Respuesta de peticion: " + respuesta);
+            setIsPopupOpen(true);
             return respuesta;
         } catch (error) {
             throw error;
         }
     }
+
+    const handleClose = () => {
+        setIsPopupOpen(false);
+        onClose();
+    };
 
     return (
         <>
@@ -375,11 +378,18 @@ function PopupCrearCurso({ onClose }) {
             </Card>
 
             {isPopupOpen && (
-                <div className='popup-confirmation'>
-                    <PopupMSJConfirmacion onClose={handleCloseConfirmation} />
+                <div className="popup-overlay-confirmation">
+                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJBien
+                            icon={ConfirmIcon}
+                            title="Registro Exitoso"
+                            message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
+                            buttonText="Cerrar"
+                            onClose={handleClose}
+                        />
+                    </div>
                 </div>
             )}
-
         </>
     )
 }

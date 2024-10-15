@@ -2,12 +2,13 @@ import { Button, Card, CardActions, CardContent, Typography } from "@mui/materia
 import '../Principal/Principal.css';
 import { useNavigate } from 'react-router-dom';
 
-function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, buttonStyle = {}, cardStyle = {} }) {
+function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, buttonStyle = {}, cardStyle = {}, reloadCursos }) {
     const navigate = useNavigate();
 
     const handleButtonClick = async (evento) => {
         evento.preventDefault();
         if (onAction) onAction();
+        if (reloadCursos) reloadCursos();
         if (onClose) onClose();  
     };
 

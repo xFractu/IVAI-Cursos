@@ -17,6 +17,7 @@ function CardModificar(Props) {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
+                Props.reloadCursos();
             }, 300); 
         }
     };
@@ -55,7 +56,7 @@ function CardModificar(Props) {
                             curso={Props.Curso}
                             valorCurricular={Props.ValorCurricular}
                             ligaTeams={Props.LigaTeams}
-                            
+                            reloadCursos={Props.reloadCursos} 
                         />
                     </div>
                 </div>
