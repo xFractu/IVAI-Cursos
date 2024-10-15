@@ -38,7 +38,7 @@ function CardInfo(Props) {
                     <label className="Card-Titulo">{Props.NombreCurso}</label><br/>
                     <div className="Info-Card">
                         <label className="Card-text" variant="body2">Persona que imparte el curso: {Props.ExpositorCurso}</label>
-                        <label className="Card-text" variant="body2">Lugar: {Props.LugarCurso}</label>
+                        <label className="Card-text" variant="body2">Modalidad: {Props.ModalidadCurso}</label>
                         <label className="Card-text" variant="body2">Fecha: {Props.FechaCurso}</label>
                         <label className="Card-text" variant="body2">Hora: {Props.HoraCurso}</label>
                     </div>

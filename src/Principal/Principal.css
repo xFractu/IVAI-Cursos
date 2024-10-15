@@ -2,12 +2,6 @@
 
 
 
-
-
-
-
-
-
 body {
     background-color: #ffffff;
     margin: 0;
@@ -175,6 +169,7 @@ body {
     height: 6vh;
     cursor: pointer;
   }
+  
 .ScrollRegistro::-webkit-scrollbar-thumb:hover {
     background-color: #E8ABFF;
 }
