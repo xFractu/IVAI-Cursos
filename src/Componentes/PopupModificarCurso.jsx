@@ -1,5 +1,4 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/arrow.svg'
@@ -7,7 +6,7 @@ import '../Principal/Principal.css'
 import Axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
-function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular }) {
+function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -48,20 +47,20 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         correoSeguimiento: 'cursos.ivai@gmail.com',
         tipo: tipoCurso,
         curso: curso,
-        ligaTeams: direccion,
+        ligaTeams: ligaTeams,
         valorCurricular: valorCurricular,
         idCurso: window.localStorage.getItem('id')
     });
 
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+
         if (name === 'modalidad') {
-            setFormData({
-                ...formData,
-                [name]: value,
-                direccion: value === 'Presencial' ? '' : formData.direccion,
-                ligaTeams: value === 'Virtual' ? '' : formData.direccion
-            });
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value
+            }));
         } else {
             setFormData({
                 ...formData,
@@ -71,9 +70,17 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
     };
 
     const handleSubmit = async () => {
+        let finalFormData = { ...formData };
+
+        if (formData.modalidad === 'Presencial') {
+            finalFormData.ligaTeams = '';
+        } else if (formData.modalidad === 'Virtual') {
+            finalFormData.direccion = '';
+        }
+
         try {
-            console.log("Datos a enviar:", formData);
-            const response = await Axios.put('http://localhost:4567/actualizar', formData, {
+            console.log("Datos a enviar:", finalFormData);
+            const response = await Axios.put('http://localhost:4567/actualizar', finalFormData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -82,18 +89,6 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
             setIsPopupOpen(true);
         } catch (error) {
             console.error("Error al actualizar el curso", error);
-        }
-    };
-
-    const handleCloseConfirmation = () => {
-        const popup = document.querySelector('.popup-confirmation');
-        if (popup) {
-            popup.classList.remove('popup-show');
-            popup.classList.add('popup-hide');
-            setTimeout(() => {
-                setIsPopupOpen(false);
-                onClose();
-            }, 300);
         }
     };
 
@@ -252,7 +247,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         <Typography variant="body2">Liga Teams:</Typography>
                                     </Grid>
                                     <Grid item xs={6}>
-                                        <TextField fullWidth variant='outlined' size='small' value={formData.ligaTeams} name='direccion'
+                                        <TextField fullWidth variant='outlined' size='small' value={formData.ligaTeams} name='ligaTeams'
                                             onChange={handleChange} sx={{
                                                 backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                                 '& .MuiOutlinedInput-root': {

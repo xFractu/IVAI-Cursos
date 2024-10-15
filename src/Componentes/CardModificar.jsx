@@ -54,6 +54,8 @@ function CardModificar(Props) {
                             tipoCurso={Props.TipoCurso}
                             curso={Props.Curso}
                             valorCurricular={Props.ValorCurricular}
+                            ligaTeams={Props.LigaTeams}
+                            
                         />
                     </div>
                 </div>
