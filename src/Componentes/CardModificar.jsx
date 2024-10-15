@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
 import { useState } from 'react';
+import  axios from 'axios';
 import PopupModificarCurso from "../Componentes/PopupModificarCurso.jsx";
 
 
@@ -22,6 +23,22 @@ function CardModificar(Props) {
         }
     };
 
+    const obtenerRegistros = async (idCurso) => {
+        try {
+            const response = await fetch(`http://localhost:4567/obtenerExcelRegistros/${idCurso}`);
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `registros_curso_${idCurso}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (error) {
+            console.error('Error al descargar el archivo:', error);
+        }
+    };
+
     return (
         <>
             <Card variant="elevation" sx={{ maxWidth:'90%', maxHeight: '60%', backgroundColor: '#FFFFF', margin:5, alignItems:'center',justifyContent:'center', borderRadius:5 }}>
@@ -36,6 +53,7 @@ function CardModificar(Props) {
 
                 <CardActions>
                     <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3, fontSize:'2vh'  }}>Modificar</Button>
+                    <Button onClick={() => obtenerRegistros(Props.IdCurso)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E",marginTop:-2, marginLeft:3, marginBottom:3, fontSize:'2vh'  }}>Descargar Archivo</Button>
                 </CardActions>
             </Card>
 
