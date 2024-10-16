@@ -10,7 +10,9 @@ function PopupRegistro({ onClose }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-    const [errors, setErrors] = useState({}); 
+    const [errors, setErrors] = useState({});
+
+    const [isError, setIsError] = useState(false);
 
     const [dataRegistro, setDataRegistro] = useState({
         nombre: '',
@@ -30,7 +32,7 @@ function PopupRegistro({ onClose }) {
         idCurso: window.localStorage.getItem('id')
     })
 
-     const validateFields = () => {
+    const validateFields = () => {
         const newErrors = {};
 
         if (!dataRegistro.nombre) newErrors.nombre = "El nombre es obligatorio.";
@@ -52,17 +54,25 @@ function PopupRegistro({ onClose }) {
     const handleRegistration = async () => {
         const validationErrors = validateFields();
         if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors); 
+            setErrors(validationErrors);
             return;
         }
 
         try {
             const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
-            console.log(dataRegistro);
-            setIsPopupOpen(true);
-            return response;
+            if(response.status === 200){
+                console.log(dataRegistro);
+                setIsError(false);
+                setIsPopupOpen(true);
+                return response;
+            }else{
+                setIsError(true);
+                setIsPopupOpen(true);
+            }
         } catch (error) {
             console.error('Error al registrarse', error);
+            setIsError(true);
+            setIsPopupOpen(true);
         }
     }
 
@@ -76,7 +86,7 @@ function PopupRegistro({ onClose }) {
         const { name, type, value, checked } = e.target;
         setDataRegistro({
             ...dataRegistro,
-            [name]: type === 'checkbox' ? checked : value 
+            [name]: type === 'checkbox' ? checked : value
         });
     };
 
@@ -201,7 +211,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Lugar de procedencia:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField name='lugarDeProcedencia' fullWidth variant="outlined" size="small" onChange={handleInputChange}  sx={{
+                                <TextField name='lugarDeProcedencia' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -281,7 +291,7 @@ function PopupRegistro({ onClose }) {
                                     }}
                                 >
                                     {estados.map((estado) => (
-                                            <MenuItem value={estado}>{estado}</MenuItem>
+                                        <MenuItem value={estado}>{estado}</MenuItem>
                                     ))}
                                 </Select>
                             </Grid>
@@ -397,13 +407,23 @@ function PopupRegistro({ onClose }) {
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJBien
-                            icon={ConfirmIcon}
-                            title="Registro Exitoso"
-                            message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
-                            buttonText="Cerrar"
-                            onClose={handleClose}
-                        />
+                        {isError ? (
+                            <PopupMSJBien   
+                                icon={ConfirmIcon} 
+                                title="Error en el Registro"
+                                message="Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde."
+                                buttonText="Cerrar"
+                                onClose={handleClose}
+                            />
+                        ) : (
+                            <PopupMSJBien
+                                icon={ConfirmIcon}
+                                title="Registro Exitoso"
+                                message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
+                                buttonText="Cerrar"
+                                onClose={handleClose}
+                            />
+                        )}
                     </div>
                 </div>
             )}
