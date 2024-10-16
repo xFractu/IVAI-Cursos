@@ -5,6 +5,7 @@ import CardModificar from '../Componentes/CardModificar';
 function SelectCurso({ onClose }) {
 
     const [dataCursos, setDataCurso] = useState([]);
+    const [cursoBuscado, setCursoBuscado] = useState('');
 
      const reloadCursos = async () => {
         try {
@@ -24,6 +25,10 @@ function SelectCurso({ onClose }) {
         window.localStorage.setItem('id', idCurso)
     }
 
+    const cursosFiltrados = dataCursos.filter(curso =>
+        curso.nombreCurso.toLowerCase().includes(cursoBuscado.toLowerCase())
+    );
+
     return (
         <>
 
@@ -31,18 +36,34 @@ function SelectCurso({ onClose }) {
 
                 <header className="header_Select">
                     <h1>Seleccione el curso a modificar:</h1>
+                    <label htmlFor='campoBusqueda' className='textoBusqueda'><strong>Buscar Curso: </strong></label>
+                    <input type='text' id='campoBusqueda' className='cuadroBusqueda' placeholder='Nombre del Curso' onChange={(e) => setCursoBuscado(e.target.value)}></input>
                 </header>
 
                 <main className="main_Select">
-                    {dataCursos != null ? (  
-                        dataCursos.map((curso) => (
-                            <div key={curso.idCurso} onClick={()=>obtenerId(curso.idCurso)}>
-
-                                <CardModificar NombreCurso={curso.nombreCurso} FechaCurso={curso.fecha} ModalidadCurso={curso.modalidad} DireccionCurso={curso.direccion} ExpositorCurso={curso.imparte} HoraCurso={curso.hora} EstatusCupo={curso.estatusCupo} EstatusCurso={curso.estatusCurso} TipoCurso={curso.tipo} Curso={curso.curso} ValorCurricular={curso.valorCurricular} LigaTeams={curso.ligaTeams} reloadCursos={reloadCursos}></CardModificar>
+                {cursosFiltrados.length > 0 ? (  
+                        cursosFiltrados.map((curso) => (
+                            <div key={curso.idCurso} onClick={() => obtenerId(curso.idCurso)}>
+                                <CardModificar 
+                                    NombreCurso={curso.nombreCurso} 
+                                    FechaCurso={curso.fecha} 
+                                    ModalidadCurso={curso.modalidad} 
+                                    DireccionCurso={curso.direccion} 
+                                    ExpositorCurso={curso.imparte} 
+                                    HoraCurso={curso.hora} 
+                                    EstatusCupo={curso.estatusCupo} 
+                                    EstatusCurso={curso.estatusCurso} 
+                                    TipoCurso={curso.tipo} 
+                                    Curso={curso.curso} 
+                                    ValorCurricular={curso.valorCurricular} 
+                                    LigaTeams={curso.ligaTeams} 
+                                    IdCurso={curso.idCurso} 
+                                    reloadCursos={reloadCursos} 
+                                />
                             </div>
                         ))
                     ) : (
-                        <p>Cargando cursos...</p>
+                        <p>No se encontraron cursos.</p>
                     )}
                 </main>
 
