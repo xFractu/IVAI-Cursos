@@ -3,12 +3,17 @@ import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
+import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
 function PopupRegistro({ onClose }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const [errors, setErrors] = useState({});
+
+    const [isError, setIsError] = useState(false);
 
     const [dataRegistro, setDataRegistro] = useState({
         nombre: '',
@@ -28,27 +33,61 @@ function PopupRegistro({ onClose }) {
         idCurso: window.localStorage.getItem('id')
     })
 
+    const validateFields = () => {
+        const newErrors = {};
+
+        if (!dataRegistro.nombre) newErrors.nombre = "El nombre es obligatorio.";
+        if (!dataRegistro.apellidos) newErrors.apellidos = "Los apellidos son obligatorios.";
+        if (!dataRegistro.correo) {
+            newErrors.correo = "El correo electrónico es obligatorio.";
+        } else if (!/\S+@\S+\.\S+/.test(dataRegistro.correo)) {
+            newErrors.correo = "El correo no es válido.";
+        }
+        if (!dataRegistro.telefono) {
+            newErrors.telefono = "El teléfono es obligatorio.";
+        } else if (!/^\d{10}$/.test(dataRegistro.telefono)) {
+            newErrors.telefono = "El teléfono debe tener 10 dígitos.";
+        }
+
+        return newErrors;
+    };
+
     const handleRegistration = async () => {
+        const validationErrors = validateFields();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
         try {
-            const response = await axios.post('http://localhost:4567/registrarse', dataRegistro)
-            console.log(dataRegistro);
-            setIsPopupOpen(true);
-            return response;
+            const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
+            if(response.status === 200){
+                console.log(dataRegistro);
+                setIsError(false);
+                setIsPopupOpen(true);
+                return response;
+            }else{
+                setIsError(true);
+                setIsPopupOpen(true);
+            }
         } catch (error) {
             console.error('Error al registrarse', error);
+            setIsError(true);
+            setIsPopupOpen(true);
         }
     }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setDataRegistro({ ...dataRegistro, [name]: value });
+        setErrors({ ...errors, [name]: '' });
     };
 
     const handleSwitchChange = (e) => {
         const { name, type, value, checked } = e.target;
         setDataRegistro({
             ...dataRegistro,
-            [name]: type === 'checkbox' ? checked : value 
+            [name]: type === 'checkbox' ? checked : value
         });
     };
 
@@ -75,9 +114,12 @@ function PopupRegistro({ onClose }) {
 
     return (
         <>
-            <Card variant="elevation" sx={{ maxWidth: '100%', maxHeight: '100vh', backgroundColor: '#A35494', margin: 2, justifyContent: 'center', borderRadius: 5, padding: 3 }}>
-                <CardHeader
-                    sx={{ color: '#FFFFFF', width: '100%', marginLeft: -5 }}
+        <div className='layout_registrar_curso'>
+        
+
+            <header className="header_registrar_curso">
+                <CardHeader className="card-header"
+                    
                     title={
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Grid item>
@@ -88,23 +130,29 @@ function PopupRegistro({ onClose }) {
                                         className='IconoSalir'
                                         onClick={onClose}
                                     />
-                                    <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold' }}>
+                                    <label className='lbl-salir-header' >
                                         Salir
-                                    </Typography>
+                                    </label>
                                 </Grid>
                             </Grid>
                             <Grid item>
-                                <Typography variant="body2" sx={{ maxWidth: 'auto', maxHeight: 'auto', color: '#FFFFFF', fontSize: '50%' }}>
+                                <label className='lbl-campos-obligatorios' >
                                     Los campos marcados con <br />
                                     asterisco (*) son obligatorios
-                                </Typography>
+                                </label>
                             </Grid>
                         </Grid>
                     }
                 />
-                <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold', marginBottom: 2, textAlign: 'center' }}>
-                    Datos Personales
-                </Typography>
+
+                </header>
+
+                <main className="main_registar_curso">
+                    <div className='div-datos-personales'>
+                        <label className='lbl-datos-personales'>
+                            Datos Personales
+                        </label>
+                    </div>
                 <div className='ScrollRegistro'>
 
                     <CardContent sx={{ color: '#FFFFFF' }}>
@@ -113,7 +161,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Nombre(s)*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField required name='nombre' fullWidth variant='outlined' size="small" onChange={handleInputChange} sx={{
+                                <TextField required name='nombre' fullWidth variant='outlined' size="small" onChange={handleInputChange} error={!!errors.nombre} helperText={errors.nombre} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -127,7 +175,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Apellidos*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth name='apellidos' variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                <TextField fullWidth name='apellidos' variant="outlined" size="small" onChange={handleInputChange} error={!!errors.apellidos} helperText={errors.apellidos} sx={{
                                     backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -173,7 +221,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Lugar de procedencia:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField name='lugarDeProcedencia' fullWidth variant="outlined" size="small" onChange={handleInputChange}  sx={{
+                                <TextField name='lugarDeProcedencia' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -253,7 +301,7 @@ function PopupRegistro({ onClose }) {
                                     }}
                                 >
                                     {estados.map((estado) => (
-                                            <MenuItem value={estado}>{estado}</MenuItem>
+                                        <MenuItem value={estado}>{estado}</MenuItem>
                                     ))}
                                 </Select>
                             </Grid>
@@ -321,7 +369,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Correo electrónico institucional*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField name='correo' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                <TextField name='correo' fullWidth variant="outlined" size="small" onChange={handleInputChange} error={!!errors.correo} helperText={errors.correo} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -335,7 +383,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Telefono institucional*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField name='telefono' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                <TextField name='telefono' fullWidth variant="outlined" size="small" onChange={handleInputChange} error={!!errors.telefono} helperText={errors.telefono} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -361,21 +409,35 @@ function PopupRegistro({ onClose }) {
                     </CardContent>
 
                 </div>
+                </main>
+
+                <footer className="footer_registrar_curso">
                 <CardActions sx={{ justifyContent: 'center' }}>
                     <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
                 </CardActions>
-            </Card>
-            
+                </footer>
+            </div>
+
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJBien
-                            icon={ConfirmIcon}
-                            title="Registro Exitoso"
-                            message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
-                            buttonText="Cerrar"
-                            onClose={handleClose}
-                        />
+                        {isError ? (
+                            <PopupMSJBien   
+                                icon={ConfirmIcon} 
+                                title="Error en el Registro"
+                                message="Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde."
+                                buttonText="Cerrar"
+                                onClose={handleClose}
+                            />
+                        ) : (
+                            <PopupMSJBien
+                                icon={ConfirmIcon}
+                                title="Registro Exitoso"
+                                message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
+                                buttonText="Cerrar"
+                                onClose={handleClose}
+                            />
+                        )}
                     </div>
                 </div>
             )}
