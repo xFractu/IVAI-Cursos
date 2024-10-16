@@ -1,7 +1,6 @@
 .layout_registrar_curso{
     border-radius: 20px;
     background-color: #A35494;
-    padding-top: 1vw;
     padding-left: 2vw;
     padding-right: 2vw;
     padding-bottom: 1vw;
@@ -10,6 +9,7 @@
 
 .header_registrar_curso{
     color: white;
+    height: 8vw;
   }
   .footer_registrar_Curso {
 
@@ -36,4 +36,143 @@
   }
 
 
+  .card-header{
+    color: white;
+    width: 100%;
+    margin-left: -2vw;
+  }
+
+  .lbl-salir-header{
+    color: white;
+    font-size: 1.5vw;
+    font-weight: bold;
+
+  }
+
+  .lbl-campos-obligatorios{
+    max-width: auto;
+    max-height: auto;
+    color: white;
+    font-size: .8vw;
+  }
+
+  .div-datos-personales{
+    align-items: center;
+    text-align: center;
+  }
+
+  .lbl-datos-personales{
+    color: white;
+    font-size: 1vw;
+    font-weight: bold;
+    margin-bottom: 1vw;
+    text-align: center;
+    align-items: center;
+  }
+
+
+
+  .ScrollRegistro{
+    height: 100vw;
+  }
+
+  
+@media (max-width: 1280px) {
+
+    .layout_registrar_curso{
+        height: 40vw;
+        padding-top: 1vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        padding-bottom: 1vw;
+    }
+
+    .ScrollRegistro{
+        height: 25vw;
+    }
+
+
+    
+  .lbl-salir-header{
+    font-size: 1.5vw;
+
+  }
+
+  .lbl-campos-obligatorios{
+    font-size: 1vw;
+  }
+
+  .lbl-datos-personales{
+    font-size: 1.5vw;
+  }
+
+
+}
+
+@media (max-width: 1024px) {
+    .layout_registrar_curso{
+        margin-top: 5vw;
+        margin-bottom: 5vw;
+        height: 55vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        padding-bottom: 1vw;
+    }
+
+    .ScrollRegistro{
+        height: 37vw;
+    }
+
+
+    
+  .lbl-salir-header{
+    font-size: 2vw;
+
+  }
+
+  .lbl-campos-obligatorios{
+    font-size: 1.2vw;
+  }
+
+  .lbl-datos-personales{
+    font-size: 1.7vw;
+  }
+
+
+}
+  
+
+@media (max-width: 800px) {
+
+
+    .layout_registrar_curso{
+        margin-top: 2vw;
+        margin-bottom: 2vw;
+        height: 50vw;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        padding-bottom: 1vw;
+    }
+
+    .ScrollRegistro{
+        height: 28vw;
+    }
+
+
+    
+  .lbl-salir-header{
+    font-size: 2vw;
+
+  }
+
+  .lbl-campos-obligatorios{
+    font-size: 1.2vw;
+  }
+
+  .lbl-datos-personales{
+    font-size: 1.7vw;
+  }
+
+
+}
   
