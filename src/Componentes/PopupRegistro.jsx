@@ -7,8 +7,8 @@ import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
 function PopupRegistro({ onClose }) {
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [dataRegistro, setDataRegistro] = useState({
         nombre: '',
@@ -365,30 +365,20 @@ function PopupRegistro({ onClose }) {
                     <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
                 </CardActions>
             </Card>
-
-            {isPopupOpen && <PopupMSJBien onClose={handleClose} />}
-
-
-            {/* { {isPopupOpen && (
+            
+            {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-
-                    {isPopupOpen && <PopupMSJBien onClose={handleClose} />}
-
-                        
-                        
                         <PopupMSJBien
                             icon={ConfirmIcon}
                             title="Registro Exitoso"
                             message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
-                            buttonText="Aceptar"
+                            buttonText="Cerrar"
                             onClose={handleClose}
                         />
-
-
                     </div>
                 </div>
-            )} } */}
+            )}
         </>
     )
 }
