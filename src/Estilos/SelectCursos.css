@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .layout_Select{
     border-radius: 20px;
     background-color: #A35494;
@@ -27,6 +29,21 @@
     padding-right: 5vh;
     height: 100%;
 
+  }
+
+  .textoBusqueda {
+    font-size: 30px;
+    display: inline-block;
+    min-width: 15vw;
+  }
+
+  .cuadroBusqueda {
+    min-width: 38vw;
+  }
+
+  .cuadroBusqueda::placeholder {
+    font-size: 1em;
+    color: #B1B1B1;
   }
   
   .main_Select {
