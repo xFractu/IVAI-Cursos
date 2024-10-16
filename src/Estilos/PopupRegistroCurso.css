@@ -1,27 +1,29 @@
-
-.layout_Modificar_Curso{
+.layout_registrar_curso{
     border-radius: 20px;
     background-color: #A35494;
-    padding-top: 2vh;
-    margin-top: 26vh;
+    padding-top: 1vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 1vw;
+    margin-top: 0vh;
 }
 
-.header_Modificar_Curso{
+.header_registrar_curso{
     color: white;
   }
-  .footer_Modificar_Curso {
+  .footer_registrar_Curso {
 
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
-    padding-top: 2vh;
-    padding-right: 5vh;
+    padding-top: 2vw;
+    padding-right: 0vw;
     height: 100%;
 
   }
   
-  .main_Modificar_Curso{
+  .main_registrar_curso{
     flex-grow: 1;
     max-height: 50vh;
     overflow-y: scroll;
@@ -29,8 +31,8 @@
     scrollbar-width: none;
   }
   
-  .footer_Modificar_Curso {
-    padding-bottom: 2vh;
+  .footer_registrar_curso {
+    padding-bottom: 0vw;
   }
 
 

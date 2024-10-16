@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
+import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
@@ -75,7 +76,9 @@ function PopupRegistro({ onClose }) {
 
     return (
         <>
-            <Card variant="elevation" sx={{ maxWidth: '100%', maxHeight: '100vh', backgroundColor: '#A35494', margin: 2, justifyContent: 'center', borderRadius: 5, padding: 3 }}>
+        <div className='layout_registrar_curso'>
+
+            <header className="header_registrar_curso">
                 <CardHeader
                     sx={{ color: '#FFFFFF', width: '100%', marginLeft: -5 }}
                     title={
@@ -102,6 +105,10 @@ function PopupRegistro({ onClose }) {
                         </Grid>
                     }
                 />
+
+                </header>
+
+                <main className="main_registar_curso">
                 <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold', marginBottom: 2, textAlign: 'center' }}>
                     Datos Personales
                 </Typography>
@@ -361,13 +368,22 @@ function PopupRegistro({ onClose }) {
                     </CardContent>
 
                 </div>
+                </main>
+
+                <footer className="footer_registrar_curso">
                 <CardActions sx={{ justifyContent: 'center' }}>
                     <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
                 </CardActions>
-            </Card>
-
-            {isPopupOpen && <PopupMSJBien onClose={handleClose} />}
-
+                </footer>
+            </div>
+                
+            {isPopupOpen && (
+                <div className="popup-overlay-confirmation">
+                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                    <PopupMSJBien onClose={handleClose} />
+                    </div>
+                </div>
+            )}
 
             {/* { {isPopupOpen && (
                 <div className="popup-overlay-confirmation">

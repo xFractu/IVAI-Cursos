@@ -59,7 +59,9 @@ function CardInfo(Props) {
             {isPopupOpen && (
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupRegistro onClose={handleClosePopup} />
+                        <div className= "pupup-responsive">
+                            <PopupRegistro onClose={handleClosePopup} />
+                        </div>
                     </div>
                 </div>
             )}
