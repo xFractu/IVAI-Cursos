@@ -10,6 +10,8 @@ function PopupRegistro({ onClose }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    const [errors, setErrors] = useState({}); 
+
     const [dataRegistro, setDataRegistro] = useState({
         nombre: '',
         apellidos: '',
@@ -28,9 +30,34 @@ function PopupRegistro({ onClose }) {
         idCurso: window.localStorage.getItem('id')
     })
 
+     const validateFields = () => {
+        const newErrors = {};
+
+        if (!dataRegistro.nombre) newErrors.nombre = "El nombre es obligatorio.";
+        if (!dataRegistro.apellidos) newErrors.apellidos = "Los apellidos son obligatorios.";
+        if (!dataRegistro.correo) {
+            newErrors.correo = "El correo electrónico es obligatorio.";
+        } else if (!/\S+@\S+\.\S+/.test(dataRegistro.correo)) {
+            newErrors.correo = "El correo no es válido.";
+        }
+        if (!dataRegistro.telefono) {
+            newErrors.telefono = "El teléfono es obligatorio.";
+        } else if (!/^\d{10}$/.test(dataRegistro.telefono)) {
+            newErrors.telefono = "El teléfono debe tener 10 dígitos.";
+        }
+
+        return newErrors;
+    };
+
     const handleRegistration = async () => {
+        const validationErrors = validateFields();
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors); 
+            return;
+        }
+
         try {
-            const response = await axios.post('http://localhost:4567/registrarse', dataRegistro)
+            const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
             console.log(dataRegistro);
             setIsPopupOpen(true);
             return response;
@@ -42,6 +69,7 @@ function PopupRegistro({ onClose }) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setDataRegistro({ ...dataRegistro, [name]: value });
+        setErrors({ ...errors, [name]: '' });
     };
 
     const handleSwitchChange = (e) => {
@@ -113,7 +141,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Nombre(s)*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField required name='nombre' fullWidth variant='outlined' size="small" onChange={handleInputChange} sx={{
+                                <TextField required name='nombre' fullWidth variant='outlined' size="small" onChange={handleInputChange} error={!!errors.nombre} helperText={errors.nombre} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -127,7 +155,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Apellidos*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth name='apellidos' variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                <TextField fullWidth name='apellidos' variant="outlined" size="small" onChange={handleInputChange} error={!!errors.apellidos} helperText={errors.apellidos} sx={{
                                     backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -321,7 +349,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Correo electrónico institucional*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField name='correo' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                <TextField name='correo' fullWidth variant="outlined" size="small" onChange={handleInputChange} error={!!errors.correo} helperText={errors.correo} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -335,7 +363,7 @@ function PopupRegistro({ onClose }) {
                                 <Typography variant="body2">Telefono institucional*:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField name='telefono' fullWidth variant="outlined" size="small" onChange={handleInputChange} sx={{
+                                <TextField name='telefono' fullWidth variant="outlined" size="small" onChange={handleInputChange} error={!!errors.telefono} helperText={errors.telefono} sx={{
                                     backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                     '& .MuiOutlinedInput-root': {
                                         borderRadius: '15px',
@@ -365,7 +393,7 @@ function PopupRegistro({ onClose }) {
                     <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
                 </CardActions>
             </Card>
-            
+
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
