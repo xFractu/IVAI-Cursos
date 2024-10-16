@@ -13,9 +13,6 @@ function PopupCrearCurso({ onClose }) {
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
 
-    
-
-
     const getTiposCurso = async () => {
         try {
             const response = await fetch('http://localhost:4567/tipos');
