@@ -10,7 +10,7 @@ function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, but
         evento.preventDefault();
         if (onAction) onAction();
         if (reloadCursos) reloadCursos();
-        if (onClose) onClose();  
+        if (onClose) onClose();
     };
 
     return (
@@ -26,9 +26,9 @@ function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, but
                     </Typography>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'center' }}>
-                    <Button 
-                        onClick={handleButtonClick} 
-                        sx={{ backgroundColor: '#E7B756', color: '#1E1E1E', minWidth: 150, marginBottom: 2, ...buttonStyle }} 
+                    <Button
+                        onClick={handleButtonClick}
+                        sx={{ backgroundColor: '#E7B756', color: '#1E1E1E', minWidth: 150, marginBottom: 2, ...buttonStyle }}
                         variant="contained"
                     >
                         {buttonText}

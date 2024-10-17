@@ -174,7 +174,7 @@ body {
     border: 2px solid transparent;
 }
 
-  .IconoSalir {
+.IconoSalir {
     filter: invert(100%) sepia(1%) saturate(7482%) hue-rotate(145deg) brightness(107%) contrast(100%);
     width: 6vw;
     height: 6vh;
@@ -258,13 +258,8 @@ body {
     vertical-align: middle;
 }
 
-
-/*FOOTER*/
-
-
-
 .footer {
-    grid-row: 3; /* Coloca el footer en la tercera fila del grid */
+    grid-row: 3;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -333,8 +328,6 @@ body {
         margin-left: 0vw;
     }
 
-
-
     .privacy-title{
         font-size: 1.7vw;
 
@@ -379,8 +372,6 @@ body {
     }
 
 }
-
-
 
 @media (max-width: 1024px) {
 

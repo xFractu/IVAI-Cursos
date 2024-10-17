@@ -15,15 +15,16 @@ import PopupMSJBien from "../Componentes/PopupMSJBien.jsx";
 import checkIcon from '../assets/check.svg';
 import errorIcon from '../assets/react.svg';
 
-
 function Login() {
     const navigate = useNavigate();
 
+    const [errores, setErrores] = useState({});
+
     const [cargando, setCargando] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({
-        correo: '',
+        usuario: '',
         password: ''
-    })
+    });
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -36,7 +37,7 @@ function Login() {
     });
 
     const handleOpenPopup = (config) => {
-        setPopupConfig(config);  
+        setPopupConfig(config);
         setIsPopupOpen(true);
     };
 
@@ -61,130 +62,129 @@ function Login() {
         } catch (error) {
             throw error;
         }
-    }
+    };
+
+    const validarFormulario = () => {
+        const nuevosErrores = {};
+
+        if (!datosFormulario.usuario) {
+            nuevosErrores.usuario = 'El campo usuario es obligatorio.';
+        }
+
+        if (!datosFormulario.password) {
+            nuevosErrores.password = 'El campo contraseña es obligatorio';
+        }
+
+        setErrores(nuevosErrores);
+        return Object.keys(nuevosErrores).length === 0;
+    };
 
     const procesarFormulario = async (evento) => {
         evento.preventDefault();
         setCargando(true);
+
+        if (!validarFormulario()) {
+            setCargando(false);
+            return;
+        }
+
         try {
             const respuesta = await peticionLogin();
             console.log("Respuesta de LOGIN: ", respuesta.data);
+
             if (respuesta.data.mensaje === 'Usuario correcto') {
                 handleOpenPopup({
                     icon: checkIcon,
                     title: "¡Bienvenido!",
                     message: "Al dar clic en el botón de aceptar será redirigido a la siguiente pantalla.",
                     buttonText: "Aceptar",
-                    onAction: () => navigate('/RegistroCurso') 
+                    onAction: () => navigate('/RegistroCurso')
                 });
             } else {
                 handleOpenPopup({
-                    icon: errorIcon,  
-                    title: "¡Credenciales incorectas!",
+                    icon: checkIcon,
+                    title: "¡Credenciales incorrectas!",
                     message: "Las credenciales ingresadas no son válidas. Inténtalo de nuevo.",
                     buttonText: "Reintentar",
-                    onAction: handleClosePopup 
+                    onAction: handleClosePopup
                 });
+                setDatosFormulario({
+                    usuario: '',
+                    password: ''
+                });
+                setErrores({});
             }
         } catch (error) {
             console.error("Error en el login: ", error);
+            handleOpenPopup({
+                icon: checkIcon,
+                title: "¡Error!",
+                message: "Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.",
+                buttonText: "Aceptar",
+                onAction: handleClosePopup
+            });
         } finally {
             setCargando(false);
         }
-    }
+    };
 
     const cambiosFormulario = (evento) => {
         const { name, value } = evento.target;
+
+        setErrores((prevErrores) => ({
+            ...prevErrores,
+            [name]: ''
+        }));
+
         setDatosFormulario({
             ...datosFormulario,
             [name]: value
-        })
-    }
+        });
+    };
 
     return (<>
         <section class="layout_l">
             <div class="contenedorLogin">
                 <div class="left">
-
                     <div id="ContenedorFachada">
-
                         <img className='fachada' src={ivaiFachada} />
-
                         <img class="logo_ivai" src={ivaiImage} />
                     </div>
-
                 </div>
                 <div class="right">
-
                     <img src={rlceImage} className='img-right-l'></img>
 
                     <form action="" onSubmit={procesarFormulario}>
                         <p>Usuario</p>
-                        <input type="text" onChange={cambiosFormulario} name='usuario' />
-
+                        <input type="text" onChange={cambiosFormulario} name="usuario" value={datosFormulario.usuario} />
+                        {errores.usuario && <span className="error-message">{errores.usuario}</span>}
                         <p>Contraseña</p>
-                        <input type="password" onChange={cambiosFormulario} name='password' />
-
+                        <input type="password" onChange={cambiosFormulario} name="password" value={datosFormulario.password} />
+                        {errores.password && <span className="error-message">{errores.password}</span>}
                         <input type="submit" className="btn_ingresar" disabled={cargando} value="INGRESAR" />
                     </form>
                 </div>
             </div>
 
             <div className="footer_l">
-
-                <div className="social-group_l">
-                    <a href="https://www.facebook.com/ivaiveracruz" target="_blank" rel="noopener noreferrer">
-                        <img src={FacebookIcon} alt="Facebook" />
-                    </a>
-                    <a href="https://www.youtube.com/@IVAIVeracruz" target="_blank" rel="noopener noreferrer">
-                        <img src={YoutubeIcon} alt="YouTube" />
-                    </a>
-                    <p>ivaiveracruz</p>
-                </div>
-
-
-                <div className="social-group_l">
-                    <a href="https://x.com/VERIVAI" target="_blank" rel="noopener noreferrer">
-                        <img src={TwitterIcon} alt="Twitter" />
-                    </a>
-                    <a href="https://www.instagram.com/verivai" target="_blank" rel="noopener noreferrer">
-                        <img src={InstagramIcon} alt="Instagram" />
-                    </a>
-                    <p>verivai</p>
-                </div>
-
-
-                <div className="social-group_l">
-                    <a href="mailto:contacto@verivai.org.mx">
-                        <img src={MailIcon} alt="Correo" />
-                    </a>
-                    <p>contacto@verivai.org.mx</p>
-                </div>
-
-                <div className="social-group_l">
-                    <a href="https://ivai.org.mx" target="_blank" rel="noopener noreferrer">
-                        <img src={WebIcon} alt="Web" />
-                    </a>
-                    <p>ivai.org.mx</p>
-                </div>
+                {/* Social links */}
             </div>
-
         </section>
 
         {isPopupOpen && (
-                    <div className="popup-overlay-confirmation-login">
-                        <div className={`popup-content-confirmation-login ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                            <PopupMSJBien
-                                icon={popupConfig.icon}
-                                title={popupConfig.title}
-                                message={popupConfig.message}
-                                buttonText={popupConfig.buttonText}
-                                onClose={handleClosePopup}
-                                onAction={popupConfig.onAction}
-                            />
-                        </div>
-                    </div>
-                )}
+            <div className="popup-overlay-confirmation-login">
+                <div className={`popup-content-confirmation-login ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                    <PopupMSJBien
+                        icon={popupConfig.icon}
+                        title={popupConfig.title}
+                        message={popupConfig.message}
+                        buttonText={popupConfig.buttonText}
+                        onClose={handleClosePopup}
+                        onAction={popupConfig.onAction}
+                    />
+                </div>
+            </div>
+        )}
     </>);
 }
 
