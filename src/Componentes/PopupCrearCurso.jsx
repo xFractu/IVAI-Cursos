@@ -2,7 +2,8 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, T
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState, useEffect } from 'react';
 import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
-import Arrow from '../assets/arrow.svg'
+import Arrow from '../assets/cerrar2.svg'
+import '../Estilos/PopupAgregarCurso.css'
 import '../Principal/Principal.css'
 import axios from 'axios';
 import PopupMSJBien from './PopupMSJBien.jsx'
@@ -77,36 +78,42 @@ function PopupCrearCurso({ onClose }) {
 
     return (
         <>
-            <Card variant='elevation' sx={{ maxWidth: '100%', maxHeight: '100vh', backgroundColor: '#A35494', margin: 0, justifyContent: 'center', borderRadius: 5, padding: 3 }}>
-                <CardHeader
+
+            <div className='layout_agregar_curso'>
+            <header className="header_agregar_curso">
+            <CardHeader
                     sx={{ color: '#FFFFFF', width: '100%', marginLeft: -5 }}
                     title={
                         <Grid container justifyContent='space-between' alignItems='center'>
                             <Grid item>
-                                <Grid container alignItems='center'>
-                                    <img
-                                        src={Arrow}
-                                        alt='Web'
-                                        className='IconoSalir'
-                                        onClick={onClose}
-                                    />
-                                    <Typography variant='h6' sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold' }}>
-                                        Salir
-                                    </Typography>
-                                </Grid>
+                        
                             </Grid>
-                            <Grid item sx={{ alignItems: 'start', marginLeft: -7 }}>
+                            <Grid item>
+                        
+                        </Grid>
+                            <Grid item sx={{ alignItems: 'start', marginLeft: -20 }}>
                                 <Typography variant='h4' sx={{ color: '#FFFFFF', fontWeight: 'bold', marginBottom: 0, textAlign: 'center', maxWidth: 'auto', maxHeight: 'auto' }}>
                                     Agregar Curso
                                 </Typography>
                             </Grid>
-                            <Grid item>
 
+                            <Grid item>
+                            
+                                <img
+                                        src={Arrow}
+                                        alt="Web"
+                                        className='IconoSalir'
+                                        onClick={onClose}
+                                    />
                             </Grid>
+
                         </Grid>
                     }
                 />
 
+                </header>
+
+                <main className="main_agregar_curso">
                 <div className='ScrollRegistro'>
 
                     <CardContent sx={{ color: '#FFFFFF' }}>
@@ -368,15 +375,19 @@ function PopupCrearCurso({ onClose }) {
                     </CardContent>
 
                 </div>
+                </main>
+
+                <footer className="footer_agregar_curso">
 
                 <CardActions sx={{ justifyContent: 'center' }}>
                     <Button onClick={handleSubmit} variant='contained' sx={{ width: '10vw', backgroundColor: '#E7B756', color: '#1E1E1E', marginTop: 2 }}>Guardar</Button>
                 </CardActions>
-            </Card>
+                </footer>
+            </div>
 
             {isPopupOpen && (
-                <div className="popup-overlay-confirmation">
-                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                <div className="popup-overlay-confirmation-agregar">
+                    <div className={`popup-confirmation-agregar ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <PopupMSJBien
                             icon={ConfirmIcon}
                             title="Registro Exitoso"

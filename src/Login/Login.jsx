@@ -172,8 +172,8 @@ function Login() {
         </section>
 
         {isPopupOpen && (
-                    <div className="popup-overlay-confirmation">
-                        <div className={`popup-content-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                    <div className="popup-overlay-confirmation-login">
+                        <div className={`popup-content-confirmation-login ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                             <PopupMSJBien
                                 icon={popupConfig.icon}
                                 title={popupConfig.title}

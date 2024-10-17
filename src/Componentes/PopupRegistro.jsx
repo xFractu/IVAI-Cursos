@@ -1,11 +1,12 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconButton, Grid, TextField, Select, MenuItem, ToggleButton, ToggleButtonGroup, Switch, Stack, Grid2 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
-import Arrow from '../assets/arrow.svg'
+import Arrow from '../assets/cerrar2.svg'
 import '../Principal/Principal.css'
 import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
+import { Height } from '@mui/icons-material';
 
 function PopupRegistro({ onClose }) {
 
@@ -121,25 +122,23 @@ function PopupRegistro({ onClose }) {
                 <CardHeader className="card-header"
                     
                     title={
-                        <Grid container justifyContent="space-between" alignItems="center">
+                        <Grid className='grid-header'>
                             <Grid item>
                                 <Grid container alignItems="center">
-                                    <img
+                                <label className='lbl-campos-obligatorios' >
+                                    Los campos marcados con <br />
+                                    asterisco (*) son obligatorios
+                                </label>
+                                </Grid>
+                            </Grid>
+                            <Grid item>
+                            
+                                <img
                                         src={Arrow}
                                         alt="Web"
                                         className='IconoSalir'
                                         onClick={onClose}
                                     />
-                                    <label className='lbl-salir-header' >
-                                        Salir
-                                    </label>
-                                </Grid>
-                            </Grid>
-                            <Grid item>
-                                <label className='lbl-campos-obligatorios' >
-                                    Los campos marcados con <br />
-                                    asterisco (*) son obligatorios
-                                </label>
                             </Grid>
                         </Grid>
                     }
@@ -148,11 +147,6 @@ function PopupRegistro({ onClose }) {
                 </header>
 
                 <main className="main_registar_curso">
-                    <div className='div-datos-personales'>
-                        <label className='lbl-datos-personales'>
-                            Datos Personales
-                        </label>
-                    </div>
                 <div className='ScrollRegistro'>
 
                     <CardContent sx={{ color: '#FFFFFF' }}>
@@ -419,8 +413,8 @@ function PopupRegistro({ onClose }) {
             </div>
 
             {isPopupOpen && (
-                <div className="popup-overlay-confirmation">
-                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                <div className="popup-overlay-confirmation-registro">
+                    <div className={`popup-confirmation-registro ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         {isError ? (
                             <PopupMSJBien   
                                 icon={ConfirmIcon} 

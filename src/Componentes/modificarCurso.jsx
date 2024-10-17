@@ -2,7 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, T
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState } from 'react';
 import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
-import Arrow from '../assets/arrow.svg'
+import Arrow from '../assets/cerrar2.svg'
 import '../Principal/Principal.css'
 import { Label } from '@mui/icons-material';
 
@@ -36,24 +36,20 @@ function PopupModificarCurso({ onClose }) {
                     sx={{ color: '#FFFFFF', width: '100%', marginLeft: -5 }}
                     title={
                         <Grid container justifyContent="space-between" alignItems="center">
-                            <Grid item>
-                                <Grid container alignItems="center" >
-                                    <img
-                                        src={Arrow}
-                                        alt="Web"
-                                        className='IconoSalir'
-                                        onClick={onClose}
-                                        
-                                    />
-                                    <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontWeight: 'bold' }}>
-                                        Salir
-                                    </Typography>
-                                </Grid>
-                            </Grid>
+                            
                             <Grid item sx={{ alignItems: 'start', marginLeft: -7 }}>
                                 <Typography variant="h4" sx={{ color: '#FFFFFF', fontWeight: 'bold', marginBottom: 0, textAlign: 'center', maxWidth: 'auto', maxHeight: 'auto' }}>
                                     Modificar Curso
                                 </Typography>
+                            </Grid>
+
+                            <Grid item>
+                            <img
+                                        src={Arrow}
+                                        alt="Web"
+                                        className='IconoSalir'
+                                        onClick={onClose}
+                                    />
                             </Grid>
                             <Grid item>
 
@@ -275,7 +271,7 @@ function PopupModificarCurso({ onClose }) {
                 <footer className="footer_Select">
                     
                     <CardActions sx={{ justifyContent: 'center' }}>
-                        <Button onClick={handleOpenConfirmation} variant="contained" sx={{ width: '10vw' ,backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Guardar</Button>
+                        <Button onClick={handleOpenConfirmation} variant="contained" sx={{ width: '10vw' ,backgroundColor: '#E7B756', color: "#1E1E1E"}}>Guardar</Button>
                     </CardActions>
 
                 </footer>

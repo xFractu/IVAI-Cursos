@@ -21,7 +21,7 @@ function AdminPrincipal() {
                     </h1>
                     <img src={ivaiImage} alt="" className="header-img-left" />
                 </div>
-                <div className='Main'>
+                <div className='Main-Admin'>
                     <div className='BotonesAdmin'>
                         <RegistroMain/>
                     </div>
