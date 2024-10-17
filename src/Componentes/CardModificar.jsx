@@ -48,7 +48,7 @@ function CardModificar(Props) {
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Persona que imparte el curso : {Props.ExpositorCurso}</Typography>
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Modalidad: {Props.ModalidadCurso}</Typography>
                     <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Fecha: {Props.FechaCurso}</Typography>
-                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Horaa: {Props.HoraCurso}</Typography>
+                    <Typography variant="body2" sx ={{ fontSize:'2.5vh'}}>Hora: {Props.HoraCurso}</Typography>
                 </CardContent>
 
                 <CardActions>

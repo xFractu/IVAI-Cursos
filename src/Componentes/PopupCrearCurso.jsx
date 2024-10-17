@@ -139,6 +139,8 @@ function PopupCrearCurso({ onClose }) {
                                             borderRadius: '15px',
                                         }
                                     }} />
+
+                                {/* <input type='date' name='fecha' onChange={handleInputChange} */}
                             </Grid>
                         </Grid>
 
