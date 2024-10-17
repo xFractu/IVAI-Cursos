@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled, Input } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState, useEffect } from 'react';
 import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
@@ -7,11 +7,12 @@ import '../Principal/Principal.css'
 import axios from 'axios';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import ConfirmIcon from '../assets/check.svg';
-import { DocumentScannerTwoTone } from '@mui/icons-material';
 
 function PopupCrearCurso({ onClose }) {
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
+    const [isLoading, setLoading] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const getTiposCurso = async () => {
         try {
@@ -50,8 +51,6 @@ function PopupCrearCurso({ onClose }) {
     })
 
 
-    const [isLoading, setLoading] = useState(false);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -131,16 +130,13 @@ function PopupCrearCurso({ onClose }) {
                                 <Typography variant='body2'>Fecha:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size='small' name='fecha'
-                                    value={DataCurso.fecha}
+                            <TextField fullWidth type='date' variant='outlined' size='small' name='fecha'
                                     onChange={handleInputChange} sx={{
-                                        backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
                                         }
-                                    }} />
-
-                                {/* <input type='date' name='fecha' onChange={handleInputChange} */}
+                                    }}/>
                             </Grid>
                         </Grid>
 
@@ -149,7 +145,7 @@ function PopupCrearCurso({ onClose }) {
                                 <Typography variant='body2'>Hora:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size='small' name='hora'
+                                <TextField fullWidth type='time' variant='outlined' size='small' name='hora'
                                     onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
