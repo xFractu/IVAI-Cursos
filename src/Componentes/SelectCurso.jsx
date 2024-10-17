@@ -26,7 +26,8 @@ function SelectCurso({ onClose }) {
     }
 
     const cursosFiltrados = dataCursos.filter(curso =>
-        curso.nombreCurso.toLowerCase().includes(cursoBuscado.toLowerCase())
+        curso.nombreCurso.toLowerCase().includes(cursoBuscado.toLowerCase()) ||
+        curso.fecha.toLowerCase().includes(cursoBuscado.toLowerCase())
     );
 
     return (
@@ -37,7 +38,7 @@ function SelectCurso({ onClose }) {
                 <header className="header_Select">
                     <h1>Seleccione el curso a modificar:</h1>
                     <label htmlFor='campoBusqueda' className='textoBusqueda'><strong>Buscar Curso: </strong></label>
-                    <input type='text' id='campoBusqueda' className='cuadroBusqueda' placeholder='Nombre del Curso' onChange={(e) => setCursoBuscado(e.target.value)}></input>
+                    <input type='text' id='campoBusqueda' className='cuadroBusqueda' placeholder='Ingrese el nombre o fecha del curso (Año-Mes-Día)' onChange={(e) => setCursoBuscado(e.target.value)}></input>
                 </header>
 
                 <main className="main_Select">

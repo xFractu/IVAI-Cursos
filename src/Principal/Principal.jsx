@@ -17,7 +17,6 @@ function Principal() {
 
     const [dataCursos, setDataCurso] = useState([]);
 
-    useEffect(() => {
         const getCursos = async () => {
             try {
                 const response = await fetch('http://localhost:4567/obtenerCursos');
@@ -27,12 +26,14 @@ function Principal() {
                 console.error('Error al obtener los registros de curso:', error);
             }
         };
-        getCursos();
-    }, []);
 
     const handleLocal = (idCurso) => {
         window.localStorage.setItem('id', idCurso);
     }
+
+    useEffect(() => {
+        getCursos(); 
+    }, []);
 
     return (
         <>
@@ -54,6 +55,9 @@ function Principal() {
                                         ModalidadCurso={curso.modalidad}
                                         ExpositorCurso={curso.imparte}
                                         HoraCurso={curso.hora}
+                                        CupoDisponible={curso.estatusCupo}
+                                        Cupo={curso.cupo}
+                                        reloadCursos={getCursos}
                                     />
                                 </div>
                             ))

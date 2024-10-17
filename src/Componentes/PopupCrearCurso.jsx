@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
+import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled, Input } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState, useEffect } from 'react';
 import PopupMSJConfirmacion from './PopupMSJConfirmacion.jsx'
@@ -7,12 +7,12 @@ import '../Principal/Principal.css'
 import axios from 'axios';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import ConfirmIcon from '../assets/check.svg';
-import { DocumentScannerTwoTone } from '@mui/icons-material';
 
 function PopupCrearCurso({ onClose }) {
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
-    const [validationErrors, setValidationErrors] = useState({});
+    const [isLoading, setLoading] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const getTiposCurso = async () => {
         try {
@@ -50,60 +50,7 @@ function PopupCrearCurso({ onClose }) {
         valorCurricular: ''
     })
 
-    const validateForm = () => {
-        let errors = {};
 
-        if (!DataCurso.nombreCurso.trim()) {
-            errors.nombreCurso = 'El nombre del curso es obligatorio';
-        }
-
-        if (!DataCurso.fecha) {
-            errors.fecha = 'La fecha es obligatoria';
-        }
-
-        if (!DataCurso.Hora) {
-            errors.Hora = 'La hora es obligatoria';
-        }
-
-        if (!DataCurso.imparte.trim()) {
-            errors.imparte = 'El nombre de la persona que imparte el curso es obligatorio';
-        }
-
-        if (DataCurso.Cupo <= 0) {
-            errors.Cupo = 'El cupo debe ser mayor a 0';
-        }
-
-        if (!DataCurso.modalidad) {
-            errors.modalidad = 'La modalidad es obligatoria';
-        } else if (DataCurso.modalidad === 'Presencial' && !DataCurso.direccion.trim()) {
-            errors.direccion = 'La dirección es obligatoria para cursos presenciales';
-        } else if (DataCurso.modalidad === 'Virtual' && !DataCurso.ligaTeams.trim()) {
-            errors.ligaTeams = 'La liga de Teams es obligatoria para cursos virtuales';
-        }
-
-        if (!DataCurso.tipo) {
-            errors.tipo = 'El tipo de curso es obligatorio';
-        }
-
-        if (!DataCurso.estatusCurso) {
-            errors.tipo = 'El estatus del curso es obligatorio';
-        }
-
-        if (!DataCurso.curso) {
-            errors.curso = 'Debe seleccionar un curso';
-        }
-
-        if (!DataCurso.valorCurricular || DataCurso.valorCurricular <= 0) {
-            errors.valorCurricular = 'El valor curricular debe ser mayor a 0';
-        }
-
-        setValidationErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
-
-
-    const [isLoading, setLoading] = useState(false);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -188,15 +135,13 @@ function PopupCrearCurso({ onClose }) {
                                 <Typography variant='body2'>Fecha:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size='small' name='fecha'
-                                    value={DataCurso.fecha}
-                                    onChange={handleInputChange} error={!!validationErrors.fecha}
-                                    helperText={validationErrors.fecha} sx={{
-                                        backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
+                            <TextField fullWidth type='date' variant='outlined' size='small' name='fecha'
+                                    onChange={handleInputChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
                                         }
-                                    }} />
+                                    }}/>
                             </Grid>
                         </Grid>
 
@@ -205,10 +150,8 @@ function PopupCrearCurso({ onClose }) {
                                 <Typography variant='body2'>Hora:</Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField fullWidth variant='outlined' size='small' name='hora'
-                                    onChange={handleInputChange}
-                                    error={!!validationErrors.Hora}
-                                    helperText={validationErrors.Hora} sx={{
+                                <TextField fullWidth type='time' variant='outlined' size='small' name='hora'
+                                    onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',

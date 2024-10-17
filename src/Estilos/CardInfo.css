@@ -30,9 +30,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-
 }
-
 
 .Card-Content .Card-Actions{
     max-width: 100%;
@@ -42,6 +40,23 @@
 .Card-Titulo {
     font-weight: bold;
     font-size: 1.2em;
+}
+
+#cupoDisponible {
+    text-align: end;
+    margin-bottom: -5vh;
+    margin-right: 0.5vw;
+}
+
+#numeroCupoDisponible {
+    border-radius: 10px;
+    padding-right: 0.5vw;
+    padding-left: 0.5vw;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    display: inline;
+    margin-top: -5vh;
+    margin-bottom: -5vh;
 }
 
 .Info-Card {
@@ -58,10 +73,6 @@
     display: flex;
     justify-content: flex-end;
 }   
-
-
-
-
 
 .Card-Titulo{
     font-size: 1.5vw;
