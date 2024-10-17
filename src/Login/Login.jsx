@@ -120,7 +120,7 @@ function Login() {
                 icon: checkIcon,
                 title: "¡Error!",
                 message: "Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.",
-                buttonText: "Aceptar",
+                buttonText: "Aceptarr",
                 onAction: handleClosePopup
             });
         } finally {
