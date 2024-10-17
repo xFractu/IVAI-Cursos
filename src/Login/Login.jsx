@@ -42,7 +42,7 @@ function Login() {
     };
 
     const handleClosePopup = () => {
-        const popup = document.querySelector('.popup-overlay-confirmation');
+        const popup = document.querySelector('.popup-overlay-confirmation-login');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
