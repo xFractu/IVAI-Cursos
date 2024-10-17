@@ -11,8 +11,8 @@ import ConfirmIcon from '../assets/check.svg';
 function PopupCrearCurso({ onClose }) {
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
-    const [isLoading, setLoading] = useState(false);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const [fecha, setFecha] = useState('');
 
     const getTiposCurso = async () => {
         try {
@@ -22,6 +22,8 @@ function PopupCrearCurso({ onClose }) {
         } catch (error) {
             console.error('Error al obtener los tipos de curso:', error);
         }
+        const [isLoading, setLoading] = useState(false);
+        const [isPopupOpen, setIsPopupOpen] = useState(false);
     };
 
     useEffect(() => {
@@ -32,6 +34,14 @@ function PopupCrearCurso({ onClose }) {
 
         fetchTiposCurso();
     }, []);
+
+    const formatearFecha = (fecha) => {
+        const fechaObj = new Date(fecha);
+        const year = fechaObj.getFullYear();
+        const month = (`0${fechaObj.getMonth() + 1}`).slice(-2); // Mes en formato de 2 dígitos
+        const day = (`0${fechaObj.getDate()}`).slice(-2); // Día en formato de 2 dígitos
+        return `${year}-${month}-${day}`;
+    };
 
     const [DataCurso, setDataCurso] = useState({
         nombreCurso: '',
@@ -58,20 +68,16 @@ function PopupCrearCurso({ onClose }) {
     };
 
     const handleSubmit = async () => {
-        if (validateForm()) {
-            try {
-                const respuesta = await axios.post("http://localhost:4567/registroCurso", DataCurso);
-                console.log("Respuesta de peticion: " + respuesta);
-                setIsPopupOpen(true);
-                return respuesta;
-            } catch (error) {
-                console.error('Error al registrar el curso:', error);
-            }
-        } else {
-            console.log('Errores en el formulario:', validationErrors);
-        }
-    };
+        try {
 
+            const respuesta = await axios.post("http://localhost:4567/registroCurso", DataCurso);
+            console.log("Respuesta de peticion: " + respuesta);
+            setIsPopupOpen(true);
+            return respuesta;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     const handleClose = () => {
         setIsPopupOpen(false);
@@ -120,8 +126,7 @@ function PopupCrearCurso({ onClose }) {
                             <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='nombreCurso'
                                     value={DataCurso.nombreCurso}
-                                    onChange={handleInputChange} error={!!validationErrors.nombreCurso}
-                                    helperText={validationErrors.nombreCurso} sx={{
+                                    onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px',
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
@@ -171,8 +176,6 @@ function PopupCrearCurso({ onClose }) {
                                     size='small'
                                     name='modalidad'
                                     value={DataCurso.modalidad}
-                                    error={!!validationErrors.modalidad}
-                                    helperText={validationErrors.modalidad}
                                     onChange={handleInputChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
@@ -194,15 +197,13 @@ function PopupCrearCurso({ onClose }) {
                                     <Typography variant="body2">Dirección:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField fullWidth variant='outlined' size='small' name='direccion'
-                                        onChange={handleInputChange} 
-                                        error={!!validationErrors.direccion}
-                                    helperText={validationErrors.direccion}sx={{
-                                            backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: '15px',
-                                            }
-                                        }} />
+                                <TextField fullWidth variant='outlined' size='small' name='direccion'
+                                    onChange={handleInputChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                                 </Grid>
                             </Grid>
                         )}
@@ -213,15 +214,13 @@ function PopupCrearCurso({ onClose }) {
                                     <Typography variant="body2">Liga Teams:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField fullWidth variant='outlined' size='small' name='ligaTeams'
-                                        onChange={handleInputChange} 
-                                        error={!!validationErrors.ligaTeams}
-                                    helperText={validationErrors.ligaTeams}sx={{
-                                            backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
-                                            '& .MuiOutlinedInput-root': {
-                                                borderRadius: '15px',
-                                            }
-                                        }} />
+                                <TextField fullWidth variant='outlined' size='small' name='ligaTeams'
+                                    onChange={handleInputChange} sx={{
+                                        backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '15px',
+                                        }
+                                    }} />
                                 </Grid>
                             </Grid>
                         )}
@@ -233,9 +232,7 @@ function PopupCrearCurso({ onClose }) {
                             <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='imparte'
                                     value={DataCurso.imparte}
-                                    onChange={handleInputChange} 
-                                    error={!!validationErrors.imparte}
-                                    helperText={validationErrors.imparte}sx={{
+                                    onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
@@ -250,9 +247,7 @@ function PopupCrearCurso({ onClose }) {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField fullWidth variant='outlined' size='small' name='estatusCupo'
-                                    onChange={handleInputChange} 
-                                    error={!!validationErrors.estatusCupo}
-                                    helperText={validationErrors.estatusCupo}sx={{
+                                    onChange={handleInputChange} sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '15px',
@@ -289,8 +284,6 @@ function PopupCrearCurso({ onClose }) {
                                     size='small'
                                     name='estatusCurso'
                                     value={DataCurso.estatusCurso}
-                                    error={!!validationErrors.estatusCurso}
-                                    helperText={validationErrors.estatusCurso}
                                     onChange={handleInputChange}
                                     sx={{
                                         backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
@@ -364,7 +357,7 @@ function PopupCrearCurso({ onClose }) {
                                 </Select>
                             </Grid>
                         </Grid>
-
+                        
                         <Grid container item xs={12} alignItems='center' spacing={2}>
                             <Grid item xs={6}>
                                 <Typography variant='body2'>Valor Curricular en Horas:</Typography>
