@@ -112,6 +112,17 @@ function PopupRegistro({ onClose }) {
         onClose();
     };
 
+    const handleClosePopup = () => {
+        const popup = document.querySelector('.popup-overlay-confirmation');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpen(false);
+            }, 300);
+        }
+    };
+
     return (
         <>
         <div className='layout_registrar_curso'>
@@ -427,7 +438,7 @@ function PopupRegistro({ onClose }) {
                                 title="Error en el Registro"
                                 message="Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde."
                                 buttonText="Cerrar"
-                                onClose={handleClose}
+                                onClose={handleClosePopup}
                             />
                         ) : (
                             <PopupMSJBien
