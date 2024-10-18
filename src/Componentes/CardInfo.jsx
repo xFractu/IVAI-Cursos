@@ -47,7 +47,7 @@ function CardInfo(Props) {
                     <CardContent className='Card-Contenido' sx={{ color: '#FFFFFF', marginLeft: 1, marginTop: 1 }}>
                         <div className="Card-Container">
                             <div className="Card-Content">
-                                <label className="Card-Titulo" id="cupoDisponible">Lugares Disponibles: <p id="numeroCupoDisponible" style={{ backgroundColor: obtenerColorCupo(Props.CupoDisponible, Props.Cupo) }}>{Props.CupoDisponible}</p></label>
+                                <label className="Card-Lugares" id="cupoDisponible">Cupos:<p id="numeroCupoDisponible" style={{ backgroundColor: obtenerColorCupo(Props.CupoDisponible, Props.Cupo) }}>{Props.CupoDisponible}</p></label>
                                 <label className="Card-Titulo">{Props.NombreCurso}</label><br />
                                 <div className="Info-Card">
                                     <label className="Card-text" variant="body2">Persona que imparte el curso: {Props.ExpositorCurso}</label>

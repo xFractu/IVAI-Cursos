@@ -40,11 +40,19 @@
 .Card-Titulo {
     font-weight: bold;
     font-size: 1.2em;
+    max-width: 70%;
+}
+
+.Card-Lugares{
+    font-weight: bold;
+    font-size: 1.2em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
 }
 
 #cupoDisponible {
     text-align: end;
-    margin-bottom: -5vh;
+    margin-bottom: -3vh;
     margin-right: 0.5vw;
 }
 

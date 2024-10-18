@@ -154,7 +154,7 @@ function Login() {
                 <div class="right">
                     <img src={rlceImage} className='img-right-l'></img>
 
-                    <form action="" onSubmit={procesarFormulario}>
+                    <form action="" className='form-login' onSubmit={procesarFormulario}>
                         <p>Usuario</p>
                         <input type="text" onChange={cambiosFormulario} name="usuario" value={datosFormulario.usuario} />
                         {errores.usuario && <span className="error-message">{errores.usuario}</span>}

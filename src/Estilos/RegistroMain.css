@@ -82,9 +82,9 @@
 
 .popup-overlay-confirmation {
   position: fixed;
-  top: -60vh;
-  left: -50vw;
-  width: 200vw;
+  top: 0vh;
+  right: -40vw;
+  width: 150vw;
   height: 200vh;
   padding-bottom: 5vh;
   background: rgba(0, 0, 0, 0.5);
@@ -97,8 +97,8 @@
 
 .popup-confirmation {
   position: fixed;
-  top: 8vh;
-  left: -37vw;
+  top: 50vh;
+  left: -42vw;
   width: 100vw;
   height: 110vh;
   background: rgba(0, 0, 0, 0);

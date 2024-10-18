@@ -137,7 +137,7 @@ function PopupRegistro({ onClose }) {
     };
 
     const handleClosePopup = () => {
-        const popup = document.querySelector('.popup-overlay-confirmation-registro');
+        const popup = document.querySelector('.popup-overlay-confirmation');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
@@ -446,8 +446,8 @@ function PopupRegistro({ onClose }) {
             </div>
 
             {isPopupOpen && (
-                <div className="popup-overlay-confirmation-registro">
-                    <div className={`popup-confirmation-registro ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                <div className="popup-overlay-confirmation">
+                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         {isError ? (
                             <PopupMSJBien
                                 icon={ErrorIcon}

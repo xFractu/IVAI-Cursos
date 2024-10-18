@@ -22,7 +22,7 @@
 #ContenedorFachada {
     position: relative;
     width: 100%;
-    height: 94vh; 
+    height: 100vh; 
     overflow: hidden;
 }
 
@@ -40,7 +40,7 @@
 
 .logo_ivai {
     position: absolute;
-    top: 0px;
+    top: 5%;
     left: 25%;
     height: 85vh;
     border: none;
@@ -52,6 +52,14 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-login{
+    display: flex;
+    flex-direction: column;
+    gap: .1vw; 
     align-items: center;
     justify-content: center;
 }
@@ -71,7 +79,8 @@
 
 input {
     border: 0.1vh solid #A35494; 
-    border-radius: 15px; 
+    color: #A35494;
+    border-radius: 10px; 
     padding-left: 0.5vw;
     padding-right: 0.5vw;
     font-size: 1.5rem; 
@@ -90,12 +99,12 @@ input:focus {
     background-color: #A35494;
     color: white; 
     border: none;
-    border-radius: 25px; 
+    border-radius: 10px; 
     font-size: 1.1vw;
     cursor: pointer; 
     transition: background-color 0.3s ease; 
     margin-top: 4vh; 
-    height: 8vh;
+    height: 5vh;
     width: 100vh; 
     max-width: 13vw; 
     margin-bottom: 12vh;
