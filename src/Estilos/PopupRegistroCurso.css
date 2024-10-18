@@ -1,15 +1,27 @@
 .layout_registrar_curso{
     border-radius: 20px;
     background-color: #A35494;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    margin-top: 4vw;
+    margin-bottom: 4vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
     padding-bottom: 1vw;
-    margin-top: 0vh;
 }
 
 .header_registrar_curso{
     color: white;
-    height: 8vw;
+    height: 5vw;
+    padding-top: .5vw;
+    max-width: 100%;
+  }
+  .grid-header{
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
+    justify-content: space-between;
+    align-items: center; 
+    display: flex;
+    width: 100%;
   }
   .footer_registrar_Curso {
 
@@ -25,7 +37,7 @@
   
   .main_registrar_curso{
     flex-grow: 1;
-    max-height: 50vh;
+    max-height: 40vh;
     overflow-y: scroll;
     max-width: 100%;
     scrollbar-width: none;
@@ -38,8 +50,7 @@
 
   .card-header{
     color: white;
-    width: 100%;
-    margin-left: -2vw;
+    max-width: 100%;
   }
 
   .lbl-salir-header{
@@ -59,13 +70,15 @@
   .div-datos-personales{
     align-items: center;
     text-align: center;
+    margin-top: -1vw;
+    padding-bottom: 1vw;
   }
 
   .lbl-datos-personales{
     color: white;
-    font-size: 1vw;
+    font-size: 1.5vw;
     font-weight: bold;
-    margin-bottom: 1vw;
+    padding-bottom: 1vw;
     text-align: center;
     align-items: center;
   }
@@ -73,7 +86,7 @@
 
 
   .ScrollRegistro{
-    height: 100vw;
+    height: 90vw;
   }
 
   
@@ -81,6 +94,7 @@
 
     .layout_registrar_curso{
         height: 40vw;
+
         padding-top: 1vw;
         padding-left: 2vw;
         padding-right: 2vw;
@@ -88,7 +102,11 @@
     }
 
     .ScrollRegistro{
-        height: 25vw;
+        height: 27.5vw;
+    }
+
+    .header_registrar_curso{
+        padding-top: 0vw;
     }
 
 
@@ -120,9 +138,10 @@
     }
 
     .ScrollRegistro{
-        height: 37vw;
+        height: 38vw;
     }
 
+    
 
     
   .lbl-salir-header{
@@ -135,7 +154,8 @@
   }
 
   .lbl-datos-personales{
-    font-size: 1.7vw;
+    font-size: 1.9vw;
+    margin-top: 20vw;
   }
 
 

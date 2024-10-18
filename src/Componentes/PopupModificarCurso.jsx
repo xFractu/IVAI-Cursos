@@ -1,8 +1,8 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
-import Arrow from '../assets/arrow.svg'
 import '../Principal/Principal.css'
+import Arrow from '../assets/cerrar2.svg'
 import Axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
@@ -107,27 +107,29 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                         title={
                             <Grid container justifyContent="space-between" alignItems="center">
                                 <Grid item>
-                                    <Grid container alignItems="center" >
-                                        <img
-                                            src={Arrow}
-                                            alt="Web"
-                                            className='IconoSalir'
-                                            onClick={onClose}
 
-                                        />
-                                        <Typography variant="h6" sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '3vh', fontWeight: 'bold' }}>
-                                            Salir
-                                        </Typography>
-                                    </Grid>
                                 </Grid>
+                                <Grid item>
+
+                                </Grid>
+                                
+                                
                                 <Grid item sx={{ alignItems: 'start' }}>
                                     <Typography variant="h4" sx={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: '4vh', marginBottom: 0, textAlign: 'center', maxWidth: 'auto', maxHeight: 'auto', paddingRight: '3vw' }}>
                                         Modificar Curso
                                     </Typography>
                                 </Grid>
-                                <Grid item>
 
-                                </Grid>
+
+                                <Grid item sx = {{marginRight:"1vw"}}>
+                            
+                            <img
+                                    src={Arrow}
+                                    alt="Web"
+                                    className='IconoSalir'
+                                    onClick={onClose}
+                                />
+                        </Grid>
                             </Grid>
                         }
                     />
@@ -426,8 +428,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
             </div>
 
             {isPopupOpen && (
-                <div className="popup-overlay-confirmation">
-                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                <div className="popup-overlay-confirmation-modificar">
+                    <div className={`popup-confirmation-modificar ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <PopupMSJBien
                             icon={ConfirmIcon}
                             title="Modificación exitosa"

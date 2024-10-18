@@ -1,5 +1,6 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import '../Principal/Principal.css';
+import '../Estilos/PopupMSJ.css';
 import { useNavigate } from 'react-router-dom';
 
 function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, buttonStyle = {}, cardStyle = {}, reloadCursos }) {
@@ -14,7 +15,9 @@ function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, but
 
     return (
         <>
-            <Card variant="outlined" sx={{ maxWidth: '40%', minHeight: '50%', borderRadius: 5, zIndex: 2, marginLeft: 20, ...cardStyle }}>
+
+            <div className = "popup-msj-contenedor">
+            <Card variant="outlined" sx={{ minWidth: '20vw', minHeight: '25vw',maxWidth: '20vw', maxHeight: '25vw', borderRadius: 5, zIndex: 2, marginLeft: 20, ...cardStyle }}>
                 <CardContent sx={{ textAlign: 'center' }}>
                     {icon && <img src={icon} className="IconoCard" alt="Popup Icon" />}
                     <Typography variant="h4">{title}</Typography>
@@ -32,6 +35,8 @@ function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, but
                     </Button>
                 </CardActions>
             </Card>
+            </div>
+
         </>
     );
 }

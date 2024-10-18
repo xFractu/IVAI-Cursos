@@ -1,11 +1,12 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconButton, Grid, TextField, Select, MenuItem, ToggleButton, ToggleButtonGroup, Switch, Stack, Grid2 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
-import Arrow from '../assets/arrow.svg'
+import Arrow from '../assets/cerrar2.svg'
 import '../Principal/Principal.css'
 import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
+import { Height } from '@mui/icons-material';
 import ErrorIcon from '../assets/error.svg';
 
 function PopupRegistro({ onClose }) {
@@ -136,7 +137,7 @@ function PopupRegistro({ onClose }) {
     };
 
     const handleClosePopup = () => {
-        const popup = document.querySelector('.popup-overlay-confirmation');
+        const popup = document.querySelector('.popup-overlay-confirmation-registro');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
@@ -150,44 +151,36 @@ function PopupRegistro({ onClose }) {
         <>
             <div className='layout_registrar_curso'>
 
-
-                <header className="header_registrar_curso">
-                    <CardHeader className="card-header"
-
-                        title={
-                            <Grid container justifyContent="space-between" alignItems="center">
-                                <Grid item>
-                                    <Grid container alignItems="center">
-                                        <img
-                                            src={Arrow}
-                                            alt="Web"
-                                            className='IconoSalir'
-                                            onClick={onClose}
-                                        />
-                                        <label className='lbl-salir-header' >
-                                            Salir
-                                        </label>
-                                    </Grid>
-                                </Grid>
-                                <Grid item>
-                                    <label className='lbl-campos-obligatorios' >
-                                        Los campos marcados con <br />
-                                        asterisco (*) son obligatorios
-                                    </label>
+            <header className="header_registrar_curso">
+                <CardHeader className="card-header"
+                    
+                    title={
+                        <Grid className='grid-header'>
+                            <Grid item>
+                                <Grid container alignItems="center">
+                                <label className='lbl-campos-obligatorios' >
+                                    Los campos marcados con <br />
+                                    asterisco (*) son obligatorios
+                                </label>
                                 </Grid>
                             </Grid>
-                        }
-                    />
+                            <Grid item>
+                            
+                                <img
+                                        src={Arrow}
+                                        alt="Web"
+                                        className='IconoSalir'
+                                        onClick={onClose}
+                                    />
+                            </Grid>
+                        </Grid>
+                    }
+                />
 
                 </header>
 
                 <main className="main_registar_curso">
-                    <div className='div-datos-personales'>
-                        <label className='lbl-datos-personales'>
-                            Datos Personales
-                        </label>
-                    </div>
-                    <div className='ScrollRegistro'>
+                <div className='ScrollRegistro'>
 
                         <CardContent sx={{ color: '#FFFFFF' }}>
                             <Grid container item xs={12} alignItems="center" spacing={2}>
@@ -453,8 +446,8 @@ function PopupRegistro({ onClose }) {
             </div>
 
             {isPopupOpen && (
-                <div className="popup-overlay-confirmation">
-                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                <div className="popup-overlay-confirmation-registro">
+                    <div className={`popup-confirmation-registro ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         {isError ? (
                             <PopupMSJBien
                                 icon={ErrorIcon}

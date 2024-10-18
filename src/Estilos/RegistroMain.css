@@ -74,7 +74,9 @@
 
 .popup-content-compo-1 {
   border-radius: 10px;
-  width: 45%;
+  padding-top: 20vw;
+  width: 45vw;
+  height: 70vw;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
 }
 
@@ -96,7 +98,7 @@
 .popup-confirmation {
   position: fixed;
   top: 8vh;
-  left: -27vw;
+  left: -37vw;
   width: 100vw;
   height: 110vh;
   background: rgba(0, 0, 0, 0);
@@ -105,3 +107,126 @@
   align-items: center;
   z-index: 2;
 }
+
+
+
+
+
+.popup-overlay-confirmation-registro {
+  position: fixed;
+  top: -60vh;
+  left: -50vw;
+  width: 200vw;
+  height: 200vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.popup-confirmation-registro {
+  position: fixed;
+  top: 0vh;
+  left: -28vw;
+  min-width: 70vw;
+  min-height: 100vw;
+  width: 10vw;
+  height: 10vh;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+
+
+.popup-overlay-confirmation-agregar {
+  position: fixed;
+  top: -60vh;
+  left: -50vw;
+  width: 200vw;
+  height: 200vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.popup-confirmation-agregar {
+  position: fixed;
+  top: 5.5vh;
+  left: -35.5vw;
+  width: 100vw;
+  height: 110vh;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+
+.popup-overlay-confirmation-modificar {
+  position: fixed;
+  top: 0vh;
+  left: -50vw;
+  width: 200vw;
+  height: 200vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.popup-confirmation-modificar {
+  position: fixed;
+  top: 65vh;
+  left: -44vw;
+  width: 100vw;
+  height: 110vh;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+
+.popup-overlay-confirmation-login {
+  position: fixed;
+  top: -40vh;
+  left: -65vw;
+  width: 200vw;
+  height: 200vh;
+  padding-bottom: 5vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+.popup-confirmation-login {
+  position: fixed;
+  top: 0vh;
+  left: -44vw;
+  width: 100vw;
+  height: 110vh;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+

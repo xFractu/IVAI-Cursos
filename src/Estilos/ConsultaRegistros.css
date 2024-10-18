@@ -33,7 +33,7 @@ body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr;
-    min-height: 100vh; 
+    min-height: 100vh;
     padding-bottom: 0;
 }
 
@@ -58,7 +58,7 @@ body {
     max-height: 15vw;
     width: auto;
     margin-left: 2vw;
-    
+
 }
 
 
@@ -93,115 +93,62 @@ body {
     min-height: 60vh;
 }
 
-.NoCursos {
+.table-Container {
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: auto;
-    min-height: 30vh;
-    max-width: 70%;
-    text-align: center;
-    padding-right: 2vw;
+    max-height: 40vh;
 }
 
-.InfoCursos {
-    max-height: 75vh;
-    overflow-y: scroll;
-    max-width: 90%;
-
+table {
+    border-collapse: collapse;
 }
 
-.InfoCursos:hover {
-    overflow-y: scroll;
+table,
+th,
+td {
+    border: 2px solid #A35494;
 }
 
-.InfoCursos::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .InfoCursos::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .InfoCursos::-webkit-scrollbar-thumb {
-    background-color: #E7B756;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    transition: background-color 0.3s ease;
-  }
+td {
+    max-height: 10vh;
+}
 
-.BotonesAdmin {
-    margin-top: 10vh;
-    max-height: 100vh;
-    overflow-y: scroll;
-    max-width: 1000%;
-    scrollbar-width: none;
-    margin-bottom: 10vh;
+th {
+    font-size: large;
+    padding: 30px;
+    border: #B1B1B1;
+}
+
+.back-icon {
+    margin-top: 2vh;
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
-.BotonArchivos {
-  background-color: #FFFFFF;
-}
-
-.IconoCard {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    filter: invert(45%) sepia(21%) saturate(1418%) hue-rotate(260deg) brightness(83%) contrast(82%);;
-    max-width: 60%;
-    max-height: 60%;
-}
-
-.ScrollRegistro {
-    max-height: 70vh;
-    overflow-y: scroll;
-}
-
-.ScrollRegistro::-webkit-scrollbar {
-    width: 8px;
-}
-
-.ScrollRegistro::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.ScrollRegistro::-webkit-scrollbar-thumb {
-    background-color: #E8ABCE;
-    border-radius: 10px;
-    border: 2px solid transparent;
-}
-
-.IconoSalir {
+.icon {
     filter: invert(100%) sepia(1%) saturate(7482%) hue-rotate(145deg) brightness(107%) contrast(100%);
     width: 6vw;
     height: 6vh;
     cursor: pointer;
-    margin-right: -2.5vw;
-    margin-top: -.5vw;
-  }
-  .IconoSalir:hover {
-    filter: invert(90%) sepia(20%) saturate(6840%) hue-rotate(205deg) brightness(101%) contrast(103%);
-  }
-  
-.ScrollRegistro::-webkit-scrollbar-thumb:hover {
+}
+
+.icon:hover {
     filter: invert(90%) sepia(20%) saturate(6840%) hue-rotate(205deg) brightness(101%) contrast(103%);
 }
 
-.Salir {
+.icon-text {
+    font-size: large;
+}
+
+.table-Data {
+    text-align: center;
+}
+
+.button-Container {
     display: flex;
-    flex-direction: row;
-    margin-top: -4%;
-    gap: 10px;
-}
-
-.responsive-image {
-    filter: invert(100%) sepia(1%) saturate(7482%) hue-rotate(145deg) brightness(107%) contrast(100%);
-    width: 15%;
-    height: auto;
-    display: block;
+    justify-content: center;
+    min-height: 10vh;
 }
 
 .privacy-notice {
@@ -301,17 +248,17 @@ body {
 
 @media (max-width: 1280px) {
 
-    body{
+    body {
         max-width: 100%;
         width: 100%;
         overflow-x: hidden;
     }
 
-    
+
     .InfoCursos {
         max-height: 80.5vh;
         max-width: 100%;
-        width:90vw;
+        width: 90vw;
     }
 
     .header-img-left {
@@ -323,21 +270,21 @@ body {
         margin-left: 1vw;
     }
 
-    .header-title{
+    .header-title {
         font-size: clamp(5vw, 4vw, 3.5rem);
         margin-left: 0vw;
     }
 
-    .privacy-title{
+    .privacy-title {
         font-size: 1.7vw;
 
     }
 
-    .privacy-text{
+    .privacy-text {
         font-size: 1.3vw;
     }
 
-    .dir{
+    .dir {
         font-size: 1.7vw;
     }
 
@@ -348,25 +295,25 @@ body {
         max-height: 20vh;
     }
 
-    .footer{
+    .footer {
         height: 2vw;
     }
 
     .footer p {
         font-size: 1.5vw;
     }
-    
-    
+
+
     .footer .social-group {
         padding-left: 2vw;
         padding-right: 2vw;
         gap: .5vw;
     }
-    
+
     .footer .social-group a {
         margin: 2px;
     }
-    
+
     .footer .social-group img {
         width: 3vw;
     }
@@ -375,11 +322,11 @@ body {
 
 @media (max-width: 1024px) {
 
-    
+
     .InfoCursos {
         max-height: 80.5vh;
         max-width: 100%;
-        width:90vw;
+        width: 90vw;
     }
 
     .header-img-left {
@@ -391,20 +338,20 @@ body {
         margin-left: 4vw;
     }
 
-    .header-title{
+    .header-title {
         font-size: clamp(6vw, 4vw, 3.5rem);
     }
 
-    .privacy-title{
+    .privacy-title {
         font-size: 2.2vw;
 
     }
 
-    .privacy-text{
+    .privacy-text {
         font-size: 1.8vw;
     }
 
-    .dir{
+    .dir {
         font-size: 2.1vw;
     }
 
@@ -415,25 +362,25 @@ body {
         max-height: 20vh;
     }
 
-    .footer{
+    .footer {
         height: 3vw;
     }
 
     .footer p {
         font-size: 1.5vw;
     }
-    
-    
+
+
     .footer .social-group {
         padding-left: 2vw;
         padding-right: 2vw;
         gap: .5vw;
     }
-    
+
     .footer .social-group a {
         margin: 2px;
     }
-    
+
     .footer .social-group img {
         width: 3vw;
     }
@@ -458,20 +405,20 @@ body {
         margin-left: 4vw;
     }
 
-    .header-title{
+    .header-title {
         font-size: clamp(6vw, 4vw, 3.5rem);
     }
 
-    .privacy-title{
+    .privacy-title {
         font-size: 2.5vw;
 
     }
 
-    .privacy-text{
+    .privacy-text {
         font-size: 2vw;
     }
 
-    .dir{
+    .dir {
         font-size: 2.2vw;
     }
 
@@ -482,25 +429,25 @@ body {
         max-height: 20vh;
     }
 
-    .footer{
+    .footer {
         height: 3vw;
     }
 
     .footer p {
         font-size: 1.8vw;
     }
-    
-    
+
+
     .footer .social-group {
         padding-left: 2vw;
         padding-right: 4vw;
         gap: .5vw;
     }
-    
+
     .footer .social-group a {
         margin: 2px;
     }
-    
+
     .footer .social-group img {
         width: 3vw;
     }
@@ -526,22 +473,22 @@ body {
         margin-left: 2vw;
     }
 
-    .header-title{
+    .header-title {
         font-size: clamp(9.5vw, 4vw, 3.5rem);
         margin-left: 20vw;
     }
 
-    .privacy-title{
+    .privacy-title {
         font-size: 4vw;
 
     }
 
-    .privacy-text{
+    .privacy-text {
         display: none;
         font-size: 1.5vw;
     }
 
-    .dir{
+    .dir {
         font-size: 4vw;
     }
 
@@ -552,29 +499,29 @@ body {
         max-height: 20vh;
     }
 
-    .footer{
+    .footer {
         height: 8vw;
     }
 
     .footer p {
         font-size: 2.5vw;
     }
-    
-    
+
+
     .footer .social-group {
         padding-left: 1vw;
         padding-right: 2vw;
         gap: .5vw;
     }
-    
+
     .footer .social-group a {
         margin: 2px;
     }
-    
+
     .footer .social-group img {
         width: 6vw;
     }
-    
+
 }
 
 
@@ -596,24 +543,24 @@ body {
         margin-left: 2vw;
     }
 
-    .header-title{
+    .header-title {
         font-size: clamp(10vw, 4vw, 3.5rem);
         margin-left: 25vw;
         width: 5vw;
         word-wrap: break-word;
     }
 
-    .privacy-title{
+    .privacy-title {
         font-size: 4vw;
 
     }
 
-    .privacy-text{
+    .privacy-text {
         display: none;
         font-size: 1.5vw;
     }
 
-    .dir{
+    .dir {
         font-size: 4vw;
     }
 
@@ -624,27 +571,26 @@ body {
         max-height: 20vh;
     }
 
-    .footer{
+    .footer {
         height: 8vw;
     }
 
     .footer p {
         font-size: 2.5vw;
     }
-    
-    
+
     .footer .social-group {
         padding-left: 1vw;
         padding-right: 2vw;
         gap: .5vw;
     }
-    
+
     .footer .social-group a {
         margin: 2px;
     }
-    
+
     .footer .social-group img {
         width: 6vw;
     }
-    
+
 }
