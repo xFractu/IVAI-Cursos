@@ -13,6 +13,8 @@ function PopupRegistro({ onClose }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [errors, setErrors] = useState({});
 
     const [isError, setIsError] = useState(false);
@@ -66,9 +68,13 @@ function PopupRegistro({ onClose }) {
             return;
         }
 
+        setIsLoading(true);
+
         try {
             const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
             console.log(response.data);
+            setIsLoading(false);
+
             if (response.data === 'Registro Correcto' && response.status === 200) {
                 setDataError({
                     ...dataError,
@@ -77,7 +83,7 @@ function PopupRegistro({ onClose }) {
                 });
                 setIsError(false);
                 setIsPopupOpen(true);
-            }else if (response.data === 'Curso lleno' && response.status === 200) {
+            } else if (response.data === 'Curso lleno' && response.status === 200) {
                 setDataError({
                     ...dataError,
                     titulo: 'Curso Lleno',
@@ -96,10 +102,16 @@ function PopupRegistro({ onClose }) {
             }
         } catch (error) {
             console.error('Error al registrarse', error);
+            setIsLoading(false);
+            setDataError({
+                ...dataError,
+                titulo: 'Error en el Registro',
+                mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
+            });
             setIsError(true);
             setIsPopupOpen(true);
         }
-    }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -444,6 +456,12 @@ function PopupRegistro({ onClose }) {
                     </CardActions>
                 </footer>
             </div>
+
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="spinner">Cargando...</div>
+                </div>
+            )}
 
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
