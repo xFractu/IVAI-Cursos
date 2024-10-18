@@ -5,6 +5,7 @@ import AdminPrincipal from './RegistroCursos/AdminPrincipal.jsx'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {  createBrowserRouter, RouterProvider} from "react-router-dom";
+import ConsultaRegistros from './Componentes/ConsultaRegistros.jsx'
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/RegistroCurso",
     element: <AdminPrincipal/>
+  },
+  {
+    path: "/ConsultaRegistros",
+    element: <ConsultaRegistros/>
   }
 ])
 
