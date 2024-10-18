@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconBut
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/cerrar2.svg'
+import Cargando from '../imagenes/cargando.gif'
 import '../Principal/Principal.css'
 import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
@@ -458,8 +459,8 @@ function PopupRegistro({ onClose }) {
             </div>
 
             {isLoading && (
-                <div className="loading-overlay">
-                    <div className="spinner">Cargando...</div>
+                <div className="popup-overlay-confirmation">
+                    <div className="spinner"><img src={Cargando}/></div>
                 </div>
             )}
 
