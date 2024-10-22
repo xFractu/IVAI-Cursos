@@ -594,3 +594,21 @@ th {
     }
 
 }
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #6200ee; 
+  }
+  
+  input[type="checkbox"]:checked {
+    background-color: #6200ee;
+    border-color: #6200ee;
+  }
+  
+  input[type="checkbox"]:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  

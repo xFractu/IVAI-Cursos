@@ -76,6 +76,22 @@ function ConsultaRegistros() {
         navigate('/RegistroCurso');
     }
 
+    const handleSubmitEditar = async () => {
+
+        try {
+            console.log("Datos a enviar:", finalFormData);
+            const response = await Axios.put('http://localhost:4567/actualizarRegistro', finalFormData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            console.log(response.data);
+            setIsPopupOpen(true);
+        } catch (error) {
+            console.error("Error al actualizar el registro", error);
+        }
+    };
+
     return (
         <>
             <section className="layout">
@@ -86,7 +102,7 @@ function ConsultaRegistros() {
                 </div>
                 <div className='Main-Admin'>
                     <div className='back-icon'>
-                        <img src={Arrow} alt='Flecha Regresar' className='icon' onClick={handleNavigation}/>
+                        <img src={Arrow} alt='Flecha Regresar' className='icon' onClick={handleNavigation} />
                         <label className='icon-text'>Regresar</label>
                     </div>
                     <div className='table-Container'>
@@ -104,7 +120,7 @@ function ConsultaRegistros() {
                             </thead>
                             <tbody className='table-Data'>
                                 {dataRegistros.length > 0 ? (
-                                    dataRegistros.map((registro , index) => (
+                                    dataRegistros.map((registro, index) => (
                                         <tr key={index}>
                                             <td>{registro.nombre}</td>
                                             <td>{registro.apellidos}</td>
@@ -112,7 +128,39 @@ function ConsultaRegistros() {
                                             <td>{registro.telefono}</td>
                                             <td>{registro.correo}</td>
                                             <td>{registro.interprete}</td>
-                                            <td>{registro.asistencia}</td>
+                                            <td>
+                                                
+                                                <input
+                                                    type="checkbox"
+                                                    checked={registro.asistencia === 'true'}
+                                                    onChange={async (e) => {
+                                                        const asistenciaActualizada = e.target.checked ? 'true' : 'false';
+
+                                                        const updatedData = [...dataRegistros];
+                                                        updatedData[index].asistencia = asistenciaActualizada;
+                                                        setDataRegistros(updatedData);
+
+                                                        try {
+                                                            const response = await fetch('http://localhost:4567/actualizarRegistro', {
+                                                                method: 'PUT',
+                                                                headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                },
+                                                                body: JSON.stringify({
+                                                                    idRegistro: registro.idRegistro,
+                                                                    asistencia: asistenciaActualizada,
+                                                                }),
+                                                            });
+
+                                                            const data = await response.json();
+                                                            console.log('Respuesta del servidor:', data.mensaje);
+
+                                                        } catch (error) {
+                                                            console.error('Error al actualizar la asistencia:', error);
+                                                        }
+                                                    }}
+                                                />
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (
@@ -121,12 +169,13 @@ function ConsultaRegistros() {
                                     </tr>
                                 )}
                             </tbody>
+
                         </table>
                     </div>
                     <div className='button-Container'>
-                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Descargar Registros</Button>
-                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Agregar Registro</Button>
-                        <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Eliminar Registro</Button>
+                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Descargar Registros</Button>
+                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar Registro</Button>
+                        <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Eliminar Registro</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
@@ -183,7 +232,7 @@ function ConsultaRegistros() {
             {isPopupOpen && (
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <div className= "pupup-responsive">
+                        <div className="pupup-responsive">
                             <PopupRegistro onClose={handleClosePopup} />
                         </div>
                     </div>
