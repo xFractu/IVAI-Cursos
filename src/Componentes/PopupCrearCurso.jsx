@@ -210,7 +210,7 @@ function PopupCrearCurso({ onClose }) {
                                     <Typography variant='body2'>Fecha:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField fullWidth type='date' variant='outlined' size='small' name='fecha' inputRef={dateInputRef} onClick={handleDateInputClick}
+                                    <TextField fullWidth type='date' variant='outlined' size='small' name='fecha' inputRef={dateInputRef} onClick={handleDateInputClick} onChange={handleInputChange}
                                         error={!!errors.fecha} helperText={errors.fecha}
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
@@ -226,7 +226,7 @@ function PopupCrearCurso({ onClose }) {
                                     <Typography variant='body2'>Hora:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField fullWidth type='time' variant='outlined' size='small' name='hora' inputRef={timeInputRef} onClick={handleTimeInputClick}
+                                    <TextField fullWidth type='time' variant='outlined' size='small' name='hora' inputRef={timeInputRef} onClick={handleTimeInputClick} onChange={handleInputChange}
                                         error={!!errors.hora} helperText={errors.hora} sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {

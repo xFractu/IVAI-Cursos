@@ -52,7 +52,7 @@ function ConsultaRegistros() {
                 Props.reloadCursos()
                 document.body.style.overflow = "auto";
                 setScrollEnabled(true);
-            }, 300); // Duración de la animación de salida
+            }, 300);
         }
     };
 
@@ -71,6 +71,28 @@ function ConsultaRegistros() {
             console.error('Error al descargar el archivo:', error);
         }
     };
+
+    const eliminarRegistro = async (idRegistro, idCurso) => {
+        try {
+            const response = await fetch('http://localhost:4567/eliminarRegistro', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ idRegistro, idCurso }),
+            });
+    
+            if (response.ok) {
+                getRegistros(idCurso);
+            } else {
+                console.error('Error al eliminar el registro');
+            }
+        } catch (error) {
+            console.error('Error al eliminar el registro del curso:', error);
+        }
+    };
+
+    
 
     const handleNavigation = () => {
         navigate('/RegistroCurso');
@@ -161,21 +183,21 @@ function ConsultaRegistros() {
                                                     }}
                                                 />
                                             </td>
+                                            <td><label className='delete-register' onClick={() => eliminarRegistro(registro.idRegistro, registro.idCurso)}><u>Eliminar</u></label></td>
                                         </tr>
                                     ))
                                 ) : (
-                                    <tr>
-                                        <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
-                                    </tr>
-                                )}
+                                        <tr>
+                                            <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
+                                        </tr>
+                                    )}
                             </tbody>
 
                         </table>
                     </div>
                     <div className='button-Container'>
-                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Descargar Registros</Button>
-                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar Registro</Button>
-                        <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Eliminar Registro</Button>
+                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Descargar Registros</Button>
+                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Agregar Registro</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
