@@ -145,6 +145,13 @@ th {
     text-align: center;
 }
 
+
+
+.delete-register {
+    cursor: pointer;
+    padding: 1vw;
+}
+
 .button-Container {
     display: flex;
     justify-content: center;

@@ -52,7 +52,7 @@ function ConsultaRegistros() {
                 Props.reloadCursos()
                 document.body.style.overflow = "auto";
                 setScrollEnabled(true);
-            }, 300); // Duración de la animación de salida
+            }, 300);
         }
     };
 
@@ -72,6 +72,28 @@ function ConsultaRegistros() {
         }
     };
 
+    const eliminarRegistro = async (idRegistro, idCurso) => {
+        try {
+            const response = await fetch('http://localhost:4567/eliminarRegistro', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ idRegistro, idCurso }),
+            });
+    
+            if (response.ok) {
+                getRegistros(idCurso);
+            } else {
+                console.error('Error al eliminar el registro');
+            }
+        } catch (error) {
+            console.error('Error al eliminar el registro del curso:', error);
+        }
+    };
+
+    
+
     const handleNavigation = () => {
         navigate('/RegistroCurso');
     }
@@ -90,43 +112,43 @@ function ConsultaRegistros() {
                         <label className='icon-text'>Regresar</label>
                     </div>
                     <div className='table-Container'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>Sujeto Obligado</th>
-                                    <th>Teléfono</th>
-                                    <th>Correo Electrónico</th>
-                                    <th>Intérprete</th>
-                                    <th>Asistencia</th>
-                                </tr>
-                            </thead>
-                            <tbody className='table-Data'>
-                                {dataRegistros.length > 0 ? (
-                                    dataRegistros.map((registro , index) => (
-                                        <tr key={index}>
-                                            <td>{registro.nombre}</td>
-                                            <td>{registro.apellidos}</td>
-                                            <td>{registro.so}</td>
-                                            <td>{registro.telefono}</td>
-                                            <td>{registro.correo}</td>
-                                            <td>{registro.interprete}</td>
-                                            <td>{registro.asistencia}</td>
-                                        </tr>
-                                    ))
-                                ) : (
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Sujeto Obligado</th>
+                                        <th>Teléfono</th>
+                                        <th>Correo Electrónico</th>
+                                        <th>Intérprete</th>
+                                        <th>Asistencia</th>
                                     </tr>
-                                )}
+                                </thead>
+                                <tbody className='table-Data'>
+                                    {dataRegistros.length > 0 ? (
+                                        dataRegistros.map((registro , index) => (
+                                            <tr key={index}>
+                                                <td className='row-table'>{registro.nombre}</td>
+                                                <td>{registro.apellidos}</td>
+                                                <td>{registro.so}</td>
+                                                <td>{registro.telefono}</td>
+                                                <td>{registro.correo}</td>
+                                                <td>{registro.interprete}</td>
+                                                <td>{registro.asistencia}</td>
+                                                <td><label className='delete-register' onClick={() => eliminarRegistro(registro.idRegistro, registro.idCurso)}><u>Eliminar</u></label></td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
+                                        </tr>
+                                    )}
                             </tbody>
                         </table>
                     </div>
                     <div className='button-Container'>
                         <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Descargar Registros</Button>
                         <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Agregar Registro</Button>
-                        <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Eliminar Registro</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
