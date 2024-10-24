@@ -1,5 +1,5 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem, Grid2, styled } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Button, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import '../Principal/Principal.css'
 import Arrow from '../assets/cerrar2.svg'
@@ -11,6 +11,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
+    const dateInputRef = useRef(null);
+    const timeInputRef = useRef(null);
 
     const getTiposCurso = async () => {
         try {
@@ -66,6 +68,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                 ...formData,
                 [name]: value,
             });
+
         }
     };
 
@@ -90,6 +93,14 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         } catch (error) {
             console.error("Error al actualizar el curso", error);
         }
+    };
+
+    const handleDateInputClick = () => {
+        dateInputRef.current.showPicker();
+    };
+
+    const handleTimeInputClick = () => {
+        timeInputRef.current.showPicker();
     };
 
     const handleClose = () => {
@@ -173,7 +184,10 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                 <Grid item xs={6}>
                                     <TextField fullWidth variant="outlined" size="small"
                                         name="fecha"
+                                        type='date'
                                         value={formData.fecha}
+                                        inputRef={dateInputRef}
+                                        onClick={handleDateInputClick}
                                         onChange={handleChange} sx={{
                                             backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                             '& .MuiOutlinedInput-root': {
@@ -191,7 +205,10 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                     <TextField fullWidth variant="outlined" size="small"
                                         name="hora"
                                         value={formData.hora}
+                                        type='time'
                                         onChange={handleChange}
+                                        inputRef={timeInputRef} 
+                                        onClick={handleTimeInputClick}
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -203,7 +220,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
                             <Grid container item xs={12} alignItems='center' spacing={2}>
                                 <Grid item xs={6}>
-                                    <Typography variant='body2'>Modalidad:</Typography>
+                                    <Typography variant='body2' sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '2vh', fontWeight: 'bold' }}>Modalidad:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Select
@@ -230,7 +247,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                             {formData.modalidad === 'Presencial' && (
                                 <Grid container item xs={12} alignItems="center" spacing={2}>
                                     <Grid item xs={6}>
-                                        <Typography variant="body2">Dirección:</Typography>
+                                        <Typography variant="body2" sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '2vh', fontWeight: 'bold' }}>Dirección:</Typography>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <TextField fullWidth variant='outlined' size='small' value={formData.direccion} name='direccion'
@@ -313,7 +330,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
                             <Grid container item xs={12} alignItems='center' spacing={2}>
                                 <Grid item xs={6}>
-                                    <Typography variant='body2'>Estatus Curso:</Typography>
+                                    <Typography variant='body2' sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '2vh', fontWeight: 'bold' }}>Estatus Curso:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Select
@@ -340,7 +357,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
                             <Grid container item xs={12} alignItems='center' spacing={2}>
                                 <Grid item xs={6}>
-                                    <Typography variant='body2'>Tipo Curso:</Typography>
+                                    <Typography variant='body2' sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '2vh', fontWeight: 'bold' }}>Tipo Curso:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Select
@@ -371,7 +388,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
                             <Grid container item xs={12} alignItems='center' spacing={2}>
                                 <Grid item xs={6}>
-                                    <Typography variant='body2'>Curso:</Typography>
+                                    <Typography variant='body2' sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '2vh', fontWeight: 'bold' }}>Curso:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <Select
