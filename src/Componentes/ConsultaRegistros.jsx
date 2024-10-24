@@ -12,15 +12,17 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import PopupRegistro from './PopupRegistro';
 import { useNavigate } from 'react-router-dom';
-
+import ConfirmIcon from '../assets/check.svg';
 
 function ConsultaRegistros() {
 
-    const [dataRegistros, setDataRegistros] = useState({});
+    const [dataRegistros, setDataRegistros] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const id = window.localStorage.getItem('id');
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const registrosPerPage = 10;
 
     const getRegistros = async (idCurso) => {
         try {
@@ -81,7 +83,7 @@ function ConsultaRegistros() {
                 },
                 body: JSON.stringify({ idRegistro, idCurso }),
             });
-    
+
             if (response.ok) {
                 getRegistros(idCurso);
             } else {
@@ -92,11 +94,31 @@ function ConsultaRegistros() {
         }
     };
 
-    
-
     const handleNavigation = () => {
         navigate('/RegistroCurso');
     }
+
+    const handleRegistroExitoso = () => {
+        getRegistros(id);
+    };
+
+    const indexOfLastRegistro = currentPage * registrosPerPage;
+    const indexOfFirstRegistro = indexOfLastRegistro - registrosPerPage;
+    const currentRegistros = dataRegistros.slice(indexOfFirstRegistro, indexOfLastRegistro);
+
+    const totalPages = Math.ceil(dataRegistros.length / registrosPerPage);
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     return (
         <>
@@ -108,47 +130,86 @@ function ConsultaRegistros() {
                 </div>
                 <div className='Main-Admin'>
                     <div className='back-icon'>
-                        <img src={Arrow} alt='Flecha Regresar' className='icon' onClick={handleNavigation}/>
+                        <img src={Arrow} alt='Flecha Regresar' className='icon' onClick={handleNavigation} />
                         <label className='icon-text'>Regresar</label>
                     </div>
                     <div className='table-Container'>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
-                                        <th>Sujeto Obligado</th>
-                                        <th>Teléfono</th>
-                                        <th>Correo Electrónico</th>
-                                        <th>Intérprete</th>
-                                        <th>Asistencia</th>
-                                    </tr>
-                                </thead>
-                                <tbody className='table-Data'>
-                                    {dataRegistros.length > 0 ? (
-                                        dataRegistros.map((registro , index) => (
-                                            <tr key={index}>
-                                                <td className='row-table'>{registro.nombre}</td>
-                                                <td>{registro.apellidos}</td>
-                                                <td>{registro.so}</td>
-                                                <td>{registro.telefono}</td>
-                                                <td>{registro.correo}</td>
-                                                <td>{registro.interprete}</td>
-                                                <td>{registro.asistencia}</td>
-                                                <td><label className='delete-register' onClick={() => eliminarRegistro(registro.idRegistro, registro.idCurso)}><u>Eliminar</u></label></td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Sujeto Obligado</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo Electrónico</th>
+                                    <th>Intérprete</th>
+                                    <th>Asistencia</th>
+                                </tr>
+                            </thead>
+                            <tbody className='table-Data'>
+                                {currentRegistros.length > 0 ? (
+                                    currentRegistros.map((registro, index) => (
+                                        <tr key={index}>
+                                            <td>{registro.nombre}</td>
+                                            <td>{registro.apellidos}</td>
+                                            <td>{registro.so}</td>
+                                            <td>{registro.telefono}</td>
+                                            <td>{registro.correo}</td>
+                                            <td>{registro.interprete}</td>
+                                            <td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={registro.asistencia === 'true'}
+                                                    onChange={async (e) => {
+                                                        const asistenciaActualizada = e.target.checked ? 'true' : 'false';
+
+                                                        const updatedData = [...dataRegistros];
+                                                        updatedData[index].asistencia = asistenciaActualizada;
+                                                        setDataRegistros(updatedData);
+
+                                                        try {
+                                                            const response = await fetch('http://localhost:4567/actualizarRegistro', {
+                                                                method: 'PUT',
+                                                                headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                },
+                                                                body: JSON.stringify({
+                                                                    idRegistro: registro.idRegistro,
+                                                                    asistencia: asistenciaActualizada,
+                                                                }),
+                                                            });
+
+                                                            const data = await response.json();
+                                                            console.log('Respuesta del servidor:', data.mensaje);
+
+                                                        } catch (error) {
+                                                            console.error('Error al actualizar la asistencia:', error);
+                                                        }
+                                                    }}
+                                                />
+                                            </td>
+                                            <td><label className='delete-register' onClick={() => eliminarRegistro(registro.idRegistro, registro.idCurso)}><u>Eliminar</u></label></td>
                                         </tr>
-                                    )}
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
+                                    </tr>
+                                )}
                             </tbody>
+
                         </table>
                     </div>
+
+                    <div className="pagination">
+                        <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
+                        <span>Página {currentPage} de {totalPages}</span>
+                        <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
+                    </div>
+
                     <div className='button-Container'>
-                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Descargar Registros</Button>
-                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Agregar Registro</Button>
+                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Descargar Registros</Button>
+                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar Registro</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
@@ -205,8 +266,8 @@ function ConsultaRegistros() {
             {isPopupOpen && (
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <div className= "pupup-responsive">
-                            <PopupRegistro onClose={handleClosePopup} />
+                        <div className="pupup-responsive">
+                            <PopupRegistro onClose={handleClosePopup} onRegistroExitoso={handleRegistroExitoso} />
                         </div>
                     </div>
                 </div>

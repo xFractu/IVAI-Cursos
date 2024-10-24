@@ -10,7 +10,7 @@ import ConfirmIcon from '../assets/check.svg';
 import { Height } from '@mui/icons-material';
 import ErrorIcon from '../assets/error.svg';
 
-function PopupRegistro({ onClose }) {
+function PopupRegistro({ onClose, onRegistroExitoso }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -82,6 +82,7 @@ function PopupRegistro({ onClose }) {
                     titulo: 'Registro Exitoso',
                     mensaje: 'El proceso se ha realizado correctamente. \nLe hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico.'
                 });
+                onRegistroExitoso();
                 setIsError(false);
                 setIsPopupOpen(true);
             } else if (response.data === 'Curso lleno' && response.status === 200) {
