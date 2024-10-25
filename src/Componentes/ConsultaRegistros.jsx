@@ -155,7 +155,11 @@ function ConsultaRegistros() {
                                             <td>{registro.so}</td>
                                             <td>{registro.telefono}</td>
                                             <td>{registro.correo}</td>
-                                            <td>{registro.interprete}</td>
+                                            {registro.interprete === 'true' ? (
+                                                <td>Sí</td>
+                                            ) : (
+                                                <td>No</td>
+                                            )}
                                             <td>
                                                 <input
                                                     type="checkbox"
