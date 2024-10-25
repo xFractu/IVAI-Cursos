@@ -10,12 +10,19 @@ import WebIcon from '../assets/web.svg';
 import CardInfo from '../Componentes/CardInfo';
 import Ubi from '../assets/ubi.svg'
 import { useState, useEffect } from 'react';
-import zIndex from '@mui/material/styles/zIndex';
+import { Button } from '@mui/material';
 
 
 function Principal() {
 
     const [dataCursos, setDataCurso] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const cursosPerPage = 10;
+    const indexOfLastRegistro = currentPage * cursosPerPage;
+    const indexOfFirstRegistro = indexOfLastRegistro - cursosPerPage;
+    const activeCursos = dataCursos.filter(curso => curso.estatusCurso === 'Activo');
+    const totalPages = Math.ceil(activeCursos.length / cursosPerPage);
+    const currentCursos = activeCursos.slice(indexOfFirstRegistro, indexOfLastRegistro);
 
     const getCursos = async () => {
         try {
@@ -35,6 +42,19 @@ function Principal() {
         getCursos();
     }, []);
 
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
     return (
         <>
             <section class="layout">
@@ -46,8 +66,8 @@ function Principal() {
                 </div>
                 <div className='Main'>
                     <div className='InfoCursos'>
-                        {dataCursos.length > 0 ? (
-                            dataCursos.map((curso) => (
+                        {currentCursos.length > 0 ? (
+                            currentCursos.map((curso) => (
                                 curso.estatusCurso === 'Activo' ? (
                                     <div key={curso.idCurso} onClick={() => handleLocal(curso.idCurso)}>
                                         <CardInfo
@@ -70,6 +90,12 @@ function Principal() {
                                 <p>No hay cursos registrados</p>
                             </div>
                         )}
+                    </div>
+                    
+                    <div className="pagination">
+                        <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
+                        <span>Página {currentPage} de {totalPages}</span>
+                        <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
                     </div>
 
 
