@@ -29,7 +29,7 @@ function CardInfo(Props) {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
-                Props.reloadCursos()
+                Props.reloadCursos();
                 document.body.style.overflow = "auto";
                 setScrollEnabled(true);
             }, 300); // Duración de la animación de salida
@@ -111,6 +111,7 @@ function CardInfo(Props) {
                                 onClose={handleClosePopup}
                                 onOpenPopupMsj={(errorData, errorStatus) => handleOpenPopupMsj(errorData, errorStatus)}
                                 cupo = {Props.CupoDisponible}
+                                onReload={Props.reloadCursos}
                             />
                             
                         </div>
@@ -121,23 +122,14 @@ function CardInfo(Props) {
             {isPopupOpenMsj && (
                 <div className="popup-overlay">
                     <div className={`popup-content-msj ${isPopupOpenMsj ? 'popup-show' : 'popup-hide'}`}>
-                        {isError ? (
                             <PopupMSJBien
-                                icon={ErrorIcon}
+                                icon={isError ? ErrorIcon : ConfirmIcon}
                                 title={dataError.titulo}
                                 message={dataError.mensaje}
                                 buttonText="Cerrar"
                                 onClose={handleClosePopupMsj}
+                                onClosePrev={handleClosePopup}
                             />
-                        ) : (
-                            <PopupMSJBien
-                                icon={ConfirmIcon}
-                                title="Registro Exitoso"
-                                message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
-                                buttonText="Cerrar"
-                                onClose={handleClosePopupMsj}
-                            />
-                        )}
                     </div>
                 </div>
             )}

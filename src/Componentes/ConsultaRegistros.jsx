@@ -12,15 +12,26 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import PopupRegistro from './PopupRegistro';
 import { useNavigate } from 'react-router-dom';
-
+import ConfirmIcon from '../assets/check.svg';
+import PopupMSJBien from './PopupMSJBien.jsx'
+import ErrorIcon from '../assets/error.svg';
 
 function ConsultaRegistros() {
 
-    const [dataRegistros, setDataRegistros] = useState({});
+    const [dataRegistros, setDataRegistros] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isPopupOpenMsj, setIsPopupOpenMsj] = useState(false);
+    const [scrollEnabled, setScrollEnabled] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [dataError, setDataError] = useState({
+   titulo: '',
+   mensaje: '',
+});
 
     const id = window.localStorage.getItem('id');
     const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(1);
+    const registrosPerPage = 10;
 
     const getRegistros = async (idCurso) => {
         try {
@@ -56,6 +67,30 @@ function ConsultaRegistros() {
         }
     };
 
+    
+    const handleOpenPopupMsj  = (errorData, errorStatus) => {
+        setDataError(errorData);
+        setIsError(errorStatus);
+        setIsPopupOpenMsj(true);
+        document.body.style.overflow = "hidden";
+        setScrollEnabled(false);
+    };
+
+    const handleClosePopupMsj = () => {
+        const popup = document.querySelector('.popup-content-msj');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenMsj(false);
+                Props.reloadCursos()
+                document.body.style.overflow = "auto";
+                setScrollEnabled(true);
+            }, 300); // Duración de la animación de salida
+        }
+    };
+
+
     const obtenerRegistros = async (idCurso) => {
         try {
             const response = await fetch(`http://localhost:4567/obtenerExcelRegistros/${idCurso}`);
@@ -81,7 +116,7 @@ function ConsultaRegistros() {
                 },
                 body: JSON.stringify({ idRegistro, idCurso }),
             });
-    
+
             if (response.ok) {
                 getRegistros(idCurso);
             } else {
@@ -92,25 +127,29 @@ function ConsultaRegistros() {
         }
     };
 
-    
-
     const handleNavigation = () => {
         navigate('/RegistroCurso');
     }
 
-    const handleSubmitEditar = async () => {
+    const handleRegistroExitoso = () => {
+        getRegistros(id);
+    };
 
-        try {
-            console.log("Datos a enviar:", finalFormData);
-            const response = await Axios.put('http://localhost:4567/actualizarRegistro', finalFormData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            console.log(response.data);
-            setIsPopupOpen(true);
-        } catch (error) {
-            console.error("Error al actualizar el registro", error);
+    const indexOfLastRegistro = currentPage * registrosPerPage;
+    const indexOfFirstRegistro = indexOfLastRegistro - registrosPerPage;
+    const currentRegistros = dataRegistros.slice(indexOfFirstRegistro, indexOfLastRegistro);
+
+    const totalPages = Math.ceil(dataRegistros.length / registrosPerPage);
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
         }
     };
 
@@ -141,17 +180,20 @@ function ConsultaRegistros() {
                                 </tr>
                             </thead>
                             <tbody className='table-Data'>
-                                {dataRegistros.length > 0 ? (
-                                    dataRegistros.map((registro, index) => (
+                                {currentRegistros.length > 0 ? (
+                                    currentRegistros.map((registro, index) => (
                                         <tr key={index}>
                                             <td>{registro.nombre}</td>
                                             <td>{registro.apellidos}</td>
                                             <td>{registro.so}</td>
                                             <td>{registro.telefono}</td>
                                             <td>{registro.correo}</td>
-                                            <td>{registro.interprete}</td>
+                                            {registro.interprete === 'true' ? (
+                                                <td>Sí</td>
+                                            ) : (
+                                                <td>No</td>
+                                            )}
                                             <td>
-                                                
                                                 <input
                                                     type="checkbox"
                                                     checked={registro.asistencia === 'true'}
@@ -187,17 +229,24 @@ function ConsultaRegistros() {
                                         </tr>
                                     ))
                                 ) : (
-                                        <tr>
-                                            <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
-                                        </tr>
-                                    )}
+                                    <tr>
+                                        <td colSpan="8" style={{ textAlign: 'center' }}>No hay datos disponibles</td>
+                                    </tr>
+                                )}
                             </tbody>
 
                         </table>
                     </div>
+
+                    <div className="pagination">
+                        <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
+                        <span>Página {currentPage} de {totalPages}</span>
+                        <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
+                    </div>
+
                     <div className='button-Container'>
-                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Descargar Registros</Button>
-                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize:'2vh', margin:'2vw'  }}>Agregar Registro</Button>
+                        <Button onClick={() => obtenerRegistros(id)} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Descargar Registros</Button>
+                        <Button onClick={handleOpenPopup} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar Registro</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
@@ -255,11 +304,32 @@ function ConsultaRegistros() {
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupRegistro onClose={handleClosePopup} />
+                            <PopupRegistro 
+                            onClose={handleClosePopup} 
+                            onReload={handleRegistroExitoso} 
+                            onOpenPopupMsj={(errorData, errorStatus) => handleOpenPopupMsj(errorData, errorStatus)}
+                        />
                         </div>
                     </div>
                 </div>
             )}
+
+            {isPopupOpenMsj && (
+                <div className="popup-overlay">
+                    <div className={`popup-content-msj ${isPopupOpenMsj ? 'popup-show' : 'popup-hide'}`}>
+                    <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon} 
+                            title={dataError.titulo} 
+                            message={dataError.mensaje} 
+                            buttonText="Cerrar"
+                            onClose={handleClosePopupMsj}
+                            onClosePrev={handleClosePopup}
+                            realoadCursos={handleRegistroExitoso}
+                        />
+                    </div>
+                </div>
+            )}
+
         </>
     )
 }

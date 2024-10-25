@@ -148,6 +148,7 @@ function RegistroMain() {
                                 message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
                                 buttonText="Cerrar"
                                 onClose={handleClosePopupAddMsj}
+                                onClosePrev={handleCloseAddPopup}
                             />
                         )}
                             </div>

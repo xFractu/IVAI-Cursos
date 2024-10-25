@@ -11,7 +11,7 @@ import ConfirmIcon from '../assets/check.svg';
 import { Height } from '@mui/icons-material';
 import ErrorIcon from '../assets/error.svg';
 
-function PopupRegistro({ onClose, onOpenPopupMsj, cupo }) {
+function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -82,6 +82,7 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo }) {
                  titulo: 'Registro Exitoso',
                  mensaje: 'El proceso se ha realizado correctamente. \nLe hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico.'
               }, false);
+              onReload();
            } else if (response.data === 'Curso lleno' && response.status === 200 && cupo == 0) {
 
               onOpenPopupMsj({
@@ -95,11 +96,11 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo }) {
               }, true);
            }
         } catch (error) {
-           console.error('Error al registrarse', error);
+           console.error('Error en el servidor', error);
            setIsLoading(false);
            onOpenPopupMsj({
-              titulo: 'Error en el Registro',
-              mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
+              titulo: 'Error en el servidor',
+              mensaje: 'Ocurrió un error. Por favor, inténtelo de nuevo más tarde.'
            }, true);
         }
      };

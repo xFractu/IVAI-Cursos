@@ -17,22 +17,22 @@ function Principal() {
 
     const [dataCursos, setDataCurso] = useState([]);
 
-        const getCursos = async () => {
-            try {
-                const response = await fetch('http://localhost:4567/obtenerCursos');
-                const data = await response.json();
-                setDataCurso(data);
-            } catch (error) {
-                console.error('Error al obtener los registros de curso:', error);
-            }
-        };
+    const getCursos = async () => {
+        try {
+            const response = await fetch('http://localhost:4567/obtenerCursos');
+            const data = await response.json();
+            setDataCurso(data);
+        } catch (error) {
+            console.error('Error al obtener los registros de curso:', error);
+        }
+    };
 
     const handleLocal = (idCurso) => {
         window.localStorage.setItem('id', idCurso);
     }
 
     useEffect(() => {
-        getCursos(); 
+        getCursos();
     }, []);
 
     return (
@@ -48,18 +48,22 @@ function Principal() {
                     <div className='InfoCursos'>
                         {dataCursos.length > 0 ? (
                             dataCursos.map((curso) => (
-                                <div key={curso.idCurso} onClick={() => handleLocal(curso.idCurso)}>
-                                    <CardInfo
-                                        NombreCurso={curso.nombreCurso}
-                                        FechaCurso={curso.fecha}
-                                        ModalidadCurso={curso.modalidad}
-                                        ExpositorCurso={curso.imparte}
-                                        HoraCurso={curso.hora}
-                                        CupoDisponible={curso.estatusCupo}
-                                        Cupo={curso.cupo}
-                                        reloadCursos={getCursos}
-                                    />
-                                </div>
+                                curso.estatusCurso === 'Activo' ? (
+                                    <div key={curso.idCurso} onClick={() => handleLocal(curso.idCurso)}>
+                                        <CardInfo
+                                            NombreCurso={curso.nombreCurso}
+                                            FechaCurso={curso.fecha}
+                                            ModalidadCurso={curso.modalidad}
+                                            ExpositorCurso={curso.imparte}
+                                            HoraCurso={curso.hora}
+                                            CupoDisponible={curso.estatusCupo}
+                                            Cupo={curso.cupo}
+                                            reloadCursos={getCursos}
+                                        />
+                                    </div>
+                                ) : (
+                                    null
+                                )
                             ))
                         ) : (
                             <div className='NoCursos'>
@@ -74,20 +78,20 @@ function Principal() {
                             AVISO DE PRIVACIDAD SIMPLIFICADO DE CAPACITACIONES O EVENTOS PRESENCIALES.
                         </h2>
                         <p className="privacy-text">
-                            El Instituto Veracruzano de Acceso a la Información y Protección de Datos Personales es el responsable del tratamiento 
-                            de los datos personales que nos proporcione.Sus datos personales serán utilizados para las siguientes finalidades: 
-                            a) registrar su inscripción a la modalidad de capacitación que haya elegido; 
-                            b) generar listas de asistencia y validación de las mismas; 
-                            c) emitir constancia de participación o asistencia de acuerdo a la modalidad de que se trate; 
-                            d) establecer comunicación para dar seguimiento de los cursos o aclaración de dudas sobre sus datos, ya sea por algún error o imprecisión, 
-                            notificación de cancelación o cambio de horario, fecha o sede; e) generar estadísticas para informes 
-                            obligatorios del Instituto ante otros organismos públicos o privados y 
-                            f) en el caso de las fotografías que se tomen durante el evento, serán utilizadas para difundir las actividades a través de los diferentes 
-                            espacios de comunicación y/o información con los que cuenta el Instituto.De manera adicional, 
-                            utilizaremos su información personal para las siguientes finalidades que no son necesarias, pero que nos permiten y 
+                            El Instituto Veracruzano de Acceso a la Información y Protección de Datos Personales es el responsable del tratamiento
+                            de los datos personales que nos proporcione.Sus datos personales serán utilizados para las siguientes finalidades:
+                            a) registrar su inscripción a la modalidad de capacitación que haya elegido;
+                            b) generar listas de asistencia y validación de las mismas;
+                            c) emitir constancia de participación o asistencia de acuerdo a la modalidad de que se trate;
+                            d) establecer comunicación para dar seguimiento de los cursos o aclaración de dudas sobre sus datos, ya sea por algún error o imprecisión,
+                            notificación de cancelación o cambio de horario, fecha o sede; e) generar estadísticas para informes
+                            obligatorios del Instituto ante otros organismos públicos o privados y
+                            f) en el caso de las fotografías que se tomen durante el evento, serán utilizadas para difundir las actividades a través de los diferentes
+                            espacios de comunicación y/o información con los que cuenta el Instituto.De manera adicional,
+                            utilizaremos su información personal para las siguientes finalidades que no son necesarias, pero que nos permiten y
                             facilitan brindarle una mejor atención: a) envío de material de exposición o apoyo e b) invitaciones a futuros eventos.
-                            En caso de que no desee que sus datos personales sean tratados para las finalidades adicionales, usted puede manifestarlo en el 
-                            correo electrónico direcciondecapacitacion.ivai@outlook.com.Se informa que no se realizarán transferencias que requieran su consentimiento, 
+                            En caso de que no desee que sus datos personales sean tratados para las finalidades adicionales, usted puede manifestarlo en el
+                            correo electrónico direcciondecapacitacion.ivai@outlook.com.Se informa que no se realizarán transferencias que requieran su consentimiento,
                             salvo aquellas que sean necesarias para atender requerimientos de información de una autoridad competente, debidamente fundados y motivados.
                             Usted podrá consultar el aviso de privacidad integral en el sitio de internet: <a href='http://www.ivai.org.mx/?p=15910'>http://www.ivai.org.mx/?p=15910</a>, en la sección de avisos de privacidad.
                         </p>

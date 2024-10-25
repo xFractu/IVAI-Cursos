@@ -3,7 +3,7 @@ import '../Principal/Principal.css';
 import '../Estilos/PopupMSJ.css';
 import { useNavigate } from 'react-router-dom';
 
-function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, buttonStyle = {}, cardStyle = {}, reloadCursos }) {
+function PopupMSJBien({ icon, title, message, buttonText, onClose, onClosePrev, onAction, buttonStyle = {}, cardStyle = {}, reloadCursos }) {
     const navigate = useNavigate();
 
     const handleButtonClick = async (evento) => {
@@ -11,6 +11,7 @@ function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, but
         if (onAction) onAction();
         if (reloadCursos) reloadCursos();
         if (onClose) onClose();
+        if (onClosePrev) onClosePrev();
     };
 
     return (
