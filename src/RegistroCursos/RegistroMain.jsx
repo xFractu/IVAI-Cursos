@@ -5,11 +5,50 @@ import '../Estilos/RegistroMain.css';
 import { useState } from "react";
 import SelectCurso from "../Componentes/SelectCurso.jsx";
 import CrearCurso from '../Componentes/PopupCrearCurso.jsx';
+import PopupMSJBien from '../Componentes/PopupMSJBien.jsx'
+import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
 
 
 function RegistroMain() {
-    const [isPopupUpdateOpen, setIsPopupUpdateOpen] = useState(false);
-    const [isPopupAddOpen, setIsPopupAddOpen] = useState(false);
+  const [isPopupAddOpen, setIsPopupAddOpen] = useState(false);
+  const [isPopupOpenAddMsj, setIsPopupOpenAddMsj] = useState(false);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+
+  const [isError, setIsError] = useState(false);
+  const [dataError, setDataError] = useState({
+    titulo: '',
+    mensaje: '',
+    });
+
+
+    const handleOpenPopupAddMsj  = (errorData, errorStatus) => {
+      setDataError(errorData);
+      setIsError(errorStatus);
+      setIsPopupOpenAddMsj(true);
+      document.body.style.overflow = "hidden";
+      setScrollEnabled(false);
+  };
+
+  const handleClosePopupAddMsj = () => {
+      const popup = document.querySelector('.popup-content-msj');
+      if (popup) {
+          popup.classList.remove('popup-show');
+          popup.classList.add('popup-hide');
+          setTimeout(() => {
+              setIsPopupOpenAddMsj(false);
+              Props.reloadCursos()
+              document.body.style.overflow = "auto";
+              setScrollEnabled(true);
+          }, 300); // Duración de la animación de salida
+      }
+  };
+
+
+  const [isPopupUpdateOpen, setIsPopupUpdateOpen] = useState(false);
+
+
+
 
 
     const handleOpenAddPopup = () => {
@@ -76,14 +115,47 @@ function RegistroMain() {
                     <Typography variant='h3' sx={{ color:'#A35494', fontSize:"5vh" }}>Curso</Typography>
                 </CardContent>
             </Card>
+      
 
+      
         {isPopupAddOpen && (
           <div className="popup-overlay" >
               <div className={`popup-content ${isPopupAddOpen ? 'popup-show' : 'popup-hide'}`}>
-              <CrearCurso onClose={handleCloseAddPopup} /> 
+              <CrearCurso 
+                  onClose={handleCloseAddPopup}
+                  onOpenPopupMsj={(errorData, errorStatus) => handleOpenPopupAddMsj(errorData, errorStatus)}
+
+              /> 
             </div>
           </div>
         )}
+
+        {isPopupOpenAddMsj && (
+                        <div className="popup-overlay">
+                            <div className={`popup-content-msj ${isPopupOpenAddMsj ? 'popup-show' : 'popup-hide'}`}>
+                            {isError ? (
+                            <PopupMSJBien
+                                icon={ErrorIcon}
+                                title={dataError.titulo}
+                                message={dataError.mensaje}
+                                buttonText="Cerrar"
+                                onClose={handleClosePopupAddMsj}
+                            />
+                        ) : (
+                            <PopupMSJBien
+                                icon={ConfirmIcon}
+                                title="Registro Exitoso"
+                                message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
+                                buttonText="Cerrar"
+                                onClose={handleClosePopupAddMsj}
+                            />
+                        )}
+                            </div>
+                        </div>
+                    )}
+
+
+
 
             {isPopupUpdateOpen && (
                 <div className="popup-overlay" >

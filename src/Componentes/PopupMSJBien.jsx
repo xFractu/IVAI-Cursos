@@ -17,13 +17,15 @@ function PopupMSJBien({ icon, title, message, buttonText, onClose, onAction, but
         <>
 
             <div className = "popup-msj-contenedor">
-            <Card variant="outlined" sx={{ minWidth: '20vw', minHeight: '25vw',maxWidth: '20vw', maxHeight: '25vw', borderRadius: 5, zIndex: 2, marginLeft: 20, ...cardStyle }}>
+            <Card variant="outlined" sx={{maxHeight:"100%",maxHeight:"100%", borderRadius: 5, zIndex: 2, ...cardStyle }}>
                 <CardContent sx={{ textAlign: 'center' }}>
+                    <div className = "contenedor-msj">
                     {icon && <img src={icon} className="IconoCard" alt="Popup Icon" />}
-                    <Typography variant="h4">{title}</Typography>
-                    <Typography sx={{ marginTop: 3 }} variant="body2">
+                    <label className="titulo" variant="h4">{title}</label>
+                    <label className="mensaje" sx={{ marginTop: 3 }} variant="body2">
                         {message}
-                    </Typography>
+                    </label>
+                    </div>
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'center' }}>
                     <Button

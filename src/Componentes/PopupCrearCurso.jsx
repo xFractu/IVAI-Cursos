@@ -10,7 +10,7 @@ import PopupMSJBien from './PopupMSJBien.jsx'
 import ConfirmIcon from '../assets/check.svg';
 import facebook from '../assets/facebook.svg';
 
-function PopupCrearCurso({ onClose }) {
+function PopupCrearCurso({ onClose,onOpenPopupMsj }) {
 
     const [dataTiposCurso, setDataTiposCurso] = useState([])
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -104,42 +104,36 @@ function PopupCrearCurso({ onClose }) {
     };
 
     const handleSubmit = async () => {
-        const validationErrors = validateFields();
 
-        if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            return;
-        }
-
-        try {
-            const respuesta = await axios.post("http://localhost:4567/registroCurso", DataCurso);
-
-            if (respuesta.status === 200) {
-                setDataError({
-                    titulo: 'Curso registrado',
-                    mensaje: 'El curso se ha registrado correctamente'
-                });
-                setIsError(false);
-                setIsPopupOpen(true);
-            } else {
-                setDataError({
-                    titulo: 'Error en el Registro',
-                    mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
-                });
-                setIsError(true);
-                setIsPopupOpen(true);
+            const validationErrors = validateFields();
+        
+            if (Object.keys(validationErrors).length > 0) {
+                setErrors(validationErrors);
+                return;
             }
-        } catch (error) {
-            console.error('Error al registrar el curso:', error);
-            setDataError({
-                titulo: 'Error del servidor',
-                mensaje: 'No se pudo procesar la solicitud. Por favor, inténtelo de nuevo más tarde.'
-            });
-            setIsError(true);
-            setIsPopupOpen(true);
-        }
-    };
-
+        
+            try {
+                const respuesta = await axios.post("http://localhost:4567/registroCurso", DataCurso);
+        
+                if (respuesta.status === 200) {
+                    onOpenPopupMsj({
+                        titulo: 'Curso registrado',
+                        mensaje: 'El curso se ha registrado correctamente'
+                    }, false); // `false` indica que no es un error.
+                } else {
+                    onOpenPopupMsj({
+                        titulo: 'Error en el Registro',
+                        mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
+                    }, true); // `true` indica que es un error.
+                }
+            } catch (error) {
+                console.error('Error al registrar el curso:', error);
+                onOpenPopupMsj({
+                    titulo: 'Error del servidor',
+                    mensaje: 'No se pudo procesar la solicitud. Por favor, inténtelo de nuevo más tarde.'
+                }, true); // `true` indica que es un error.
+            }
+        };
 
     const handleClose = () => {
         setIsPopupOpen(false);
@@ -184,7 +178,7 @@ function PopupCrearCurso({ onClose }) {
                 </header>
 
                 <main className="main_agregar_curso">
-                    <div className='ScrollRegistro'>
+                    <div className='ScrollAgregar'>
 
                         <CardContent sx={{ color: '#FFFFFF' }}>
                             <Grid container item xs={12} alignItems='center' spacing={2}>

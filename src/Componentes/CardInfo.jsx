@@ -2,11 +2,19 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography } from "
 import { useState } from "react";
 import PopupRegistro from '../Componentes/PopupRegistro'
 import '../Estilos/CardInfo.css';
-
+import PopupMSJBien from './PopupMSJBien.jsx'
+import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
 
 function CardInfo(Props) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isPopupOpenMsj, setIsPopupOpenMsj] = useState(false);
     const [scrollEnabled, setScrollEnabled] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [dataError, setDataError] = useState({
+   titulo: '',
+   mensaje: '',
+});
 
     const handleOpenPopup = () => {
         setIsPopupOpen(true);
@@ -28,6 +36,29 @@ function CardInfo(Props) {
         }
     };
 
+    const handleOpenPopupMsj  = (errorData, errorStatus) => {
+        setDataError(errorData);
+        setIsError(errorStatus);
+        setIsPopupOpenMsj(true);
+        document.body.style.overflow = "hidden";
+        setScrollEnabled(false);
+    };
+
+    const handleClosePopupMsj = () => {
+        const popup = document.querySelector('.popup-content-msj');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenMsj(false);
+                Props.reloadCursos()
+                document.body.style.overflow = "auto";
+                setScrollEnabled(true);
+            }, 300); // Duración de la animación de salida
+        }
+    };
+
+
     function obtenerColorCupo(cupoDisponible, cupoTotal) {
         const porcentaje = (cupoDisponible / cupoTotal) * 100;
       
@@ -39,6 +70,8 @@ function CardInfo(Props) {
           return '#35ce00'; 
         }
       }
+
+      
 
     return (
         <>
@@ -69,15 +102,46 @@ function CardInfo(Props) {
 
                 </Card>
             </div>
+
             {isPopupOpen && (
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <div className= "pupup-responsive">
-                            <PopupRegistro onClose={handleClosePopup} />
+                            <PopupRegistro 
+                                onClose={handleClosePopup}
+                                onOpenPopupMsj={(errorData, errorStatus) => handleOpenPopupMsj(errorData, errorStatus)}
+                                cupo = {Props.CupoDisponible}
+                            />
+                            
                         </div>
                     </div>
                 </div>
             )}
+
+            {isPopupOpenMsj && (
+                <div className="popup-overlay">
+                    <div className={`popup-content-msj ${isPopupOpenMsj ? 'popup-show' : 'popup-hide'}`}>
+                        {isError ? (
+                            <PopupMSJBien
+                                icon={ErrorIcon}
+                                title={dataError.titulo}
+                                message={dataError.mensaje}
+                                buttonText="Cerrar"
+                                onClose={handleClosePopupMsj}
+                            />
+                        ) : (
+                            <PopupMSJBien
+                                icon={ConfirmIcon}
+                                title="Registro Exitoso"
+                                message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
+                                buttonText="Cerrar"
+                                onClose={handleClosePopupMsj}
+                            />
+                        )}
+                    </div>
+                </div>
+            )}
+
         </>
     )
 }
