@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import PopupRegistro from './PopupRegistro';
 import { useNavigate } from 'react-router-dom';
-import ConfirmIcon from '../assets/check.svg';
 
 function ConsultaRegistros() {
 

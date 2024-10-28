@@ -6,8 +6,21 @@ function SelectCurso({ onClose }) {
 
     const [dataCursos, setDataCurso] = useState([]);
     const [cursoBuscado, setCursoBuscado] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
-     const reloadCursos = async () => {
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const reloadCursos = async () => {
         try {
             const response = await fetch('http://localhost:4567/obtenerCursos');
             const data = await response.json();
@@ -18,7 +31,7 @@ function SelectCurso({ onClose }) {
     };
 
     useEffect(() => {
-        reloadCursos(); 
+        reloadCursos();
     }, []);
 
     const obtenerId = (idCurso) => {
@@ -29,6 +42,13 @@ function SelectCurso({ onClose }) {
         curso.nombreCurso.toLowerCase().includes(cursoBuscado.toLowerCase()) ||
         curso.fecha.toLowerCase().includes(cursoBuscado.toLowerCase())
     );
+
+
+    const cursosPerPage = 10;
+    const totalPages = Math.ceil(cursosFiltrados.length / cursosPerPage);
+    const indexOfLastRegistro = currentPage * cursosPerPage;
+    const indexOfFirstRegistro = indexOfLastRegistro - cursosPerPage;
+    const currentCursos = cursosFiltrados.slice(indexOfFirstRegistro, indexOfLastRegistro);
 
     return (
         <>
@@ -42,34 +62,40 @@ function SelectCurso({ onClose }) {
                 </header>
 
                 <main className="main_Select">
-                {cursosFiltrados.length > 0 ? (  
-                        cursosFiltrados.map((curso) => (
+                    {currentCursos.length > 0 ? (
+                        currentCursos.map((curso) => (
                             <div key={curso.idCurso} onClick={() => obtenerId(curso.idCurso)}>
-                                <CardModificar 
-                                    NombreCurso={curso.nombreCurso} 
-                                    FechaCurso={curso.fecha} 
-                                    ModalidadCurso={curso.modalidad} 
-                                    DireccionCurso={curso.direccion} 
-                                    ExpositorCurso={curso.imparte} 
-                                    HoraCurso={curso.hora} 
-                                    EstatusCupo={curso.estatusCupo} 
-                                    EstatusCurso={curso.estatusCurso} 
-                                    TipoCurso={curso.tipo} 
-                                    Curso={curso.curso} 
-                                    ValorCurricular={curso.valorCurricular} 
-                                    LigaTeams={curso.ligaTeams} 
-                                    IdCurso={curso.idCurso} 
-                                    reloadCursos={reloadCursos} 
+                                <CardModificar
+                                    NombreCurso={curso.nombreCurso}
+                                    FechaCurso={curso.fecha}
+                                    ModalidadCurso={curso.modalidad}
+                                    DireccionCurso={curso.direccion}
+                                    ExpositorCurso={curso.imparte}
+                                    HoraCurso={curso.hora}
+                                    EstatusCupo={curso.estatusCupo}
+                                    EstatusCurso={curso.estatusCurso}
+                                    TipoCurso={curso.tipo}
+                                    Curso={curso.curso}
+                                    ValorCurricular={curso.valorCurricular}
+                                    LigaTeams={curso.ligaTeams}
+                                    IdCurso={curso.idCurso}
+                                    reloadCursos={reloadCursos}
                                 />
                             </div>
                         ))
                     ) : (
                         <p>No se encontraron cursos.</p>
                     )}
+
                 </main>
 
                 <footer className="footer_Select">
-                    <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3, fontSize:'2vh'}} onClick={onClose}>Cancelar</Button>
+                    <div className="pagination">
+                        <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
+                        <span>Página {currentPage} de {totalPages}</span>
+                        <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
+                    </div>
+                    <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3, fontSize: '2vh' }} onClick={onClose}>Cancelar</Button>
                 </footer>
 
             </div>
