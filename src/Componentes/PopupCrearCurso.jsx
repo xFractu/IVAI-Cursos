@@ -4,8 +4,9 @@ import Arrow from '../assets/cerrar2.svg'
 import '../Estilos/PopupAgregarCurso.css'
 import '../Principal/Principal.css'
 import axios from 'axios';
-import PopupMSJBien from './PopupMSJBien.jsx'
+import PopupMSJBien from './PopupMSJBien.jsx';
 import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
 import facebook from '../assets/facebook.svg';
 
 function PopupCrearCurso({ onClose }) {
@@ -472,7 +473,7 @@ function PopupCrearCurso({ onClose }) {
                 <div className="popup-overlay-confirmation-registro">
                     <div className={`popup-confirmation-registro ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <PopupMSJBien
-                            icon={isError ? facebook : ConfirmIcon} 
+                            icon={isError ? ErrorIcon : ConfirmIcon} 
                             title={dataError.titulo} 
                             message={dataError.mensaje} 
                             buttonText="Cerrar"

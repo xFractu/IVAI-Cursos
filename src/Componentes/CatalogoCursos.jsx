@@ -216,7 +216,7 @@ function catalogoCursos() {
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupCatalogo onClose={handleClosePopup}/>
+                            <PopupCatalogo onClose={handleClosePopup} reloadCursos={handleAgregarTipoCursoExitoso}/>
                         </div>
                     </div>
                 </div>
