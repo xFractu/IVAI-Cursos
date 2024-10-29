@@ -10,8 +10,8 @@ import Ubi from '../assets/ubi.svg';
 import Arrow from '../assets/arrow.svg';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import PopupRegistro from './PopupRegistro';
 import { useNavigate } from 'react-router-dom';
+import PopupCatalogo from './PopupCatalogo';
 
 function catalogoCursos() {
     const [dataTipoCurso, setDataTipoCurso] = useState([]);
@@ -25,7 +25,6 @@ function catalogoCursos() {
         try {
             const response = await fetch(`http://localhost:4567/obtenerTipoCurso`);
             const data = await response.json();
-            console.log(data);
             setDataTipoCurso(data);
         } catch (error) {
             console.error('Error al obtener los tipos de curso:', error);
@@ -39,7 +38,6 @@ function catalogoCursos() {
     const handleOpenPopup = () => {
         setIsPopupOpen(true);
         document.body.style.overflow = "hidden";
-        setScrollEnabled(false);
     };
 
     const handleClosePopup = () => {
@@ -49,7 +47,6 @@ function catalogoCursos() {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
-                Props.reloadCursos()
                 document.body.style.overflow = "auto";
                 setScrollEnabled(true);
             }, 300);
@@ -129,7 +126,7 @@ function catalogoCursos() {
                     </div>
 
                     <div className='button-Container'>
-                        <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar</Button>
+                        <Button variant="contained" onClick={handleOpenPopup} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar</Button>
                         <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Modificar</Button>
                     </div>
                     <div className="address-container">
@@ -188,7 +185,7 @@ function catalogoCursos() {
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupRegistro onClose={handleClosePopup} onRegistroExitoso={handleRegistroExitoso} />
+                            <PopupCatalogo onClose={handleClosePopup}/>
                         </div>
                     </div>
                 </div>
