@@ -17,7 +17,7 @@ function catalogoCursos() {
     const [dataTipoCurso, setDataTipoCurso] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    
+
     const CursoPerPage = 10;
     const navigate = useNavigate();
 
@@ -30,6 +30,29 @@ function catalogoCursos() {
             console.error('Error al obtener los tipos de curso:', error);
         }
     };
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:4567/eliminarTipoCurso`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id }),
+            });
+            const result = await response.json();
+            
+            if (result.message === "Tipo curso eliminado con exito") {
+                getTipoCursos(); 
+            } else {
+                console.error(result.message); 
+            }
+        } catch (error) {
+            console.error("Error al eliminar el tipo de curso:", error);
+        }
+    };
+    
+
 
     useEffect(() => {
         getTipoCursos();
@@ -106,7 +129,14 @@ function catalogoCursos() {
                                         <tr key={index}>
                                             <td>{tipoCurso.id}</td>
                                             <td>{tipoCurso.tipo}</td>
-                                            <td><label className='delete-register' onClick={() => eliminarRegistro(registro.idRegistro, registro.idCurso)}><u>Eliminar</u></label></td>
+                                            <td>
+                                                <label
+                                                    className='delete-register'
+                                                    onClick={() => handleDelete(tipoCurso.id)} 
+                                                >
+                                                    <u>Eliminar</u>
+                                                </label>
+                                            </td>
                                         </tr>
                                     ))
                                 ) : (
@@ -115,6 +145,7 @@ function catalogoCursos() {
                                     </tr>
                                 )}
                             </tbody>
+
 
                         </table>
                     </div>
