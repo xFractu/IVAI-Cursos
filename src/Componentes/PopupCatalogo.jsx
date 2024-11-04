@@ -1,17 +1,45 @@
 import { useState } from "react";
 import { CardHeader, Grid, Typography, CardContent, TextField, CardActionArea, Button } from "@mui/material";
+import axios from "axios";
 import X from '../assets/cerrar.svg'
+import PopupMSJBien from './PopupMSJBien.jsx';
+import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
 
-function PopupCatalogo({ onClose }) {
-
+function PopupCatalogo({ onClose, reloadCursos }) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isError, setIsError] = useState(false);
+    
     const [dataTipoCurso, setDataTipoCurso] = useState({
-        nombre: ''
+        tipo: ''
     });
+    
+    const [dataError, setDataError] = useState({
+        titulo: '',
+        mensaje: ''
+    })
+
+    const agregarTipoCursos = async () => {
+        try {
+            const respuesta = await axios.post("http://localhost:4567/registroTipoCurso", dataTipoCurso);
+            if (respuesta.status === 200 && respuesta.data == "Tipo de Curso registrado") {
+                setDataError({
+                    titulo: 'Tipo de Curso registrado',
+                    mensaje: 'El tipo de curso se ha registrado correctamente'
+                });
+                setIsError(false);
+                setIsPopupOpen(true);
+                reloadCursos();
+            } else if (respuesta.status === 200 && respuesta.data == "Error al registrar el tipo de curso")
+                console.log("Error al registrar")
+        } catch (error) {
+            console.error('Error al registrar el curso:', error);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setDataCurso({ ...dataTipoCurso, [name]: value });
+        setDataTipoCurso({ ...dataTipoCurso, [name]: value });
     };
 
     return (
@@ -57,10 +85,10 @@ function PopupCatalogo({ onClose }) {
                                     <Typography variant='body2' sx={{ color: '#FFFFFF', fontSize: '100%', fontSize: '2vh', fontWeight: 'bold' }}>Nombre del Tipo de Curso:</Typography>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <TextField fullWidth variant='outlined' size='small' name='nombreCurso'
+                                    <TextField fullWidth variant='outlined' size='small' name='tipo'
                                         onChange={handleInputChange}
                                         sx={{
-                                            backgroundColor: '#FFFFFF', borderRadius: '15px',
+                                            backgroundColor: '#FFFFFF', borderRadius: '15px', width: '22vw',
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '15px',
                                             }
@@ -68,12 +96,25 @@ function PopupCatalogo({ onClose }) {
                                 </Grid>
                             </Grid>
                         </CardContent>
-                        <CardActionArea sx={{ textAlign:'center' }}>
-                            <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw', width:'10vw' }}>Agregar</Button>
+                        <CardActionArea sx={{ textAlign: 'center' }}>
+                            <Button variant="contained" onClick={agregarTipoCursos} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw', width: '10vw' }}>Agregar</Button>
                         </CardActionArea>
                     </div>
                 </main>
             </div>
+            {isPopupOpen && (
+                <div className="popup-overlay-confirmation-registro">
+                    <div className={`popup-confirmation-registro ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon}
+                            title={dataError.titulo}
+                            message={dataError.mensaje}
+                            buttonText="Cerrar"
+                            onClose={onClose}
+                        />
+                    </div>
+                </div>
+            )}
         </>
     )
 }
