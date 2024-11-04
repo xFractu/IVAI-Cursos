@@ -12,10 +12,12 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PopupCatalogo from './PopupCatalogo';
+import PopupCatalogoEditar from './PopupCatalogoEditar';
 
 function catalogoCursos() {
     const [dataTipoCurso, setDataTipoCurso] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isPopupOpenUno, setIsPopupOpenUno] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
 
     const CursoPerPage = 10;
@@ -63,6 +65,11 @@ function catalogoCursos() {
         document.body.style.overflow = "hidden";
     };
 
+    const handleOpenPopupUno = () => {
+        setIsPopupOpenUno(true);
+        document.body.style.overflow = "hidden";
+    };
+
     const handleClosePopup = () => {
         const popup = document.querySelector('.popup-content-compo-1');
         if (popup) {
@@ -70,6 +77,19 @@ function catalogoCursos() {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpen(false);
+                document.body.style.overflow = "auto";
+                setScrollEnabled(true);
+            }, 300);
+        }
+    };
+
+    const handleClosePopupUno = () => {
+        const popup = document.querySelector('.popup-content-compo-1');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenUno(false);
                 document.body.style.overflow = "auto";
                 setScrollEnabled(true);
             }, 300);
@@ -158,7 +178,7 @@ function catalogoCursos() {
 
                     <div className='button-Container'>
                         <Button variant="contained" onClick={handleOpenPopup} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar</Button>
-                        <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Modificar</Button>
+                        <Button variant="contained" onClick={handleOpenPopupUno} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Modificar</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
@@ -221,6 +241,18 @@ function catalogoCursos() {
                     </div>
                 </div>
             )}
+
+            {isPopupOpenUno && (
+                <div className="popup-overlay">
+                    <div className={`popup-content-compo-1 ${isPopupOpenUno ? 'popup-show' : 'popup-hide'}`}>
+                        <div className="pupup-responsive">
+                            <PopupCatalogoEditar onClose={handleClosePopupUno}/>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
         </>
     )
 }
