@@ -246,7 +246,7 @@ function catalogoCursos() {
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpenUno ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupCatalogoEditar onClose={handleClosePopupUno}/>
+                            <PopupCatalogoEditar onClose={handleClosePopupUno} onUpdateSuccess={getTipoCursos} />
                         </div>
                     </div>
                 </div>

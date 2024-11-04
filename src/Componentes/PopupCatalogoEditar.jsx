@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { CardHeader, Grid, Typography, CardContent, TextField, CardActionArea, Button, Select, MenuItem } from "@mui/material";
 import X from '../assets/cerrar.svg'
+import axios from "axios";
 
-function PopupCatalogoEditar({ onClose }) {
+function PopupCatalogoEditar({ onClose, onUpdateSuccess }) {
     const [dataTipoCurso, setDataTipoCurso] = useState([]);
     const [selectedCurso, setSelectedCurso] = useState('');
     const [textFieldValue, setTextFieldValue] = useState('');
 
     const getTiposCurso = async () => {
         try {
-            const response = await fetch('http://localhost:4567/tipos');
-            const data = await response.json();
-            setDataTipoCurso(data); 
+            const response = await axios.get('http://localhost:4567/obtenerTipoCurso');
+            setDataTipoCurso(response.data);
         } catch (error) {
             console.error('Error al obtener los tipos de curso:', error);
         }
@@ -22,13 +22,30 @@ function PopupCatalogoEditar({ onClose }) {
     }, []);
 
     const handleSelectChange = (e) => {
-        const selectedValue = e.target.value;
-        setSelectedCurso(selectedValue);
-        setTextFieldValue(selectedValue); // Solo sincronizamos cuando cambia el Select
+        setSelectedCurso(e.target.value); // Esto guardará solo el id del curso seleccionado
+        setTextFieldValue('');
     };
 
     const handleTextFieldChange = (e) => {
-        setTextFieldcValue(e.target.value);
+        setTextFieldValue(e.target.value);
+    };
+
+    const handleUpdateCurso = async () => {
+        if (!selectedCurso || !textFieldValue) {
+            console.error('Seleccione un curso y complete el nombre del tipo.');
+            return;
+        }
+    
+        try {
+            const response = await axios.put('http://localhost:4567/actualizarTipoCurso', {
+                id: selectedCurso,  // selectedCurso ahora es solo el id
+                tipo: textFieldValue 
+            });
+            onUpdateSuccess()
+            console.log(response.data.mensaje); 
+        } catch (error) {
+            console.error('Error al actualizar el tipo de curso:', error);
+        }
     };
 
     return (
@@ -80,8 +97,8 @@ function PopupCatalogoEditar({ onClose }) {
                                             }
                                         }}
                                     >
-                                        {dataTipoCurso.map((item, index) => (
-                                            <MenuItem key={index} value={item}>{item}</MenuItem>
+                                        {dataTipoCurso.map((item) => (
+                                            <MenuItem key={item.id} value={item.id}>{item.tipo}</MenuItem> // Aquí usamos item.id como value y mostramos item.tipo
                                         ))}
                                     </Select>
                                 </Grid>
@@ -97,7 +114,7 @@ function PopupCatalogoEditar({ onClose }) {
                                         variant='outlined'
                                         size='small'
                                         name='nombreCurso'
-                                        
+
                                         onChange={handleTextFieldChange}
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px',
@@ -110,7 +127,7 @@ function PopupCatalogoEditar({ onClose }) {
                             </Grid>
                         </CardContent>
                         <CardActionArea sx={{ textAlign: 'center' }}>
-                            <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw', width: '10vw' }}>Agregar</Button>
+                            <Button variant="contained" onClick={handleUpdateCurso} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw', width: '10vw' }}>Actualizar</Button>
                         </CardActionArea>
                     </div>
                 </main>
