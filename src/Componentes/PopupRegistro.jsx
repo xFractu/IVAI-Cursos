@@ -165,36 +165,36 @@ function PopupRegistro({ onClose, onRegistroExitoso }) {
         <>
             <div className='layout_registrar_curso'>
 
-            <header className="header_registrar_curso">
-                <CardHeader className="card-header"
-                    
-                    title={
-                        <Grid className='grid-header'>
-                            <Grid item>
-                                <Grid container alignItems="center">
-                                <label className='lbl-campos-obligatorios' >
-                                    Los campos marcados con <br />
-                                    asterisco (*) son obligatorios
-                                </label>
+                <header className="header_registrar_curso">
+                    <CardHeader className="card-header"
+
+                        title={
+                            <Grid className='grid-header'>
+                                <Grid item>
+                                    <Grid container alignItems="center">
+                                        <label className='lbl-campos-obligatorios' >
+                                            Los campos marcados con <br />
+                                            asterisco (*) son obligatorios
+                                        </label>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item>
-                            
-                                <img
+                                <Grid item>
+
+                                    <img
                                         src={Arrow}
                                         alt="Web"
                                         className='IconoSalir'
                                         onClick={onClose}
                                     />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    }
-                />
+                        }
+                    />
 
                 </header>
 
                 <main className="main_registar_curso">
-                <div className='ScrollRegistro'>
+                    <div className='ScrollRegistro'>
 
                         <CardContent sx={{ color: '#FFFFFF' }}>
                             <Grid container item xs={12} alignItems="center" spacing={2}>
@@ -461,30 +461,20 @@ function PopupRegistro({ onClose, onRegistroExitoso }) {
 
             {isLoading && (
                 <div className="popup-overlay-confirmation">
-                    <div className="spinner"><img src={Cargando}/></div>
+                    <div className="spinner"><img src={Cargando} /></div>
                 </div>
             )}
 
             {isPopupOpen && (
                 <div className="popup-overlay-confirmation">
                     <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        {isError ? (
-                            <PopupMSJBien
-                                icon={ErrorIcon}
-                                title={dataError.titulo}
-                                message={dataError.mensaje}
-                                buttonText="Cerrar"
-                                onClose={handleClosePopup}
-                            />
-                        ) : (
-                            <PopupMSJBien
-                                icon={ConfirmIcon}
-                                title="Registro Exitoso"
-                                message="El proceso se ha realizado correctamente. Le hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico."
-                                buttonText="Cerrar"
-                                onClose={handleClose}
-                            />
-                        )}
+                        <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon}
+                            title={dataError.titulo}
+                            message={dataError.mensaje}
+                            buttonText="Cerrar"
+                            onClose={handleClosePopup}
+                        />
                     </div>
                 </div>
             )}

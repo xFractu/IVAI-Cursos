@@ -102,6 +102,7 @@ body {
     display: flex;
     justify-content: center;
     max-height: 40vh;
+    min-height: 40vh;
 }
 
 table {
@@ -148,8 +149,6 @@ th {
 .table-Data {
     text-align: center;
 }
-
-
 
 .delete-register {
     cursor: pointer;
