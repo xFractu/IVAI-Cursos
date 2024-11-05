@@ -23,6 +23,10 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
         }
     };
 
+    const goToPage = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     const reloadCursos = async () => {
         try {
             const response = await fetch('http://localhost:4567/obtenerCursos');
@@ -94,13 +98,25 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
                     )}
 
                 </main>
-
-                <footer className="footer_Select">
                     <div className="pagination">
                         <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
-                        <span>Página {currentPage} de {totalPages}</span>
+
+                        <div className="pagination-numbers-container">
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <Button
+                                    key={index + 1}
+                                    onClick={() => goToPage(index + 1)}
+                                    disabled={currentPage === index + 1}
+                                    className="pagination-number"
+                                >
+                                    {index + 1}
+                                </Button>
+                            ))}
+                        </div>
+
                         <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
                     </div>
+                <footer className="footer_Select">
                     <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3, fontSize: '2vh' }} onClick={onClose}>Cancelar</Button>
                 </footer>
 
