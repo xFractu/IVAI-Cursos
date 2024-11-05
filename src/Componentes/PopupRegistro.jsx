@@ -2,13 +2,11 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconBut
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/cerrar2.svg'
-import Cargando from '../imagenes/cargando.gif'
 import CargandoIvai from '../imagenes/ivaisito2.0.png'
 import '../Principal/Principal.css'
 import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
-import { Height } from '@mui/icons-material';
 import ErrorIcon from '../assets/error.svg';
 
 function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
@@ -155,36 +153,36 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
         <>
             <div className='layout_registrar_curso'>
 
-            <header className="header_registrar_curso">
-                <CardHeader className="card-header"
-                    
-                    title={
-                        <Grid className='grid-header'>
-                            <Grid item>
-                                <Grid container alignItems="center">
-                                <label className='lbl-campos-obligatorios' >
-                                    Los campos marcados con <br />
-                                    asterisco (*) son obligatorios
-                                </label>
+                <header className="header_registrar_curso">
+                    <CardHeader className="card-header"
+
+                        title={
+                            <Grid className='grid-header'>
+                                <Grid item>
+                                    <Grid container alignItems="center">
+                                        <label className='lbl-campos-obligatorios' >
+                                            Los campos marcados con <br />
+                                            asterisco (*) son obligatorios
+                                        </label>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid item>
-                            
-                                <img
+                                <Grid item>
+
+                                    <img
                                         src={Arrow}
                                         alt="Web"
                                         className='IconoSalir'
                                         onClick={onClose}
                                     />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    }
-                />
+                        }
+                    />
 
                 </header>
 
                 <main className="main_registar_curso">
-                <div className='ScrollRegistro'>
+                    <div className='ScrollRegistro'>
 
                         <CardContent sx={{ color: '#FFFFFF' }}>
                             <Grid container item xs={12} alignItems="center" spacing={2}>
@@ -452,6 +450,20 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
             {isLoading && (
                 <div className="popup-overlay-confirmation">
                     <div className="spinner"><img className="cargando"  src={CargandoIvai}/></div>
+                </div>
+            )}
+
+            {isPopupOpen && (
+                <div className="popup-overlay-confirmation">
+                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon}
+                            title={dataError.titulo}
+                            message={dataError.mensaje}
+                            buttonText="Cerrar"
+                            onClose={handleClosePopup}
+                        />
+                    </div>
                 </div>
             )}
         </>

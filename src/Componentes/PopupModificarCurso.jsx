@@ -155,12 +155,6 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         timeInputRef.current.showPicker();
     };
 
-    const handleClose = () => {
-        setIsPopupOpen(false);
-        reloadCursos();
-        onClose();
-    };
-
     return (
         <>
             <div className='layout_Modificar_Curso'>
@@ -510,22 +504,6 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                 </footer>
 
             </div>
-
-            {isPopupOpen && (
-                <div className="popup-overlay-confirmation-modificar">
-                    <div className={`popup-confirmation-modificar ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJBien
-                            icon={ConfirmIcon}
-                            title={dataError.titulo} 
-                            message={dataError.mensaje} 
-                            buttonText="Cerrar"
-                            onClose={handleClose}
-                            reloadCursos={reloadCursos} 
-                        />
-                    </div>
-                </div>
-            )}
-
         </>
     )
 }

@@ -16,10 +16,10 @@ import CatalogoCurso from '../Componentes/CatalogoCursos.jsx'
 
 
 function RegistroMain() {
+  const navigate = useNavigate();
   const [isPopupAddOpen, setIsPopupAddOpen] = useState(false);
   const [isPopupOpenAddMsj, setIsPopupOpenAddMsj] = useState(false);
   const [scrollEnabled, setScrollEnabled] = useState(true);
-
   const [isError, setIsError] = useState(false);
   const [dataError, setDataError] = useState({
     titulo: '',
@@ -42,7 +42,7 @@ function RegistroMain() {
           popup.classList.add('popup-hide');
           setTimeout(() => {
               setIsPopupOpenAddMsj(false);
-              handleReloadCursos
+              //props.reloadCursos
               document.body.style.overflow = "auto";
               setScrollEnabled(true);
           }, 300); // Duración de la animación de salida
@@ -108,7 +108,7 @@ function RegistroMain() {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpenUpdateCurso(false);
-                handleReloadCursos
+                //reloadCursos();
             }, 300); 
         }
     };
@@ -122,19 +122,10 @@ function RegistroMain() {
         handleClosePopupUpdateCurso();
     };
 
-    const selectCursoRef = useRef(null);
 
-    const handleReloadCursos = () => {
-        if (selectCursoRef.current) {
-            selectCursoRef.current.reloadCursos();
-        }
-    };
-
-
-
-
-
-
+    const handleNavigationCatalog = () => {
+      navigate('/CatalogoCursos');
+    }
   
     return (
       <>
@@ -154,8 +145,14 @@ function RegistroMain() {
                     <Typography variant='h3' sx={{ color:'#A35494', fontSize:"5vh" }}>Curso</Typography>
                 </CardContent>
             </Card>
-      
 
+      <Card onClick={handleNavigationCatalog} variant="outlined" sx={{ width: '20vw', height: '40vh', minHeight: '1vh', maxHeight: '30vh', minWidth: '10vw', borderColor: '#a35494', borderWidth: '.5vh', borderRadius: 3, display: 'inline-flex', marginLeft: 5, cursor: 'pointer' }}>
+        <CardContent sx={{ textAlign: 'center', width: '100%' }}>
+          <img src={CatalogoIcon} className="IconoCard" />
+          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Catálogo</Typography>
+          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Curso</Typography>
+        </CardContent>
+      </Card>
       
         {isPopupAddOpen && (
           <div className="popup-overlay" >
@@ -223,7 +220,7 @@ function RegistroMain() {
                             curso={selectedCurso.curso}
                             valorCurricular={selectedCurso.valorCurricular}
                             ligaTeams={selectedCurso.ligaTeams}
-                            reloadCursos={handleReloadCursos} 
+                            //reloadCursos={reloadCursos} 
                             onOpenPopupMsj = {handleOpenUpdatePopupMsj}
                         />
                     </div>
@@ -239,62 +236,25 @@ function RegistroMain() {
                             message="¡El curso ha sido modificado exitosamente!"
                             buttonText="Cerrar"
                             onClose={handleCloseUpdatePopupMsj}
-                            reloadCursos={handleReloadCursos} 
+                            //reloadCursos={reloadCursos} 
                         />
                     </div>
                 </div>
             )}
 
 
+       
+
+
+
+
+    
+
+        
+            
+
       </>
     );
-  const handleNavigationCatalog = () => {
-    navigate('/CatalogoCursos');
-  }
-
-  return (
-    <>
-      <Card onClick={handleOpenAddPopup} variant="outlined" sx={{ width: '20vw', height: '40vh', minHeight: '1vh', maxHeight: '30vh', borderColor: '#a35494', borderWidth: '.5vh', borderRadius: 3, display: 'inline-flex', marginLeft: 5, cursor: 'pointer' }}>
-        <CardContent sx={{ textAlign: 'center', width: '100%' }}>
-          <img src={AgregarCurso} className="IconoCard" />
-          <Typography variant="h3" sx={{ color: '#A35494', fontSize: "5vh" }}> Agregar </Typography>
-          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Curso</Typography>
-        </CardContent>
-      </Card>
-
-      <Card onClick={handleOpenUpdatePopup} variant="outlined" sx={{ width: '20vw', height: '40vh', minHeight: '1vh', maxHeight: '30vh', minWidth: '10vw', borderColor: '#a35494', borderWidth: '.5vh', borderRadius: 3, display: 'inline-flex', marginLeft: 5, cursor: 'pointer' }}>
-        <CardContent sx={{ textAlign: 'center', width: '100%' }}>
-          <img src={ModificarCurso} className="IconoCard" />
-          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Modificar</Typography>
-          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Curso</Typography>
-        </CardContent>
-      </Card>
-
-      <Card onClick={handleNavigationCatalog} variant="outlined" sx={{ width: '20vw', height: '40vh', minHeight: '1vh', maxHeight: '30vh', minWidth: '10vw', borderColor: '#a35494', borderWidth: '.5vh', borderRadius: 3, display: 'inline-flex', marginLeft: 5, cursor: 'pointer' }}>
-        <CardContent sx={{ textAlign: 'center', width: '100%' }}>
-          <img src={CatalogoIcon} className="IconoCard" />
-          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Catálogo</Typography>
-          <Typography variant='h3' sx={{ color: '#A35494', fontSize: "5vh" }}>Curso</Typography>
-        </CardContent>
-      </Card>
-
-      {isPopupAddOpen && (
-        <div className="popup-overlay" >
-          <div className={`popup-content ${isPopupAddOpen ? 'popup-show' : 'popup-hide'}`}>
-            <CrearCurso onClose={handleCloseAddPopup} />
-          </div>
-        </div>
-      )}
-
-      {isPopupUpdateOpen && (
-        <div className="popup-overlay" >
-          <div className={`popup-content ${isPopupUpdateOpen ? 'popup-show' : 'popup-hide'}`}>
-            <SelectCurso onClose={handleCloseUpdatePopup} />
-          </div>
-        </div>
-      )}
-    </>
-  );
 }
 
 export default RegistroMain;

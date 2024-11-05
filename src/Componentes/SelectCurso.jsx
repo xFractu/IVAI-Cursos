@@ -8,21 +8,8 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
 
     
     const [cursoBuscado, setCursoBuscado] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
 
     const [dataCursos, setDataCurso] = useState([]);
-    const nextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const prevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
     const reloadCursos = async () => {
         try {
             const response = await fetch('http://localhost:4567/obtenerCursos');
@@ -33,10 +20,8 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
         }
     };
 
-    
-
     useEffect(() => {
-        reloadCursos();
+        reloadCursos(); 
     }, []);
 
     const obtenerId = (idCurso) => {
@@ -48,12 +33,6 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
         curso.fecha.toLowerCase().includes(cursoBuscado.toLowerCase())
     );
 
-
-    const cursosPerPage = 10;
-    const totalPages = Math.ceil(cursosFiltrados.length / cursosPerPage);
-    const indexOfLastRegistro = currentPage * cursosPerPage;
-    const indexOfFirstRegistro = indexOfLastRegistro - cursosPerPage;
-    const currentCursos = cursosFiltrados.slice(indexOfFirstRegistro, indexOfLastRegistro);
 
     return (
         <>
@@ -67,8 +46,8 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
                 </header>
 
                 <main className="main_Select">
-                    {currentCursos.length > 0 ? (
-                        currentCursos.map((curso) => (
+                {cursosFiltrados.length > 0 ? (  
+                        cursosFiltrados.map((curso) => (
                             <div key={curso.idCurso} onClick={() => obtenerId(curso.idCurso)}>
                                 <CardModificar 
                                     NombreCurso={curso.nombreCurso} 
@@ -92,16 +71,10 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
                     ) : (
                         <p>No se encontraron cursos.</p>
                     )}
-
                 </main>
 
                 <footer className="footer_Select">
-                    <div className="pagination">
-                        <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
-                        <span>Página {currentPage} de {totalPages}</span>
-                        <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
-                    </div>
-                    <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3, fontSize: '2vh' }} onClick={onClose}>Cancelar</Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: -2, marginLeft: 3, marginBottom: 3, fontSize:'2vh'}} onClick={onClose}>Cancelar</Button>
                 </footer>
 
             </div>
