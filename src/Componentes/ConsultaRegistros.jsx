@@ -12,11 +12,21 @@ import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
 import PopupRegistro from './PopupRegistro';
 import { useNavigate } from 'react-router-dom';
+import ConfirmIcon from '../assets/check.svg';
+import PopupMSJBien from './PopupMSJBien.jsx'
+import ErrorIcon from '../assets/error.svg';
 
 function ConsultaRegistros() {
 
     const [dataRegistros, setDataRegistros] = useState([]);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isPopupOpenMsj, setIsPopupOpenMsj] = useState(false);
+    const [scrollEnabled, setScrollEnabled] = useState(true);
+    const [isError, setIsError] = useState(false);
+    const [dataError, setDataError] = useState({
+   titulo: '',
+   mensaje: '',
+});
 
     const id = window.localStorage.getItem('id');
     const navigate = useNavigate();
@@ -56,6 +66,30 @@ function ConsultaRegistros() {
             }, 300);
         }
     };
+
+    
+    const handleOpenPopupMsj  = (errorData, errorStatus) => {
+        setDataError(errorData);
+        setIsError(errorStatus);
+        setIsPopupOpenMsj(true);
+        document.body.style.overflow = "hidden";
+        setScrollEnabled(false);
+    };
+
+    const handleClosePopupMsj = () => {
+        const popup = document.querySelector('.popup-content-msj');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenMsj(false);
+                Props.reloadCursos()
+                document.body.style.overflow = "auto";
+                setScrollEnabled(true);
+            }, 300); // Duración de la animación de salida
+        }
+    };
+
 
     const obtenerRegistros = async (idCurso) => {
         try {
@@ -270,11 +304,32 @@ function ConsultaRegistros() {
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupRegistro onClose={handleClosePopup} onRegistroExitoso={handleRegistroExitoso} />
+                            <PopupRegistro 
+                            onClose={handleClosePopup} 
+                            onReload={handleRegistroExitoso} 
+                            onOpenPopupMsj={(errorData, errorStatus) => handleOpenPopupMsj(errorData, errorStatus)}
+                        />
                         </div>
                     </div>
                 </div>
             )}
+
+            {isPopupOpenMsj && (
+                <div className="popup-overlay">
+                    <div className={`popup-content-msj ${isPopupOpenMsj ? 'popup-show' : 'popup-hide'}`}>
+                    <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon} 
+                            title={dataError.titulo} 
+                            message={dataError.mensaje} 
+                            buttonText="Cerrar"
+                            onClose={handleClosePopupMsj}
+                            onClosePrev={handleClosePopup}
+                            realoadCursos={handleRegistroExitoso}
+                        />
+                    </div>
+                </div>
+            )}
+
         </>
     )
 }

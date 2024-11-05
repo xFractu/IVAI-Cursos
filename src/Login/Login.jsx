@@ -12,14 +12,15 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import PopupMSJBien from "../Componentes/PopupMSJBien.jsx";
-import checkIcon from '../assets/check.svg';
-import errorIcon from '../assets/react.svg';
+import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
+
 
 function Login() {
     const navigate = useNavigate();
 
     const [errores, setErrores] = useState({});
-
+    const [isError, setIsError] = useState(false);
     const [cargando, setCargando] = useState(false);
     const [datosFormulario, setDatosFormulario] = useState({
         usuario: '',
@@ -29,7 +30,7 @@ function Login() {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
     const [popupConfig, setPopupConfig] = useState({
-        icon: checkIcon,
+        icon: isError ? ErrorIcon : ConfirmIcon,
         title: "¡Bienvenido!",
         message: "Al dar clic en el botón de aceptar será redirigido a la siguiente pantalla.",
         buttonText: "Aceptar",
@@ -42,7 +43,7 @@ function Login() {
     };
 
     const handleClosePopup = () => {
-        const popup = document.querySelector('.popup-overlay-confirmation-login');
+        const popup = document.querySelector('.popup-content-msj');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
@@ -94,7 +95,7 @@ function Login() {
 
             if (respuesta.data.mensaje === 'Usuario correcto') {
                 handleOpenPopup({
-                    icon: checkIcon,
+                    icon: ConfirmIcon,
                     title: "¡Bienvenido!",
                     message: "Al dar clic en el botón de aceptar será redirigido a la siguiente pantalla.",
                     buttonText: "Aceptar",
@@ -102,7 +103,7 @@ function Login() {
                 });
             } else {
                 handleOpenPopup({
-                    icon: checkIcon,
+                    icon: ErrorIcon,
                     title: "¡Credenciales incorrectas!",
                     message: "Las credenciales ingresadas no son válidas. Inténtalo de nuevo.",
                     buttonText: "Reintentar",
@@ -117,7 +118,7 @@ function Login() {
         } catch (error) {
             console.error("Error en el login: ", error);
             handleOpenPopup({
-                icon: checkIcon,
+                icon: ErrorIcon,
                 title: "¡Error!",
                 message: "Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.",
                 buttonText: "Aceptarr",
@@ -172,8 +173,8 @@ function Login() {
         </section>
 
         {isPopupOpen && (
-            <div className="popup-overlay-confirmation-login">
-                <div className={`popup-content-confirmation-login ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+            <div className="popup-overlay">
+                <div className={`popup-content-msj ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                     <PopupMSJBien
                         icon={popupConfig.icon}
                         title={popupConfig.title}
