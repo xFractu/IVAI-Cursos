@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import '../Estilos/SelectCursos.css';
 import { Button, } from "@mui/material";
 import CardModificar from '../Componentes/CardModificar';
-function SelectCurso({ onClose }) {
 
-    const [dataCursos, setDataCurso] = useState([]);
+
+function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
+
+    
     const [cursoBuscado, setCursoBuscado] = useState('');
 
-     const reloadCursos = async () => {
+    const [dataCursos, setDataCurso] = useState([]);
+    const reloadCursos = async () => {
         try {
             const response = await fetch('http://localhost:4567/obtenerCursos');
             const data = await response.json();
@@ -16,6 +19,8 @@ function SelectCurso({ onClose }) {
             console.error('Error al obtener los registros de curso:', error);
         }
     };
+
+    
 
     useEffect(() => {
         reloadCursos(); 
@@ -29,6 +34,7 @@ function SelectCurso({ onClose }) {
         curso.nombreCurso.toLowerCase().includes(cursoBuscado.toLowerCase()) ||
         curso.fecha.toLowerCase().includes(cursoBuscado.toLowerCase())
     );
+
 
     return (
         <>
@@ -60,6 +66,7 @@ function SelectCurso({ onClose }) {
                                     LigaTeams={curso.ligaTeams} 
                                     IdCurso={curso.idCurso} 
                                     reloadCursos={reloadCursos} 
+                                    onOpenPopupUpdateCurso={() => handleOpenPopupUpdateCurso(curso)}
                                 />
                             </div>
                         ))
@@ -74,7 +81,10 @@ function SelectCurso({ onClose }) {
 
             </div>
 
+            
+
         </>
     )
 }
+
 export default SelectCurso;

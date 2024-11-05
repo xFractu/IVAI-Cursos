@@ -8,6 +8,7 @@ import CrearCurso from '../Componentes/PopupCrearCurso.jsx';
 import PopupMSJBien from '../Componentes/PopupMSJBien.jsx'
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
+import PopupModificarCurso from '../Componentes/PopupModificarCurso.jsx';
 
 
 function RegistroMain() {
@@ -37,7 +38,7 @@ function RegistroMain() {
           popup.classList.add('popup-hide');
           setTimeout(() => {
               setIsPopupOpenAddMsj(false);
-              Props.reloadCursos()
+              //Props.reloadCursos()
               document.body.style.overflow = "auto";
               setScrollEnabled(true);
           }, 300); // Duración de la animación de salida
@@ -46,10 +47,6 @@ function RegistroMain() {
 
 
   const [isPopupUpdateOpen, setIsPopupUpdateOpen] = useState(false);
-
-
-
-
 
     const handleOpenAddPopup = () => {
       setIsPopupAddOpen(true);
@@ -91,6 +88,39 @@ function RegistroMain() {
           }, 300); // Duración de la animación de salida
       }
   };
+
+
+  const [selectedCurso, setSelectedCurso] = useState(null);
+
+  const [isPopupOpenUpdateCurso, setIsPopupOpenUpdateCurso] = useState(false);
+  const [isPopupOpenUpdateMsj, setIsPopupOpenUpdateMsj] = useState(false);
+
+    const handleOpenPopupUpdateCurso = (curso) => {
+        setSelectedCurso(curso); 
+        setIsPopupOpenUpdateCurso(true);
+    };
+
+    const handleClosePopupUpdateCurso = () => {
+        const popup = document.querySelector('.popup-content-compo-1');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenUpdateCurso(false);
+                //reloadCursos();
+            }, 300); 
+        }
+    };
+
+    const handleOpenUpdatePopupMsj = () => {
+        setIsPopupOpenUpdateMsj(true);
+    };
+
+    const handleCloseUpdatePopupMsj = () => {
+        setIsPopupOpenUpdateMsj(false);
+        handleClosePopupUpdateCurso();
+    };
+
 
 
 
@@ -161,7 +191,47 @@ function RegistroMain() {
             {isPopupUpdateOpen && (
                 <div className="popup-overlay" >
                      <div className={`popup-content ${isPopupUpdateOpen ? 'popup-show' : 'popup-hide'}`}>
-                     <SelectCurso onClose={handleCloseUpdatePopup} /> 
+                     <SelectCurso onClose={handleCloseUpdatePopup} handleOpenPopupUpdateCurso={handleOpenPopupUpdateCurso} /> 
+                    </div>
+                </div>
+            )}
+
+
+        {isPopupOpenUpdateCurso && selectedCurso && (
+                <div className="popup-overlay">
+                    <div className={`popup-content-compo-1 ${isPopupOpenUpdateCurso ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupModificarCurso 
+                            onClose={handleClosePopupUpdateCurso}
+                            nombreCurso={selectedCurso.nombreCurso}
+                            fecha={selectedCurso.fecha} 
+                            hora={selectedCurso.hora}
+                            modalidad={selectedCurso.modalidad}
+                            direccion={selectedCurso.direccion}
+                            imparte={selectedCurso.imparte}
+                            estatusCupo={selectedCurso.estatusCupo}
+                            estatusCurso={selectedCurso.estatusCurso}
+                            tipoCurso={selectedCurso.tipo}
+                            curso={selectedCurso.curso}
+                            valorCurricular={selectedCurso.valorCurricular}
+                            ligaTeams={selectedCurso.ligaTeams}
+                            //reloadCursos={reloadCursos} 
+                            onOpenPopupMsj = {handleOpenUpdatePopupMsj}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {isPopupOpenUpdateMsj && (
+                <div className="popup-overlay">
+                    <div className={`popup-content-msj ${isPopupOpenUpdateMsj ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJBien
+                            icon={ConfirmIcon}
+                            title="Modificación exitosa"
+                            message="¡El curso ha sido modificado exitosamente!"
+                            buttonText="Cerrar"
+                            onClose={handleCloseUpdatePopupMsj}
+                            //reloadCursos={reloadCursos} 
+                        />
                     </div>
                 </div>
             )}

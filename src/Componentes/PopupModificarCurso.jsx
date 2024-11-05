@@ -6,7 +6,7 @@ import Arrow from '../assets/cerrar2.svg'
 import Axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 
-function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams, reloadCursos }) {
+function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams, reloadCursos,onOpenPopupMsj }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -89,7 +89,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                 }
             });
             console.log(response.data);
-            setIsPopupOpen(true);
+            onOpenPopupMsj();
         } catch (error) {
             console.error("Error al actualizar el curso", error);
         }

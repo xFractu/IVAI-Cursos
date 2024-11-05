@@ -471,6 +471,7 @@ function PopupCrearCurso({ onClose,onOpenPopupMsj }) {
                             message={dataError.mensaje} 
                             buttonText="Cerrar"
                             onClose={handleClose}
+                            
                         />
                     </div>
                 </div>
