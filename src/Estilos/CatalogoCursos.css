@@ -93,6 +93,10 @@ body {
     min-height: 60vh;
 }
 
+.pagination {
+    text-align: center;
+}
+
 .table-Container {
     width: 100%;
     display: flex;
@@ -101,7 +105,7 @@ body {
 }
 
 table {
-    border-collapse: collapse;
+    min-width: 80%;
 }
 
 table,

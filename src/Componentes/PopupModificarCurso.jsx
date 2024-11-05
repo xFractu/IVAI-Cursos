@@ -37,6 +37,15 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         setIsPopupOpen(true);
     };
 
+    const [errors, setErrors] = useState({});
+
+    const [isError, setIsError] = useState(false);
+
+    const [dataError, setDataError] = useState({
+        titulo: '',
+        mensaje: ''
+    })
+
     const [formData, setFormData] = useState({
         nombreCurso: nombreCurso,
         fecha: fecha,
@@ -54,22 +63,35 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         idCurso: window.localStorage.getItem('id')
     });
 
+    const validateFields = () => {
+        const newErrors = {};
+    
+        if (!formData.nombreCurso) newErrors.nombreCurso = "El nombre es obligatorio.";
+        if (!formData.fecha) newErrors.fecha = "La fecha es obligatoria.";
+        if (!formData.hora) newErrors.hora = "La hora es obligatoria.";
+        if (!formData.imparte || formData.imparte.trim() === '') newErrors.imparte = "La persona que imparte el curso es obligatoria."; 
+        if (!formData.estatusCupo) newErrors.estatusCupo = "El cupo es obligatorio.";
+        if (!formData.estatusCurso) newErrors.estatusCurso = "El estado del curso es obligatorio.";
+        if (!formData.modalidad) newErrors.modalidad = "La modalidad es obligatoria.";
+        if (!formData.tipoCurso) newErrors.tipoCurso = "El tipo de curso es obligatorio.";
+        if (!formData.curso) newErrors.curso = "El curso es obligatorio.";
+        if (!formData.valorCurricular) newErrors.valorCurricular = "El valor curricular es obligatorio.";
+    
+        return newErrors;
+    };
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        if (name === 'modalidad') {
-            setFormData((prevData) => ({
-                ...prevData,
-                [name]: value
-            }));
-        } else {
-            setFormData({
-                ...formData,
-                [name]: value,
-            });
-
-        }
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value,
+        }));
+        
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [name]: '',
+        }));
     };
 
     const handleSubmit = async () => {
@@ -81,6 +103,13 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
             finalFormData.direccion = '';
         }
 
+        const validationErrors = validateFields();
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            //return;
+        }
+        
         try {
             console.log("Datos a enviar:", finalFormData);
             const response = await Axios.put('http://localhost:4567/actualizar', finalFormData, {
@@ -90,8 +119,31 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
             });
             console.log(response.data);
             onOpenPopupMsj();
+
+            if (response.status === 200) {
+                console.log(response.data);
+                setIsPopupOpen(true);
+                setDataError({
+                    titulo: 'Curso actualizado',
+                    mensaje: 'El curso se ha actualizado correctamente'
+                });
+                setIsError(false);
+            }else{
+                setDataError({
+                    titulo: 'Error en la Actualización',
+                    mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
+                });
+                setIsError(true);
+                setIsPopupOpen(true);
+            }
         } catch (error) {
-            console.error("Error al actualizar el curso", error);
+            console.error('Error al actualizar el curso:', error);
+            setDataError({
+                titulo: 'Error del servidor',
+                mensaje: 'No se pudo procesar la solicitud. Por favor, inténtelo de nuevo más tarde.'
+            });
+            setIsError(true);
+            setIsPopupOpen(true);
         }
     };
 
@@ -166,6 +218,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         name="nombreCurso"
                                         value={formData.nombreCurso}
                                         onChange={handleChange}
+                                        error={!!errors.nombreCurso} 
+                                        helperText={errors.nombreCurso}
                                         sx={{
                                             backgroundColor: '#FFFFFF',
                                             borderRadius: '15px',
@@ -188,7 +242,10 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         value={formData.fecha}
                                         inputRef={dateInputRef}
                                         onClick={handleDateInputClick}
-                                        onChange={handleChange} sx={{
+                                        onChange={handleChange}
+                                        error={!!errors.fecha} 
+                                        helperText={errors.fecha} 
+                                        sx={{
                                             backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '15px',
@@ -209,6 +266,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         onChange={handleChange}
                                         inputRef={timeInputRef} 
                                         onClick={handleTimeInputClick}
+                                        error={!!errors.hora} 
+                                        helperText={errors.hora} 
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -230,6 +289,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         name='modalidad'
                                         value={formData.modalidad}
                                         onChange={handleChange}
+                                        error={!!errors.modalidad} 
+                                        helperText={errors.modalidad} 
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -285,6 +346,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                 <Grid item xs={6}>
                                     <TextField fullWidth variant="outlined" size="small" name="imparte"
                                         value={formData.imparte}
+                                        error={!!errors.imparte} 
+                                        helperText={errors.imparte} 
                                         onChange={handleChange} sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -302,7 +365,9 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                     <TextField fullWidth variant="outlined" size="small"
                                         name="estatusCupo"
                                         value={formData.estatusCupo}
-                                        onChange={handleChange} sx={{
+                                        onChange={handleChange}
+                                        error={!!errors.estatusCupo} 
+                                        helperText={errors.estatusCupo}  sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '15px',
@@ -421,7 +486,9 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                     <TextField fullWidth variant="outlined" size="small"
                                         name="valorCurricular"
                                         value={formData.valorCurricular}
-                                        onChange={handleChange} sx={{
+                                        onChange={handleChange} 
+                                        error={!!errors.valorCurricular} 
+                                        helperText={errors.valorCurricular}sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '15px',
@@ -449,8 +516,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                     <div className={`popup-confirmation-modificar ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <PopupMSJBien
                             icon={ConfirmIcon}
-                            title="Modificación exitosa"
-                            message="¡El curso ha sido modificado exitosamente!"
+                            title={dataError.titulo} 
+                            message={dataError.mensaje} 
                             buttonText="Cerrar"
                             onClose={handleClose}
                             reloadCursos={reloadCursos} 
