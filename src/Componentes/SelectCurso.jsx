@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import '../Estilos/SelectCursos.css';
 import { Button, } from "@mui/material";
 import CardModificar from '../Componentes/CardModificar';
-function SelectCurso({ onClose }) {
 
-    const [dataCursos, setDataCurso] = useState([]);
+
+function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
+
+    
     const [cursoBuscado, setCursoBuscado] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [dataCursos, setDataCurso] = useState([]);
 
     const nextPage = () => {
         if (currentPage < totalPages) {
@@ -29,6 +32,8 @@ function SelectCurso({ onClose }) {
             console.error('Error al obtener los registros de curso:', error);
         }
     };
+
+    
 
     useEffect(() => {
         reloadCursos();
@@ -65,21 +70,22 @@ function SelectCurso({ onClose }) {
                     {currentCursos.length > 0 ? (
                         currentCursos.map((curso) => (
                             <div key={curso.idCurso} onClick={() => obtenerId(curso.idCurso)}>
-                                <CardModificar
-                                    NombreCurso={curso.nombreCurso}
-                                    FechaCurso={curso.fecha}
-                                    ModalidadCurso={curso.modalidad}
-                                    DireccionCurso={curso.direccion}
-                                    ExpositorCurso={curso.imparte}
-                                    HoraCurso={curso.hora}
-                                    EstatusCupo={curso.estatusCupo}
-                                    EstatusCurso={curso.estatusCurso}
-                                    TipoCurso={curso.tipo}
-                                    Curso={curso.curso}
-                                    ValorCurricular={curso.valorCurricular}
-                                    LigaTeams={curso.ligaTeams}
-                                    IdCurso={curso.idCurso}
-                                    reloadCursos={reloadCursos}
+                                <CardModificar 
+                                    NombreCurso={curso.nombreCurso} 
+                                    FechaCurso={curso.fecha} 
+                                    ModalidadCurso={curso.modalidad} 
+                                    DireccionCurso={curso.direccion} 
+                                    ExpositorCurso={curso.imparte} 
+                                    HoraCurso={curso.hora} 
+                                    EstatusCupo={curso.estatusCupo} 
+                                    EstatusCurso={curso.estatusCurso} 
+                                    TipoCurso={curso.tipo} 
+                                    Curso={curso.curso} 
+                                    ValorCurricular={curso.valorCurricular} 
+                                    LigaTeams={curso.ligaTeams} 
+                                    IdCurso={curso.idCurso} 
+                                    reloadCursos={reloadCursos} 
+                                    onOpenPopupUpdateCurso={() => handleOpenPopupUpdateCurso(curso)}
                                 />
                             </div>
                         ))
@@ -100,7 +106,10 @@ function SelectCurso({ onClose }) {
 
             </div>
 
+            
+
         </>
     )
 }
+
 export default SelectCurso;

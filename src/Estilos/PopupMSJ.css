@@ -1,4 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .popup-msj-contenedor{
-    margin-left: 22vw;
-    margin-bottom: 10vw;
+    width: 20vw;
+}
+
+.contenedor-msj{
+
+    display: flex;
+    flex-direction: column;
+    gap: .8vw
+
+}
+
+.titulo{
+font-size: 1.2vw;
+font-family: 'Roboto', sans-serif;
+font-weight:bolder;
+}
+
+.mensaje{
+    font-family: 'Roboto', sans-serif;
+
+
+
+}
+
+
+
+@media (max-width: 1280px) {
+
+
+}
+
+
+@media (max-width: 1024px) {
+
+
+}
+
+
+@media (max-width: 800px) {
+
+
+}
+
+
+@media (max-width: 575px) {
+
+    
+}
+
+@media (max-width: 375px) {
+
+
 }

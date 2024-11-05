@@ -2,15 +2,14 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconBut
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/cerrar2.svg'
-import Cargando from '../imagenes/cargando.gif'
+import CargandoIvai from '../imagenes/ivaisito2.0.png'
 import '../Principal/Principal.css'
 import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
-import { Height } from '@mui/icons-material';
 import ErrorIcon from '../assets/error.svg';
 
-function PopupRegistro({ onClose, onRegistroExitoso }) {
+function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
 
     const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -65,55 +64,44 @@ function PopupRegistro({ onClose, onRegistroExitoso }) {
     const handleRegistration = async () => {
         const validationErrors = validateFields();
         if (Object.keys(validationErrors).length > 0) {
-            setErrors(validationErrors);
-            return;
+           setErrors(validationErrors);
+           return;
         }
-
+     
         setIsLoading(true);
-
+     
         try {
-            const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
-            console.log(response.data);
-            setIsLoading(false);
+           const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
+           console.log(response.data);
+           setIsLoading(false);
+     
+           if (response.data === 'Registro Correcto' && response.status === 200) {
+              onOpenPopupMsj({
+                 titulo: 'Registro Exitoso',
+                 mensaje: 'El proceso se ha realizado correctamente. \nLe hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico.'
+              }, false);
+              onReload();
+           } else if (response.data === 'Curso lleno' && response.status === 200 && cupo == 0) {
 
-            if (response.data === 'Registro Correcto' && response.status === 200) {
-                setDataError({
-                    ...dataError,
-                    titulo: 'Registro Exitoso',
-                    mensaje: 'El proceso se ha realizado correctamente. \nLe hemos enviado un correo electrónico con el enlace de acceso, favor de verificar todas las bandejas del correo electrónico.'
-                });
-                onRegistroExitoso();
-                setIsError(false);
-                setIsPopupOpen(true);
-            } else if (response.data === 'Curso lleno' && response.status === 200) {
-                setDataError({
-                    ...dataError,
-                    titulo: 'Curso Lleno',
-                    mensaje: 'El curso al que intenta registrarse se encuentra lleno. \nNo es posible procesar su registro.'
-                });
-                setIsError(true);
-                setIsPopupOpen(true);
-            } else {
-                setDataError({
-                    ...dataError,
-                    titulo: 'Error en el Registro',
-                    mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
-                });
-                setIsError(true);
-                setIsPopupOpen(true);
-            }
+              onOpenPopupMsj({
+                 titulo: 'Curso Lleno',
+                 mensaje: 'El curso al que intenta registrarse se encuentra lleno. \nNo es posible procesar su registro.'
+              }, true);
+           } else {
+              onOpenPopupMsj({
+                 titulo: 'Error en el Registro',
+                 mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
+              }, true);
+           }
         } catch (error) {
-            console.error('Error al registrarse', error);
-            setIsLoading(false);
-            setDataError({
-                ...dataError,
-                titulo: 'Error en el Registro',
-                mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
-            });
-            setIsError(true);
-            setIsPopupOpen(true);
+           console.error('Error en el servidor', error);
+           setIsLoading(false);
+           onOpenPopupMsj({
+              titulo: 'Error en el servidor',
+              mensaje: 'Ocurrió un error. Por favor, inténtelo de nuevo más tarde.'
+           }, true);
         }
-    };
+     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -461,7 +449,7 @@ function PopupRegistro({ onClose, onRegistroExitoso }) {
 
             {isLoading && (
                 <div className="popup-overlay-confirmation">
-                    <div className="spinner"><img src={Cargando} /></div>
+                    <div className="spinner"><img className="cargando"  src={CargandoIvai}/></div>
                 </div>
             )}
 
