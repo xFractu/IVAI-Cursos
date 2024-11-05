@@ -2,11 +2,21 @@ import { useState, useEffect } from "react";
 import { CardHeader, Grid, Typography, CardContent, TextField, CardActionArea, Button, Select, MenuItem } from "@mui/material";
 import X from '../assets/cerrar.svg'
 import axios from "axios";
+import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
+import PopupMSJBien from './PopupMSJBien.jsx';
 
 function PopupCatalogoEditar({ onClose, onUpdateSuccess }) {
     const [dataTipoCurso, setDataTipoCurso] = useState([]);
     const [selectedCurso, setSelectedCurso] = useState('');
     const [textFieldValue, setTextFieldValue] = useState('');
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [isError, setIsError] = useState(false);
+
+    const [dataError, setDataError] = useState({
+        titulo: '',
+        mensaje: ''
+    })
 
     const getTiposCurso = async () => {
         try {
@@ -38,15 +48,40 @@ function PopupCatalogoEditar({ onClose, onUpdateSuccess }) {
     
         try {
             const response = await axios.put('http://localhost:4567/actualizarTipoCurso', {
-                id: selectedCurso,  
-                tipo: textFieldValue 
+                id: selectedCurso,
+                tipo: textFieldValue
             });
-            onUpdateSuccess()
-            console.log(response.data.mensaje); 
+    
+            if (response.status === 200) {
+                setDataError({
+                    titulo: 'Tipo de Curso actualizado',
+                    mensaje: 'El tipo de curso se ha actualizado correctamente'
+                });
+                setIsError(false);
+                setIsPopupOpen(true);  
+                if (onUpdateSuccess) {
+                    onUpdateSuccess(); 
+                }
+            } else {
+                console.log("Error al actualizar el tipo de curso");
+                setIsError(true);
+                setIsPopupOpen(true);
+                setDataError({
+                    titulo: 'Error al actualizar',
+                    mensaje: 'No se pudo actualizar el tipo de curso'
+                });
+            }
         } catch (error) {
             console.error('Error al actualizar el tipo de curso:', error);
+            setIsError(true);
+            setIsPopupOpen(true);
+            setDataError({
+                titulo: 'Error en la conexión',
+                mensaje: 'Hubo un problema al conectar con el servidor.'
+            });
         }
     };
+    
 
     return (
         <>
@@ -132,6 +167,19 @@ function PopupCatalogoEditar({ onClose, onUpdateSuccess }) {
                     </div>
                 </main>
             </div>
+            {isPopupOpen && (
+                <div className="popup-overlay-confirmation-registro">
+                    <div className={`popup-confirmation-registro ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon}
+                            title={dataError.titulo}
+                            message={dataError.mensaje}
+                            buttonText="Cerrar"
+                            onClose={onClose}
+                        />
+                    </div>
+                </div>
+            )}
         </>
     )
 }

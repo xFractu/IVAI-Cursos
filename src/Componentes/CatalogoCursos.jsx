@@ -43,17 +43,17 @@ function catalogoCursos() {
                 body: JSON.stringify({ id }),
             });
             const result = await response.json();
-            
+
             if (result.message === "Tipo curso eliminado con exito") {
-                getTipoCursos(); 
+                getTipoCursos();
             } else {
-                console.error(result.message); 
+                console.error(result.message);
             }
         } catch (error) {
             console.error("Error al eliminar el tipo de curso:", error);
         }
     };
-    
+
 
 
     useEffect(() => {
@@ -122,6 +122,10 @@ function catalogoCursos() {
         }
     };
 
+    const goToPage = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <>
             <section className="layout">
@@ -152,7 +156,7 @@ function catalogoCursos() {
                                             <td>
                                                 <label
                                                     className='delete-register'
-                                                    onClick={() => handleDelete(tipoCurso.id)} 
+                                                    onClick={() => handleDelete(tipoCurso.id)}
                                                 >
                                                     <u>Eliminar</u>
                                                 </label>
@@ -171,9 +175,22 @@ function catalogoCursos() {
                     </div>
 
                     <div className="pagination">
-                        <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
-                        <span>Página {currentPage} de {totalPages}</span>
-                        <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
+                        <Button className='button-pages' onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
+
+                        <div className="pagination-numbers-container">
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <Button
+                                    key={index + 1}
+                                    onClick={() => goToPage(index + 1)}
+                                    disabled={currentPage === index + 1}
+                                    className="pagination-number"
+                                >
+                                    <span className='numbers'>{index + 1}</span>
+                                </Button>
+                            ))}
+                        </div>
+
+                        <Button className='button-pages' onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
                     </div>
 
                     <div className='button-Container'>
@@ -236,7 +253,7 @@ function catalogoCursos() {
                 <div className="popup-overlay">
                     <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupCatalogo onClose={handleClosePopup} reloadCursos={handleAgregarTipoCursoExitoso}/>
+                            <PopupCatalogo onClose={handleClosePopup} reloadCursos={handleAgregarTipoCursoExitoso} />
                         </div>
                     </div>
                 </div>

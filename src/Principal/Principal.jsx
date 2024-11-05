@@ -55,6 +55,10 @@ function Principal() {
         }
     };
 
+    const goToPage = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <>
             <section class="layout">
@@ -94,7 +98,20 @@ function Principal() {
                     
                     <div className="pagination">
                         <Button onClick={prevPage} disabled={currentPage === 1}>Anterior</Button>
-                        <span>Página {currentPage} de {totalPages}</span>
+
+                        <div className="pagination-numbers-container">
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <Button
+                                    key={index + 1}
+                                    onClick={() => goToPage(index + 1)}
+                                    disabled={currentPage === index + 1}
+                                    className="pagination-number"
+                                >
+                                    {index + 1}
+                                </Button>
+                            ))}
+                        </div>
+
                         <Button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</Button>
                     </div>
 
