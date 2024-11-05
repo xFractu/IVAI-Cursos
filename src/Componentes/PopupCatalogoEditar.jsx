@@ -22,7 +22,7 @@ function PopupCatalogoEditar({ onClose, onUpdateSuccess }) {
     }, []);
 
     const handleSelectChange = (e) => {
-        setSelectedCurso(e.target.value); // Esto guardará solo el id del curso seleccionado
+        setSelectedCurso(e.target.value); 
         setTextFieldValue('');
     };
 
@@ -38,7 +38,7 @@ function PopupCatalogoEditar({ onClose, onUpdateSuccess }) {
     
         try {
             const response = await axios.put('http://localhost:4567/actualizarTipoCurso', {
-                id: selectedCurso,  // selectedCurso ahora es solo el id
+                id: selectedCurso,  
                 tipo: textFieldValue 
             });
             onUpdateSuccess()
