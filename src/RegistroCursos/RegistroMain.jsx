@@ -1,4 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material";
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import AgregarCurso from '../assets/add.svg';
@@ -41,7 +42,7 @@ function RegistroMain() {
           popup.classList.add('popup-hide');
           setTimeout(() => {
               setIsPopupOpenAddMsj(false);
-              //Props.reloadCursos()
+              handleReloadCursos
               document.body.style.overflow = "auto";
               setScrollEnabled(true);
           }, 300); // Duración de la animación de salida
@@ -107,7 +108,7 @@ function RegistroMain() {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpenUpdateCurso(false);
-                //reloadCursos();
+                handleReloadCursos
             }, 300); 
         }
     };
@@ -119,6 +120,14 @@ function RegistroMain() {
     const handleCloseUpdatePopupMsj = () => {
         setIsPopupOpenUpdateMsj(false);
         handleClosePopupUpdateCurso();
+    };
+
+    const selectCursoRef = useRef(null);
+
+    const handleReloadCursos = () => {
+        if (selectCursoRef.current) {
+            selectCursoRef.current.reloadCursos();
+        }
     };
 
 
@@ -214,7 +223,7 @@ function RegistroMain() {
                             curso={selectedCurso.curso}
                             valorCurricular={selectedCurso.valorCurricular}
                             ligaTeams={selectedCurso.ligaTeams}
-                            //reloadCursos={reloadCursos} 
+                            reloadCursos={handleReloadCursos} 
                             onOpenPopupMsj = {handleOpenUpdatePopupMsj}
                         />
                     </div>
@@ -230,7 +239,7 @@ function RegistroMain() {
                             message="¡El curso ha sido modificado exitosamente!"
                             buttonText="Cerrar"
                             onClose={handleCloseUpdatePopupMsj}
-                            //reloadCursos={reloadCursos} 
+                            reloadCursos={handleReloadCursos} 
                         />
                     </div>
                 </div>

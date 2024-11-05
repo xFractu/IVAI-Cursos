@@ -10,6 +10,7 @@ function SelectCurso({ onClose,handleOpenPopupUpdateCurso }) {
     const [cursoBuscado, setCursoBuscado] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
+    const [dataCursos, setDataCurso] = useState([]);
     const nextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
