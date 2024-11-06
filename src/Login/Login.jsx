@@ -1,10 +1,4 @@
 import './Login.css';
-import FacebookIcon from '../assets/facebook.svg';
-import YoutubeIcon from '../assets/youtube.svg';
-import TwitterIcon from '../assets/twitter-x.svg';
-import InstagramIcon from '../assets/instagram.svg';
-import MailIcon from '../assets/email.svg';
-import WebIcon from '../assets/web.svg';
 import ivaiFachada from '../Imagenes/IVAI_Fachada.jpg';
 import ivaiImage from '../Imagenes/ivai.webp';
 import rlceImage from '../Imagenes/rlce.webp';
@@ -14,10 +8,12 @@ import axios from 'axios';
 import PopupMSJBien from "../Componentes/PopupMSJBien.jsx";
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
-
+import { useAuth } from '../routes/AuthContext.jsx'; 
 
 function Login() {
     const navigate = useNavigate();
+
+    const { login } = useAuth();
 
     const [errores, setErrores] = useState({});
     const [isError, setIsError] = useState(false);
@@ -52,8 +48,6 @@ function Login() {
             }, 300);
         }
     };
-
-    window.localStorage.clear();
 
     const peticionLogin = async () => {
         try {
@@ -94,6 +88,7 @@ function Login() {
             console.log("Respuesta de LOGIN: ", respuesta.data);
 
             if (respuesta.data.mensaje === 'Usuario correcto') {
+                login(respuesta.data.token);
                 handleOpenPopup({
                     icon: ConfirmIcon,
                     title: "¡Bienvenido!",

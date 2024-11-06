@@ -69,6 +69,7 @@ body {
     width: auto;
     margin-right: 2vw;
     filter: invert(100%) sepia(1%) saturate(7482%) hue-rotate(145deg) brightness(107%) contrast(100%);
+    z-index: 10000;
     
 }
 

@@ -10,9 +10,16 @@ import WebIcon from '../assets/web.svg';
 import Ubi from '../assets/ubi.svg'
 import RegistroMain from './RegistroMain';
 import logout from '../assets/logout.svg'
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AdminPrincipal() {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        navigate('/login');
+    }
+
     return (
         <>
             <section class="layout">
@@ -21,20 +28,22 @@ function AdminPrincipal() {
                         Cursos disponibles
                     </h1>
                     <img src={ivaiImage} alt="" className="header-img-left" />
-                    <img src={logout} alt="" className="header-img-right" />
+                    
+                        <img src={logout} onClick={handleLogout} alt="" className="header-img-right" />
+                    
                 </div>
                 <div className='Main-Admin'>
                     <div className='BotonesAdmin'>
-                        <RegistroMain/>
+                        <RegistroMain />
                     </div>
-                        <div className="address-container">
-                            <p className="dir">
-                                Calle Guadalupeee Victoria #7, Zona Centro, C.P. 91000, Xalapa, Veracruz.
-                            </p>
-                            <a href="https://maps.app.goo.gl/q4NLaByuVnYCrV9RA" target="_blank" rel="noopener noreferrer">
-                                <img className="imgUb" src={Ubi} alt="Ubicación" />
-                            </a>
-                        </div>
+                    <div className="address-container">
+                        <p className="dir">
+                            Calle Guadalupeee Victoria #7, Zona Centro, C.P. 91000, Xalapa, Veracruz.
+                        </p>
+                        <a href="https://maps.app.goo.gl/q4NLaByuVnYCrV9RA" target="_blank" rel="noopener noreferrer">
+                            <img className="imgUb" src={Ubi} alt="Ubicación" />
+                        </a>
+                    </div>
                 </div>
 
 

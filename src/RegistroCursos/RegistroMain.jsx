@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import React, { useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import AgregarCurso from '../assets/add.svg';
@@ -12,7 +12,6 @@ import PopupMSJBien from '../Componentes/PopupMSJBien.jsx'
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
 import PopupModificarCurso from '../Componentes/PopupModificarCurso.jsx';
-import CatalogoCurso from '../Componentes/CatalogoCursos.jsx'
 
 
 function RegistroMain() {
@@ -42,10 +41,9 @@ function RegistroMain() {
           popup.classList.add('popup-hide');
           setTimeout(() => {
               setIsPopupOpenAddMsj(false);
-              //props.reloadCursos
               document.body.style.overflow = "auto";
               setScrollEnabled(true);
-          }, 300); // Duración de la animación de salida
+          }, 300);
       }
   };
 
@@ -67,7 +65,7 @@ function RegistroMain() {
         setIsPopupAddOpen(false);
         document.body.style.overflow = "auto";
         setScrollEnabled(true);
-      }, 300); // Duración de la animación de salida
+      }, 300);
     }
   };
 
@@ -86,10 +84,9 @@ function RegistroMain() {
         setIsPopupUpdateOpen(false);
         document.body.style.overflow = "auto";
         setScrollEnabled(true);
-      }, 300); // Duración de la animación de salida
+      }, 300);
     }
   };
-
 
   const [selectedCurso, setSelectedCurso] = useState(null);
 
@@ -108,7 +105,6 @@ function RegistroMain() {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpenUpdateCurso(false);
-                //reloadCursos();
             }, 300); 
         }
     };
@@ -221,7 +217,7 @@ function RegistroMain() {
                             curso={selectedCurso.curso}
                             valorCurricular={selectedCurso.valorCurricular}
                             ligaTeams={selectedCurso.ligaTeams}
-                            //reloadCursos={reloadCursos} 
+                            closePrev={handleCloseUpdatePopup}
                             onOpenPopupMsj = {handleOpenUpdatePopupMsj}
                         />
                     </div>
@@ -237,23 +233,12 @@ function RegistroMain() {
                             message="¡El curso ha sido modificado exitosamente!"
                             buttonText="Cerrar"
                             onClose={handleCloseUpdatePopupMsj}
+                            openPrev={handleOpenUpdatePopup}
                             //reloadCursos={reloadCursos} 
                         />
                     </div>
                 </div>
             )}
-
-
-       
-
-
-
-
-    
-
-        
-            
-
       </>
     );
 }
