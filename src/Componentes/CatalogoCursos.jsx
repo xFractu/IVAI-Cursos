@@ -13,12 +13,24 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PopupCatalogo from './PopupCatalogo';
 import PopupCatalogoEditar from './PopupCatalogoEditar';
+import PopupMSJBien from './PopupMSJBien';
+import ConfirmIcon from '../assets/check.svg';
+import ErrorIcon from '../assets/error.svg';
 
 function catalogoCursos() {
     const [dataTipoCurso, setDataTipoCurso] = useState([]);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const [isPopupOpenUno, setIsPopupOpenUno] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isPopupOpenAddCatalogo, setIsPopupOpenAddCatalogo] = useState(false);
+    const [isPopupOpenUpdateCatalogo, setIsPopupOpenUpdateCatalogo] = useState(false);
+
+    // Estados para el popup de confirmación
+    const [isPopupOpenAddCatalogoMsj, setIsPopupOpenAddCatalogoMsj] = useState(false);
+    const [isPopupOpenUpdateCatalogoMsj, setIsPopupOpenUpdateCatalogoMsj] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [dataError, setDataError] = useState({
+        titulo: '',
+        mensaje: ''
+    });
 
     const CursoPerPage = 10;
     const navigate = useNavigate();
@@ -54,54 +66,74 @@ function catalogoCursos() {
         }
     };
 
-
-
     useEffect(() => {
         getTipoCursos();
     }, []);
 
-    const handleOpenPopup = () => {
-        setIsPopupOpen(true);
+    const handleOpenPopupAddCatalogo = () => {
+        setIsPopupOpenAddCatalogo(true);
         document.body.style.overflow = "hidden";
     };
 
-    const handleOpenPopupUno = () => {
-        setIsPopupOpenUno(true);
+    const handleOpenPopupUpdateCatalogo = () => {
+        setIsPopupOpenUpdateCatalogo(true);
         document.body.style.overflow = "hidden";
     };
 
-    const handleClosePopup = () => {
-        const popup = document.querySelector('.popup-content-compo-1');
+    const handleClosePopupAddCatalogo = () => {
+        const popup = document.querySelector('.popup-content');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
             setTimeout(() => {
-                setIsPopupOpen(false);
+                setIsPopupOpenAddCatalogo(false);
                 document.body.style.overflow = "auto";
-                setScrollEnabled(true);
             }, 300);
         }
     };
 
-    const handleClosePopupUno = () => {
-        const popup = document.querySelector('.popup-content-compo-1');
+    const handleClosePopupUpdateCatalogo = () => {
+        const popup = document.querySelector('.popup-content');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
             setTimeout(() => {
-                setIsPopupOpenUno(false);
+                setIsPopupOpenUpdateCatalogo(false);
                 document.body.style.overflow = "auto";
-                setScrollEnabled(true);
             }, 300);
         }
     };
 
     const handleNavigation = () => {
         navigate('/RegistroCurso');
-    }
+    };
 
     const handleAgregarTipoCursoExitoso = () => {
         getTipoCursos();
+    };
+
+    const handleClosePopupAddMsj = () => {
+        const popup = document.querySelector('.popup-content-msj');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenAddCatalogoMsj(false);
+                document.body.style.overflow = "auto";
+            }, 300);
+        }
+    };
+
+    const handleClosePopupUpdateMsj = () => {
+        const popup = document.querySelector('.popup-content-msj');
+        if (popup) {
+            popup.classList.remove('popup-show');
+            popup.classList.add('popup-hide');
+            setTimeout(() => {
+                setIsPopupOpenUpdateCatalogoMsj(false);
+                document.body.style.overflow = "auto";
+            }, 300);
+        }
     };
 
     const indexOfLastCurso = currentPage * CursoPerPage;
@@ -194,8 +226,8 @@ function catalogoCursos() {
                     </div>
 
                     <div className='button-Container'>
-                        <Button variant="contained" onClick={handleOpenPopup} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar</Button>
-                        <Button variant="contained" onClick={handleOpenPopupUno} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Modificar</Button>
+                        <Button variant="contained" onClick={handleOpenPopupAddCatalogo} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Agregar</Button>
+                        <Button variant="contained" onClick={handleOpenPopupUpdateCatalogo} sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", fontSize: '2vh', margin: '2vw' }}>Modificar</Button>
                     </div>
                     <div className="address-container">
                         <p className="dir">
@@ -249,25 +281,73 @@ function catalogoCursos() {
                 </div>
 
             </section>
-            {isPopupOpen && (
+
+
+
+            
+            
+            {isPopupOpenAddCatalogo && (
+                    <div className="popup-overlay">
+                        <div className={`popup-content ${isPopupOpenAddCatalogo ? 'popup-show' : 'popup-hide'}`}>
+                            <div className="pupup-responsive">
+                                <PopupCatalogo
+                                    onClose={handleClosePopupAddCatalogo}
+                                    reloadCursos={handleAgregarTipoCursoExitoso}
+                                    setIsPopupOpenAddCatalogoMsj={setIsPopupOpenAddCatalogoMsj} 
+                                    setDataError={setDataError}
+                                    setIsError={setIsError} 
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                
+                {isPopupOpenAddCatalogoMsj && (
+                    <div className="popup-overlay">
+                        <div className={`popup-content-msj ${isPopupOpenAddCatalogoMsj ? 'popup-show' : 'popup-hide'}`}>
+                            <PopupMSJBien
+                                icon={isError ? ErrorIcon : ConfirmIcon}
+                                title={dataError.titulo}
+                                message={dataError.mensaje}
+                                buttonText="Cerrar"
+                                onClose={handleClosePopupAddMsj}
+                                onClosePrev={handleClosePopupAddCatalogo}
+                            />
+                        </div>
+                    </div>
+                )}
+
+            {isPopupOpenUpdateCatalogo && (
                 <div className="popup-overlay">
-                    <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                    <div className={`popup-content ${isPopupOpenUpdateCatalogo ? 'popup-show' : 'popup-hide'}`}>
                         <div className="pupup-responsive">
-                            <PopupCatalogo onClose={handleClosePopup} reloadCursos={handleAgregarTipoCursoExitoso} />
+                            <PopupCatalogoEditar 
+                            onClose={handleClosePopupUpdateCatalogo} 
+                            onUpdateSuccess={getTipoCursos} 
+                            setIsPopupOpenUpdateCatalogoMsj={setIsPopupOpenUpdateCatalogoMsj} 
+                            setDataError={setDataError} 
+                            setIsError={setIsError}
+                            />
                         </div>
                     </div>
                 </div>
             )}
 
-            {isPopupOpenUno && (
-                <div className="popup-overlay">
-                    <div className={`popup-content-compo-1 ${isPopupOpenUno ? 'popup-show' : 'popup-hide'}`}>
-                        <div className="pupup-responsive">
-                            <PopupCatalogoEditar onClose={handleClosePopupUno} onUpdateSuccess={getTipoCursos} />
+            {isPopupOpenUpdateCatalogoMsj && (
+                    <div className="popup-overlay">
+                        <div className={`popup-content-msj ${isPopupOpenUpdateCatalogoMsj ? 'popup-show' : 'popup-hide'}`}>
+                            <PopupMSJBien
+                                icon={isError ? ErrorIcon : ConfirmIcon}
+                                title={dataError.titulo}
+                                message={dataError.mensaje}
+                                buttonText="Cerrar"
+                                onClose={handleClosePopupUpdateMsj}
+                                onClosePrev={handleClosePopupUpdateCatalogo}
+                            />
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
 
         </>

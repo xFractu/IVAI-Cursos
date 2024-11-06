@@ -123,6 +123,7 @@ function RegistroMain() {
     };
 
 
+
     const handleNavigationCatalog = () => {
       navigate('/CatalogoCursos');
     }

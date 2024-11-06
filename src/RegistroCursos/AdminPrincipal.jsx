@@ -9,6 +9,7 @@ import MailIcon from '../assets/email.svg';
 import WebIcon from '../assets/web.svg';
 import Ubi from '../assets/ubi.svg'
 import RegistroMain from './RegistroMain';
+import logout from '../assets/logout.svg'
 import { useState } from 'react';
 
 function AdminPrincipal() {
@@ -20,6 +21,7 @@ function AdminPrincipal() {
                         Cursos disponibles
                     </h1>
                     <img src={ivaiImage} alt="" className="header-img-left" />
+                    <img src={logout} alt="" className="header-img-right" />
                 </div>
                 <div className='Main-Admin'>
                     <div className='BotonesAdmin'>
