@@ -42,10 +42,9 @@ function RegistroMain() {
           popup.classList.add('popup-hide');
           setTimeout(() => {
               setIsPopupOpenAddMsj(false);
-              //props.reloadCursos
               document.body.style.overflow = "auto";
               setScrollEnabled(true);
-          }, 300); // Duración de la animación de salida
+          }, 300);
       }
   };
 
@@ -67,7 +66,7 @@ function RegistroMain() {
         setIsPopupAddOpen(false);
         document.body.style.overflow = "auto";
         setScrollEnabled(true);
-      }, 300); // Duración de la animación de salida
+      }, 300);
     }
   };
 
@@ -86,7 +85,7 @@ function RegistroMain() {
         setIsPopupUpdateOpen(false);
         document.body.style.overflow = "auto";
         setScrollEnabled(true);
-      }, 300); // Duración de la animación de salida
+      }, 300);
     }
   };
 
@@ -108,7 +107,6 @@ function RegistroMain() {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpenUpdateCurso(false);
-                //reloadCursos();
             }, 300); 
         }
     };
@@ -220,7 +218,7 @@ function RegistroMain() {
                             curso={selectedCurso.curso}
                             valorCurricular={selectedCurso.valorCurricular}
                             ligaTeams={selectedCurso.ligaTeams}
-                            //reloadCursos={reloadCursos} 
+                            closePrev={handleCloseUpdatePopup}
                             onOpenPopupMsj = {handleOpenUpdatePopupMsj}
                         />
                     </div>
@@ -236,23 +234,12 @@ function RegistroMain() {
                             message="¡El curso ha sido modificado exitosamente!"
                             buttonText="Cerrar"
                             onClose={handleCloseUpdatePopupMsj}
+                            openPrev={handleOpenUpdatePopup}
                             //reloadCursos={reloadCursos} 
                         />
                     </div>
                 </div>
             )}
-
-
-       
-
-
-
-
-    
-
-        
-            
-
       </>
     );
 }
