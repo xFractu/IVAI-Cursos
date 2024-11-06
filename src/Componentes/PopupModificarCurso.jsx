@@ -1,15 +1,12 @@
 import { Button, CardActions, CardContent, CardHeader, Typography, Grid, TextField, Select, MenuItem } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
-import PopupMSJBien from './PopupMSJBien.jsx'
 import '../Principal/Principal.css'
 import Arrow from '../assets/cerrar2.svg'
 import Axios from 'axios';
-import ConfirmIcon from '../assets/check.svg';
 
-function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams, reloadCursos,onOpenPopupMsj }) {
 
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, direccion, imparte, estatusCupo, estatusCurso, tipoCurso, curso, valorCurricular, ligaTeams, closePrev, onOpenPopupMsj }) {
+    const [errors, setErrors] = useState({});
     const [dataTiposCurso, setDataTiposCurso] = useState([])
     const dateInputRef = useRef(null);
     const timeInputRef = useRef(null);
@@ -33,18 +30,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         fetchTiposCurso();
     }, []);
 
-    const handleOpenConfirmation = () => {
-        setIsPopupOpen(true);
-    };
-
-    const [errors, setErrors] = useState({});
-
-    const [isError, setIsError] = useState(false);
-
-    const [dataError, setDataError] = useState({
-        titulo: '',
-        mensaje: ''
-    })
+    
+    closePrev();
 
     const [formData, setFormData] = useState({
         nombreCurso: nombreCurso,
@@ -65,18 +52,18 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
     const validateFields = () => {
         const newErrors = {};
-    
+
         if (!formData.nombreCurso) newErrors.nombreCurso = "El nombre es obligatorio.";
         if (!formData.fecha) newErrors.fecha = "La fecha es obligatoria.";
         if (!formData.hora) newErrors.hora = "La hora es obligatoria.";
-        if (!formData.imparte || formData.imparte.trim() === '') newErrors.imparte = "La persona que imparte el curso es obligatoria."; 
+        if (!formData.imparte || formData.imparte.trim() === '') newErrors.imparte = "La persona que imparte el curso es obligatoria.";
         if (!formData.estatusCupo) newErrors.estatusCupo = "El cupo es obligatorio.";
         if (!formData.estatusCurso) newErrors.estatusCurso = "El estado del curso es obligatorio.";
         if (!formData.modalidad) newErrors.modalidad = "La modalidad es obligatoria.";
         if (!formData.tipoCurso) newErrors.tipoCurso = "El tipo de curso es obligatorio.";
         if (!formData.curso) newErrors.curso = "El curso es obligatorio.";
         if (!formData.valorCurricular) newErrors.valorCurricular = "El valor curricular es obligatorio.";
-    
+
         return newErrors;
     };
 
@@ -87,7 +74,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
             ...prevData,
             [name]: value,
         }));
-        
+
         setErrors(prevErrors => ({
             ...prevErrors,
             [name]: '',
@@ -107,42 +94,18 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
-            //return;
         }
-        
+
         try {
-            console.log("Datos a enviar:", finalFormData);
             const response = await Axios.put('http://localhost:4567/actualizar', finalFormData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
-            console.log(response.data);
             onOpenPopupMsj();
-
-            if (response.status === 200) {
-                console.log(response.data);
-                setIsPopupOpen(true);
-                setDataError({
-                    titulo: 'Curso actualizado',
-                    mensaje: 'El curso se ha actualizado correctamente'
-                });
-                setIsError(false);
-            }else{
-                setDataError({
-                    titulo: 'Error en la Actualización',
-                    mensaje: 'Ocurrió un error durante el proceso. Por favor, inténtelo de nuevo más tarde.'
-                });
-                setIsError(true);
-                setIsPopupOpen(true);
-            }
         } catch (error) {
             console.error('Error al actualizar el curso:', error);
-            setDataError({
-                titulo: 'Error del servidor',
-                mensaje: 'No se pudo procesar la solicitud. Por favor, inténtelo de nuevo más tarde.'
-            });
-            setIsError(true);
+
             setIsPopupOpen(true);
         }
     };
@@ -169,8 +132,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                 <Grid item>
 
                                 </Grid>
-                                
-                                
+
+
                                 <Grid item sx={{ alignItems: 'start' }}>
                                     <Typography variant="h4" sx={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: '4vh', marginBottom: 0, textAlign: 'center', maxWidth: 'auto', maxHeight: 'auto', paddingRight: '3vw' }}>
                                         Modificar Curso
@@ -178,15 +141,15 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                 </Grid>
 
 
-                                <Grid item sx = {{marginRight:"1vw"}}>
-                            
-                            <img
-                                    src={Arrow}
-                                    alt="Web"
-                                    className='IconoSalir'
-                                    onClick={onClose}
-                                />
-                        </Grid>
+                                <Grid item sx={{ marginRight: "1vw" }}>
+
+                                    <img
+                                        src={Arrow}
+                                        alt="Web"
+                                        className='IconoSalir'
+                                        onClick={onClose}
+                                    />
+                                </Grid>
                             </Grid>
                         }
                     />
@@ -212,7 +175,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         name="nombreCurso"
                                         value={formData.nombreCurso}
                                         onChange={handleChange}
-                                        error={!!errors.nombreCurso} 
+                                        error={!!errors.nombreCurso}
                                         helperText={errors.nombreCurso}
                                         sx={{
                                             backgroundColor: '#FFFFFF',
@@ -237,8 +200,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         inputRef={dateInputRef}
                                         onClick={handleDateInputClick}
                                         onChange={handleChange}
-                                        error={!!errors.fecha} 
-                                        helperText={errors.fecha} 
+                                        error={!!errors.fecha}
+                                        helperText={errors.fecha}
                                         sx={{
                                             backgroundColor: '#FFFFFF', marginTop: 1, borderRadius: '15px',
                                             '& .MuiOutlinedInput-root': {
@@ -258,10 +221,10 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         value={formData.hora}
                                         type='time'
                                         onChange={handleChange}
-                                        inputRef={timeInputRef} 
+                                        inputRef={timeInputRef}
                                         onClick={handleTimeInputClick}
-                                        error={!!errors.hora} 
-                                        helperText={errors.hora} 
+                                        error={!!errors.hora}
+                                        helperText={errors.hora}
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -283,8 +246,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         name='modalidad'
                                         value={formData.modalidad}
                                         onChange={handleChange}
-                                        error={!!errors.modalidad} 
-                                        helperText={errors.modalidad} 
+                                        error={!!errors.modalidad}
+                                        helperText={errors.modalidad}
                                         sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -340,8 +303,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                 <Grid item xs={6}>
                                     <TextField fullWidth variant="outlined" size="small" name="imparte"
                                         value={formData.imparte}
-                                        error={!!errors.imparte} 
-                                        helperText={errors.imparte} 
+                                        error={!!errors.imparte}
+                                        helperText={errors.imparte}
                                         onChange={handleChange} sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
@@ -360,8 +323,8 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                         name="estatusCupo"
                                         value={formData.estatusCupo}
                                         onChange={handleChange}
-                                        error={!!errors.estatusCupo} 
-                                        helperText={errors.estatusCupo}  sx={{
+                                        error={!!errors.estatusCupo}
+                                        helperText={errors.estatusCupo} sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '15px',
@@ -480,9 +443,9 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
                                     <TextField fullWidth variant="outlined" size="small"
                                         name="valorCurricular"
                                         value={formData.valorCurricular}
-                                        onChange={handleChange} 
-                                        error={!!errors.valorCurricular} 
-                                        helperText={errors.valorCurricular}sx={{
+                                        onChange={handleChange}
+                                        error={!!errors.valorCurricular}
+                                        helperText={errors.valorCurricular} sx={{
                                             backgroundColor: '#FFFFFF', borderRadius: '15px', marginTop: 1,
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '15px',
