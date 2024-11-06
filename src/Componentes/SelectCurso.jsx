@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import '../Estilos/SelectCursos.css';
 import { Button, } from "@mui/material";
 import CardModificar from '../Componentes/CardModificar';
-import { Await } from 'react-router-dom';
 
 
 function SelectCurso({ onClose, handleOpenPopupUpdateCurso }) {

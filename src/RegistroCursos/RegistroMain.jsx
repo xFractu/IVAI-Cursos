@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import React, { useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import AgregarCurso from '../assets/add.svg';
@@ -12,7 +12,6 @@ import PopupMSJBien from '../Componentes/PopupMSJBien.jsx'
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
 import PopupModificarCurso from '../Componentes/PopupModificarCurso.jsx';
-import CatalogoCurso from '../Componentes/CatalogoCursos.jsx'
 
 
 function RegistroMain() {
@@ -88,7 +87,6 @@ function RegistroMain() {
       }, 300);
     }
   };
-
 
   const [selectedCurso, setSelectedCurso] = useState(null);
 

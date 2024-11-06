@@ -10,6 +10,7 @@ import WebIcon from '../assets/web.svg';
 import Ubi from '../assets/ubi.svg'
 import RegistroMain from './RegistroMain';
 import { useState } from 'react';
+import { Button } from '@mui/material';
 
 function AdminPrincipal() {
     return (
@@ -19,7 +20,7 @@ function AdminPrincipal() {
                     <h1 className="header-title">
                         Cursos disponibles
                     </h1>
-                    <img src={ivaiImage} alt="" className="header-img-left" />
+                    <img src={ivaiImage} alt="logoIvai" className="header-img-left" />
                 </div>
                 <div className='Main-Admin'>
                     <div className='BotonesAdmin'>

@@ -1,10 +1,4 @@
 import './Login.css';
-import FacebookIcon from '../assets/facebook.svg';
-import YoutubeIcon from '../assets/youtube.svg';
-import TwitterIcon from '../assets/twitter-x.svg';
-import InstagramIcon from '../assets/instagram.svg';
-import MailIcon from '../assets/email.svg';
-import WebIcon from '../assets/web.svg';
 import ivaiFachada from '../Imagenes/IVAI_Fachada.jpg';
 import ivaiImage from '../Imagenes/ivai.webp';
 import rlceImage from '../Imagenes/rlce.webp';

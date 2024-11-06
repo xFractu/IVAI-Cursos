@@ -1,7 +1,6 @@
 import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import '../Principal/Principal.css';
 import '../Estilos/PopupMSJ.css';
-import { useNavigate } from 'react-router-dom';
 
 function PopupMSJBien({ icon, title, message, buttonText, onClose, onClosePrev, onAction, buttonStyle = {}, cardStyle = {}, reloadCursos, openPrev }) {
 
