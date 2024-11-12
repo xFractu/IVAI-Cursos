@@ -1,6 +1,6 @@
+import '../Principal/Principal.css';
 import rlceImage from '../Imagenes/rlce.webp';
 import ivaiImage from '../Imagenes/ivai.webp'
-import './Principal.css';
 import FacebookIcon from '../assets/facebook.svg';
 import YoutubeIcon from '../assets/youtube.svg';
 import TwitterIcon from '../assets/twitter-x.svg';

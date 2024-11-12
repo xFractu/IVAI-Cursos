@@ -545,14 +545,14 @@ th {
         left: 7vw;
         margin-top: 0vw;
         position: absolute;
-        max-height: 35vw;
+        max-height: 15vw;
         width: auto;
         margin-left: 2vw;
     }
 
     .header-title {
-        font-size: clamp(10vw, 4vw, 3.5rem);
-        margin-left: 25vw;
+        font-size: clamp(10vw, 3vw, 2.5rem);
+        margin-left: 5vw;
         width: 5vw;
         word-wrap: break-word;
     }

@@ -1,20 +1,22 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Typography } from "@mui/material";
 import { useState } from "react";
-import PopupRegistro from '../Componentes/PopupRegistro'
+import PopupRegistro from '../Componentes/PopupRegistro';
 import '../Estilos/CardInfo.css';
-import PopupMSJBien from './PopupMSJBien.jsx'
+import PopupMSJBien from './PopupMSJBien.jsx';
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
+import CargandoIvai from '../imagenes/ivaisito2.0.png'
 
 function CardInfo(Props) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isPopupOpenMsj, setIsPopupOpenMsj] = useState(false);
     const [scrollEnabled, setScrollEnabled] = useState(true);
     const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Mueve isLoading a CardInfo
     const [dataError, setDataError] = useState({
-   titulo: '',
-   mensaje: '',
-});
+        titulo: '',
+        mensaje: '',
+    });
 
     const handleOpenPopup = () => {
         setIsPopupOpen(true);
@@ -23,7 +25,7 @@ function CardInfo(Props) {
     };
 
     const handleClosePopup = () => {
-        const popup = document.querySelector('.popup-content-compo-1');
+        const popup = document.querySelector('.popup-content');
         if (popup) {
             popup.classList.remove('popup-show');
             popup.classList.add('popup-hide');
@@ -36,7 +38,7 @@ function CardInfo(Props) {
         }
     };
 
-    const handleOpenPopupMsj  = (errorData, errorStatus) => {
+    const handleOpenPopupMsj = (errorData, errorStatus) => {
         setDataError(errorData);
         setIsError(errorStatus);
         setIsPopupOpenMsj(true);
@@ -51,32 +53,28 @@ function CardInfo(Props) {
             popup.classList.add('popup-hide');
             setTimeout(() => {
                 setIsPopupOpenMsj(false);
-                Props.reloadCursos()
+                Props.reloadCursos();
                 document.body.style.overflow = "auto";
                 setScrollEnabled(true);
             }, 300); // Duración de la animación de salida
         }
     };
 
-
     function obtenerColorCupo(cupoDisponible, cupoTotal) {
         const porcentaje = (cupoDisponible / cupoTotal) * 100;
-      
         if (cupoDisponible === 0) {
-          return 'red';
+            return 'red';
         } else if (porcentaje <= 50) {
-          return 'orange';
+            return 'orange';
         } else {
-          return '#35ce00'; 
+            return '#35ce00';
         }
-      }
-
-      
+    }
 
     return (
         <>
             <div className="Card-Info-Cursos">
-                <Card className='Card-Contenedor' variant="elevation" sx={{ maxWidth: '100%', maxHeight: '60%', backgroundColor: '#A35494', paddingLeft: '0vw', marginBottom: '2vw', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                <Card className='Card-Contenedor' variant="elevation" sx={{ maxWidth: '100%', maxHeight: '60%', backgroundColor: '#A35494', marginBottom: '2vw', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                     <CardContent className='Card-Contenido' sx={{ color: '#FFFFFF', marginLeft: 1, marginTop: 1 }}>
                         <div className="Card-Container">
                             <div className="Card-Content">
@@ -93,28 +91,32 @@ function CardInfo(Props) {
                                         Ver Disponibilidad
                                     </button>
                                 </CardActions>
-
                             </div>
-
-
                         </div>
                     </CardContent>
-
                 </Card>
             </div>
 
             {isPopupOpen && (
                 <div className="popup-overlay">
-                    <div className={`popup-content-compo-1 ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <div className= "pupup-responsive">
+                    <div className={`popup-content ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
+                        <div className="popup-responsive">
                             <PopupRegistro 
                                 onClose={handleClosePopup}
                                 onOpenPopupMsj={(errorData, errorStatus) => handleOpenPopupMsj(errorData, errorStatus)}
-                                cupo = {Props.CupoDisponible}
+                                cupo={Props.CupoDisponible}
                                 onReload={Props.reloadCursos}
+                                setIsLoading={setIsLoading} // Pasa setIsLoading a PopupRegistro
                             />
-                            
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {isLoading && ( // Muestra el spinner si isLoading es true
+                <div className="popup-overlay">
+                    <div className="spinner">
+                        <img className="cargando" src={CargandoIvai} />
                     </div>
                 </div>
             )}
@@ -122,20 +124,19 @@ function CardInfo(Props) {
             {isPopupOpenMsj && (
                 <div className="popup-overlay">
                     <div className={`popup-content-msj ${isPopupOpenMsj ? 'popup-show' : 'popup-hide'}`}>
-                            <PopupMSJBien
-                                icon={isError ? ErrorIcon : ConfirmIcon}
-                                title={dataError.titulo}
-                                message={dataError.mensaje}
-                                buttonText="Cerrar"
-                                onClose={handleClosePopupMsj}
-                                onClosePrev={handleClosePopup}
-                            />
+                        <PopupMSJBien
+                            icon={isError ? ErrorIcon : ConfirmIcon}
+                            title={dataError.titulo}
+                            message={dataError.mensaje}
+                            buttonText="Cerrar"
+                            onClose={handleClosePopupMsj}
+                            onClosePrev={handleClosePopup}
+                        />
                     </div>
                 </div>
             )}
-
         </>
-    )
+    );
 }
 
 export default CardInfo;

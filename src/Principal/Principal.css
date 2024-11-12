@@ -55,7 +55,7 @@ body {
     left: 0vw;
     margin-top: 2vw;
     position: absolute;
-    max-height: 15vw;
+    max-height: 25vw;
     width: auto;
     margin-left: 2vw;
     
@@ -89,6 +89,7 @@ body {
     grid-row: 2;
     background: linear-gradient(#A35494, #ffffff 20%);
     justify-content: center;
+    align-items: center;
     max-width: 100%;
     width: 100%;
     min-height: 100vh;
@@ -168,7 +169,8 @@ body {
 }
 
 .ScrollRegistro {
-    max-height: 70vh;
+    max-height: 100vh;
+    min-height: 75vh;
     overflow-y: scroll;
 }
 
@@ -349,16 +351,7 @@ body {
     .InfoCursos {
         max-height: 80.5vh;
         max-width: 100%;
-        width:90vw;
-    }
-
-    .header-img-left {
-        left: 2vw;
-        margin-top: 2vw;
-        position: absolute;
-        max-height: 15vw;
-        width: auto;
-        margin-left: 1vw;
+        width:100vw;
     }
 
     .header-title{
@@ -420,14 +413,6 @@ body {
         width:90vw;
     }
 
-    .header-img-left {
-        left: 0vw;
-        margin-top: 1vw;
-        position: absolute;
-        max-height: 16vw;
-        width: auto;
-        margin-left: 4vw;
-    }
 
     .header-title{
         font-size: clamp(6vw, 4vw, 3.5rem);
@@ -485,15 +470,6 @@ body {
 
     .InfoCursos {
         max-height: 80.5vh;
-    }
-
-    .header-img-left {
-        left: 0vw;
-        margin-top: 4vw;
-        position: absolute;
-        max-height: 18vw;
-        width: auto;
-        margin-left: 4vw;
     }
 
     .header-title{
@@ -554,16 +530,7 @@ body {
     .InfoCursos {
         max-height: 80vh;
     }
-
-    .header-img-left {
-        left: 7vw;
-        margin-top: 2vw;
-        position: absolute;
-        max-height: 30vw;
-        width: auto;
-        margin-left: 2vw;
-    }
-
+    
     .header-title{
         font-size: clamp(9.5vw, 4vw, 3.5rem);
         margin-left: 20vw;
@@ -622,21 +589,21 @@ body {
 
 
     .InfoCursos {
-        max-height: 80vh;
+
     }
 
     .header-img-left {
         left: 7vw;
         margin-top: 0vw;
         position: absolute;
-        max-height: 35vw;
+        max-height: 15vw;
         width: auto;
         margin-left: 2vw;
     }
 
     .header-title{
         font-size: clamp(10vw, 4vw, 3.5rem);
-        margin-left: 25vw;
+        margin-left: 55vw;
         width: 5vw;
         word-wrap: break-word;
     }
@@ -683,6 +650,16 @@ body {
     
     .footer .social-group img {
         width: 6vw;
+    }
+
+
+    .IconoSalir{
+        width: 10vw;
+        height: 10vh;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding-right: 4vw;
     }
     
 }

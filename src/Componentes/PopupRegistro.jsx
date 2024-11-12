@@ -9,11 +9,8 @@ import axios from 'axios';
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
 
-function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
+function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload,isLoading, setIsLoading }) {
 
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-    const [isLoading, setIsLoading] = useState(false);
 
     const [errors, setErrors] = useState({});
 
@@ -181,7 +178,7 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
 
                 </header>
 
-                <main className="main_registar_curso">
+                <main className="main_registrar_curso">
                     <div className='ScrollRegistro'>
 
                         <CardContent sx={{ color: '#FFFFFF' }}>
@@ -442,30 +439,13 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload }) {
 
                 <footer className="footer_registrar_curso">
                     <CardActions sx={{ justifyContent: 'center' }}>
-                        <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2 }}>Enviar registro</Button>
+                        <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 1, marginBottom: 2 }}>Enviar registro</Button>
                     </CardActions>
                 </footer>
             </div>
 
-            {isLoading && (
-                <div className="popup-overlay-confirmation">
-                    <div className="spinner"><img className="cargando"  src={CargandoIvai}/></div>
-                </div>
-            )}
+        
 
-            {isPopupOpen && (
-                <div className="popup-overlay-confirmation">
-                    <div className={`popup-confirmation ${isPopupOpen ? 'popup-show' : 'popup-hide'}`}>
-                        <PopupMSJBien
-                            icon={isError ? ErrorIcon : ConfirmIcon}
-                            title={dataError.titulo}
-                            message={dataError.mensaje}
-                            buttonText="Cerrar"
-                            onClose={handleClosePopup}
-                        />
-                    </div>
-                </div>
-            )}
         </>
     )
 }

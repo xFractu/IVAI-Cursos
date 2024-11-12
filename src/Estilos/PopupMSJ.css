@@ -51,6 +51,22 @@ font-weight:bolder;
 }
 
 @media (max-width: 375px) {
+    .popup-msj-contenedor{
+        width: 70vw;
+    }
 
+    .titulo{
+        font-size: 6vw;
+        font-family: 'Roboto', sans-serif;
+        font-weight:bolder;
+        margin-bottom: 2vw;
+        }
+        
+        .mensaje{
+            font-family: 'Roboto', sans-serif;
+        
+        
+        
+        }
 
 }

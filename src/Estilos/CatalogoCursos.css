@@ -569,20 +569,25 @@ th {
 
     .InfoCursos {
         max-height: 80vh;
+        width: 100vw;
+        margin-left: 8vw;
+        margin-top: 5vw;
+        margin-bottom: 5vw;
     }
 
     .header-img-left {
-        left: 7vw;
-        margin-top: 0vw;
+        left: 2vw;
+        margin-top: 10vw;
         position: absolute;
-        max-height: 35vw;
+        max-height: 25vw;
         width: auto;
         margin-left: 2vw;
     }
 
     .header-title {
-        font-size: clamp(10vw, 4vw, 3.5rem);
-        margin-left: 25vw;
+        font-size: clamp(9vw, 3vw, 2.5rem);
+        margin-left: 5vw;
+        margin-top: 16vw;
         width: 5vw;
         word-wrap: break-word;
     }

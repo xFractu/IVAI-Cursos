@@ -40,7 +40,7 @@
 .Card-Titulo {
     font-weight: bold;
     font-size: 1.2em;
-    max-width: 70%;
+    max-width: 65%;
 }
 
 .Card-Lugares{
@@ -335,9 +335,14 @@
         margin-right: 5vw;
     }
 
+    .Card-Lugares{
+        padding-top: 0vw;
+    }
+
     .Card-Titulo{
-        padding-top: 1vw;
+        padding-top: 0vw;
         font-size: 5vw;
+        
     }
 
     .Card-text{
