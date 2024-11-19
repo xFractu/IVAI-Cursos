@@ -132,12 +132,18 @@
 
 
   
-@media (max-width: 1280px) {
+@media (max-width: 1920px) {
 
   .layout_registrar_curso{
 
-    height: 110vh;
+    height: 95vh;
     
+  }
+
+  .spinner .cargando{
+    max-width: 20vw;
+    max-height: 20vw;
+    margin-right: 26vw;
   }
 
 }
@@ -174,7 +180,7 @@
   }
 
   .lbl-campos-obligatorios{
-    font-size: 1.5vw;
+    font-size: 1.4vw;
   }
 
   .IconoSalir{
@@ -188,9 +194,9 @@
 }
 
 .spinner .cargando{
-  max-width: 40vw;
-  max-height: 40vw;
-  margin-right: 20vw;
+  max-width: 25vw;
+  max-height: 50vw;
+  margin-right: 22vw;
 }
 
 
