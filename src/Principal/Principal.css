@@ -461,6 +461,9 @@ body {
         width: 3vw;
     }
 
+    .ScrollRegistro{
+    }
+
 
 }
 
@@ -517,6 +520,10 @@ body {
     
     .footer .social-group img {
         width: 3vw;
+    }
+
+    .ScrollRegistro{
+        height: 80vw;
     }
 
 }

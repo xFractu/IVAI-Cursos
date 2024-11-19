@@ -438,8 +438,8 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload,isLoading, setI
                 </main>
 
                 <footer className="footer_registrar_curso">
-                    <CardActions sx={{ justifyContent: 'center' }}>
-                        <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 1, marginBottom: 2 }}>Enviar registro</Button>
+                    <CardActions sx={{ justifyContent: 'center'}}>
+                        <Button onClick={handleRegistration} variant="contained" sx={{ backgroundColor: '#E7B756', color: "#1E1E1E", marginTop: 2, marginBottom: 2 }}>Enviar registro</Button>
                     </CardActions>
                 </footer>
             </div>
