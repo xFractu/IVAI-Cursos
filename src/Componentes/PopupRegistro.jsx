@@ -2,7 +2,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Typography, IconBut
 import { useState, useEffect } from 'react';
 import PopupMSJBien from './PopupMSJBien.jsx'
 import Arrow from '../assets/cerrar2.svg'
-import CargandoIvai from '../imagenes/ivaisito2.0.png'
+import CargandoIvai from '../Imagenes/Ivaisito2.0.png'
 import '../Principal/Principal.css'
 import '../Estilos/PopupRegistroCurso.css'
 import axios from 'axios';

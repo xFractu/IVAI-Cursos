@@ -5,7 +5,7 @@ import '../Estilos/CardInfo.css';
 import PopupMSJBien from './PopupMSJBien.jsx';
 import ConfirmIcon from '../assets/check.svg';
 import ErrorIcon from '../assets/error.svg';
-import CargandoIvai from '../imagenes/ivaisito2.0.png'
+import CargandoIvai from '../Imagenes/Ivaisito2.0.png'
 
 function CardInfo(Props) {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
