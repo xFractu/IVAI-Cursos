@@ -37,7 +37,7 @@ function catalogoCursos() {
 
     const getTipoCursos = async () => {
         try {
-            const response = await fetch(`http://localhost:4567/obtenerTipoCurso`);
+            const response = await fetch(`http://192.168.100.234:4567/obtenerTipoCurso`);
             const data = await response.json();
             setDataTipoCurso(data);
         } catch (error) {
@@ -47,7 +47,7 @@ function catalogoCursos() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:4567/eliminarTipoCurso`, {
+            const response = await fetch(`http://192.168.100.234:4567/eliminarTipoCurso`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

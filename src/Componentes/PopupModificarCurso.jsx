@@ -13,7 +13,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
 
     const getTiposCurso = async () => {
         try {
-            const response = await fetch('http://localhost:4567/tipos');
+            const response = await fetch('http://192.168.100.234:4567/tipos');
             const data = await response.json();
             setDataTiposCurso(data);
         } catch (error) {
@@ -97,7 +97,7 @@ function PopupModificarCurso({ onClose, nombreCurso, fecha, hora, modalidad, dir
         }
 
         try {
-            const response = await Axios.put('http://localhost:4567/actualizar', finalFormData, {
+            const response = await Axios.put('http://192.168.100.234:4567/actualizar', finalFormData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

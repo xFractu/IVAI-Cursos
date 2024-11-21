@@ -10,7 +10,7 @@ function PopupCatalogo({ onClose, reloadCursos, setIsPopupOpenAddCatalogoMsj, se
 
     const agregarTipoCursos = async () => {
         try {
-            const respuesta = await axios.post("http://localhost:4567/registroTipoCurso", dataTipoCurso);
+            const respuesta = await axios.post("http://192.168.100.234:4567/registroTipoCurso", dataTipoCurso);
             if (respuesta.status === 200 && respuesta.data === "Tipo de Curso registrado") {
                 setDataError({
                     titulo: 'Tipo de Curso registrado',

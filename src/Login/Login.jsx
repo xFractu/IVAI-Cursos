@@ -51,7 +51,7 @@ function Login() {
 
     const peticionLogin = async () => {
         try {
-            const respuesta = await axios.post("http://localhost:4567/validacion", datosFormulario);
+            const respuesta = await axios.post("http://192.168.100.234:4567/validacion", datosFormulario);
             console.log("Respuesta de peticion: " + respuesta);
             return respuesta;
         } catch (error) {

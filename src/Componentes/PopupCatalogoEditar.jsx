@@ -17,7 +17,7 @@ function PopupCatalogoEditar({
     // Obtener los tipos de curso
     const getTiposCurso = async () => {
         try {
-            const response = await axios.get('http://localhost:4567/obtenerTipoCurso');
+            const response = await axios.get('http://192.168.100.234:4567/obtenerTipoCurso');
             setDataTipoCurso(response.data);
         } catch (error) {
             console.error('Error al obtener los tipos de curso:', error);
@@ -44,7 +44,7 @@ function PopupCatalogoEditar({
         }
 
         try {
-            const response = await axios.put('http://localhost:4567/actualizarTipoCurso', {
+            const response = await axios.put('http://192.168.100.234:4567/actualizarTipoCurso', {
                 id: selectedCurso,
                 tipo: textFieldValue
             });

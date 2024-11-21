@@ -68,7 +68,7 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload,isLoading, setI
         setIsLoading(true);
      
         try {
-           const response = await axios.post('http://localhost:4567/registrarse', dataRegistro);
+           const response = await axios.post('http://192.168.100.234:4567/registrarse', dataRegistro);
            console.log(response.data);
            setIsLoading(false);
      
@@ -120,7 +120,7 @@ function PopupRegistro({ onClose, onOpenPopupMsj, cupo, onReload,isLoading, setI
 
         const obtenerEstados = async () => {
             try {
-                const response = await axios.post('http://localhost:4567/estado');
+                const response = await axios.post('http://192.168.100.234:4567/estado');
                 setEstados(response.data);
             } catch (error) {
                 console.error('Error al obtener los estados:', error);

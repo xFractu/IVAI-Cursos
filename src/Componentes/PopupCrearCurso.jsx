@@ -27,7 +27,7 @@ function PopupCrearCurso({ onClose,onOpenPopupMsj }) {
 
     const getTiposCurso = async () => {
         try {
-            const response = await fetch('http://localhost:4567/tipos');
+            const response = await fetch('http://192.168.100.234:4567/tipos');
             const data = await response.json();
             setDataTiposCurso(data);
         } catch (error) {

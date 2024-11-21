@@ -35,7 +35,7 @@ function SelectCurso({ onClose, handleOpenPopupUpdateCurso }) {
 
     const reloadCursos = async () => {
         try {
-            const response = await fetch('http://localhost:4567/obtenerCursos');
+            const response = await fetch('http://192.168.100.234:4567/obtenerCursos');
             const data = await response.json();
             setDataCurso(data);
             funcion();
